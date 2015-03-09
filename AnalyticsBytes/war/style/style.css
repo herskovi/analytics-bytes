@@ -1,0 +1,770 @@
+body {
+	overflow-x: hidden;
+	margin: 0px;
+	padding: 0px;
+	background-color: #000;
+}
+
+a {
+	text-decoration: none;
+}
+
+img {
+	border: 0px;
+}
+
+p,span,h1,h2,h3,h4,h5,h6 {
+	margin: 0px;
+	padding: 0px;
+}
+
+#spacer5pixel {
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+	height: 5px;
+}
+
+#container {
+	float: left;
+	width: 100%;
+}
+
+.center {
+	margin: 0 auto;
+	width: 1024px;
+}
+
+#header {
+	float: left;
+	width: 100%;
+	height: 77px;
+	background: url('../images-new/headerbg.jpg') repeat-x;
+	/*margin:30px 0px 0px 0px;*/
+	position: fixed;
+	top: 0px;
+	z-index: 99999999;
+}
+
+#nav li.current a {
+  color: #eab938;  
+}
+
+#nav li.logo {
+	float: left;
+	width: 204px;
+	height: 63px;
+	margin: 5px 0px 0px 0px;
+	position: absolute;
+	top: -42px;
+	left: -515px;
+}
+
+#nav {
+	float: right;
+	width: auto;
+	margin: 43px 0px 0px 0px;
+	list-style: none;
+	padding: 0px;
+	position: relative;
+}
+
+#nav li {
+	float: left;
+	font: bold 19px 'myriad_pro_condensed', arial;
+	color: #0f0f0f;
+	padding: 0px 0px 0px 26px;
+}
+
+#nav a {
+	color: #afafae;
+	text-decoration: none;
+	  font-size: 22px;
+
+}
+
+#nav a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+#nav .current a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.current {
+	color: #fff;
+	text-decoration: none;
+}
+
+.section {
+	border-bottom: 5px solid #ccc;
+	padding: 20px;
+}
+
+.section p:last-child {
+	margin-bottom: 0;
+}
+
+#middle {
+	float: left;
+	width: 100%;
+}
+
+.blackbg {
+	float: left;
+	width: 100%;
+	background-color: #000;
+	padding: 0px 0px 139px 0px;
+}
+
+.topimg1 {
+	float: left;
+	width: 1008px;
+	height: 501px;
+	margin: 105px 0px 0px 0px;
+}
+
+.toptext {
+	float: left;
+	width: 1024px;
+	padding: 48px 0px 0px 0px;
+	background: url('../images-new/topline1.png') no-repeat top;
+	font: normal 40px 'myriad_pro_condensed', arial;
+	color: #fff;
+	text-align: center;
+	letter-spacing: -1px;
+}
+
+.toptext span {
+	float: left;
+	width: 1024px;
+	font: normal 26px 'myriad_pro_condensed', arial;
+	color: #fff;
+	text-align: center;
+	letter-spacing: -1px;
+	margin: 10px 0px 0px 0px;
+	line-height: 26px;
+}
+
+.ybg {
+	float: left;
+	width: 100%;
+	background: url('../images-new/ybg.jpg') repeat top center;
+}
+
+.y_bg {
+	float: left;
+	width: 100%;
+	background: url('../images-new/blackbg.png') no-repeat top center;
+	position: relative;
+	z-index: 99999;
+	padding: 118px 0px 139px 0px;
+}
+
+.ytop {
+	float: left;
+	width: 1024px;
+	position: relative;
+}
+
+.yleft {
+	float: left;
+	width: 475px;
+	margin: -20px 0px 0px 38px;
+}
+
+.yleft h1 {
+	float: left;
+	width: 485px;
+	font: normal 99px 'myriad_pro_condensed', arial;
+	color: #d5aa2e;
+	letter-spacing: -5px;
+}
+
+.ytext {
+	float: left;
+	width: 455px;
+	font: normal 20px 'myriad_pro_condensed', arial;
+	color: #fff;
+	padding: 0px 0px 27px 0px;
+}
+
+.egg {
+	float: left;
+	width: 620px;
+	height: 643px;
+	position: absolute;
+	top: -20px;
+	right: -80px;
+}
+
+.ybtm {
+	float: left;
+	width: 1024px;
+}
+
+.leftimg {
+	float: left;
+	position: absolute;
+	left: 0px;
+	bottom: -230px;
+}
+
+.rightimg {
+	float: right;
+	position: absolute;
+	right: 0px;
+	bottom: -88px;
+}
+
+.egimg {
+	float: left;
+	width: 100%;
+	background: url('../images-new/egimg.png') no-repeat top center;
+	height: 477px;
+	margin: -80px 0px 0px 0px;
+	position: relative;
+	z-index: 9999;
+}
+
+.process {
+	height: 800px;
+	float: left;
+	width: 100%;
+	background-color: #b26369;
+	padding: 78px 0px 109px 0px;
+	margin: -361px 0px 0px 0px;
+	position: relative;
+	z-index: 999;
+}
+
+.egimg {
+	float: left;
+	width: 100%;
+	background: url('../images-new/egimg.png') no-repeat top center;
+	margin: -80px 0px 0px 0px;
+	position: relative;
+}
+
+.psider {
+	float: left;
+	width: 1024px;
+	position: relative;
+}
+
+.pleft {
+	float: left;
+	width: 470px;
+}
+
+.process h1 {
+	float: left;
+	width: 470px;
+	font: normal 100px 'myriad_pro_condensed', arial;
+	color: #fff;
+	letter-spacing: -5px;
+}
+
+.pleft h3 {
+	float: left;
+	width: 470px;
+	font: normal 39px 'myriad_pro_condensed', arial;
+	color: #fff;
+	letter-spacing: -1px;
+}
+
+.ptext {
+	float: left;
+	width: 470px;
+	font: normal 26px 'myriad_pro_condensed', arial;
+	color: #fff;
+}
+
+.mirror {
+	float: left;
+	width: 583px;
+	height: 390px;
+	background: url('../images-new/sbg.png') no-repeat;
+	position: absolute;
+	top: 50px;
+	left: 450px;
+}
+
+.mirror img {
+	float: left;
+	margin: 16px 0px 0px 72px;
+}
+
+#slider {
+	float: left;
+	position: relative;
+}
+
+#slider ul,#slider li,#slider2 ul,#slider2 li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#slider2 {
+	margin-top: 1em;
+}
+
+#slider li,#slider2 li {
+	width: auto;
+	height: 430px;
+	overflow: hidden;
+}
+
+ol#controls {
+	float: left;
+	margin: 0px 0px 0px 0px;
+	padding: 0;
+	height: 19px;
+	position: relative;
+}
+
+ol#controls li {
+	margin: 0px 4px 0px 0px;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 19x;
+}
+
+ol#controls li a {
+	float: left;
+	width: 19px;
+	height: 19px;
+	background: url('../images-new/dot1.png') no-repeat;
+	text-decoration: none;
+	display: block;
+	text-indent: -99999px;
+}
+
+ol#controls li.current a {
+	background: url('../images-new/dot2.png') no-repeat;
+}
+
+ol#controls li a:focus,#prevBtn a:focus,#nextBtn a:focus {
+	outline: none;
+}
+
+/* // Easy Slider */
+.pinkbg {
+	float: left;
+	width: 100%;
+	background-color: #000;
+}
+
+.pink_bg {
+	float: left;
+	width: 100%;
+	height: 195px;
+	background: url('../images-new/redbtm.png') repeat-x;
+	position: relative;
+	z-index: 9999;
+	margin: -1px 0px 0px 0px;
+}
+
+.pbg {
+	float: left;
+	width: 1024px;
+	position: relative;
+}
+
+.pink_left {
+	float: left;
+	width: 675px;
+	margin: -17px 0px 0px -235px;
+}
+
+.l1 {
+	float: left;
+	width: 675px;
+	height: 506px;
+}
+
+.l2 {
+	float: left;
+	width: 675px;
+	height: 501px;
+	padding-top: 2px;
+}
+
+.pink_right {
+	float: left;
+	width: 810px;
+	position: absolute;
+	height: 1009px;
+	top: -17px;
+	right: -228px;
+}
+
+.bluebg {
+	float: left;
+	width: 100%;
+	background-color: #656DD4;
+	height: 850px;
+}
+
+.black_bg {
+	float: left;
+	width: 100%;
+	height: 52px;
+	background: url('../images-new/miketop.png') repeat-x;
+}
+
+.bslider {
+	float: left;
+	width: 1024px;
+	position: relative;
+	height: 1200px;
+}
+
+.bleft {
+	float: left;
+	width: 632px;
+	height: 700px;
+	margin: 25px 0px 0px 0px;
+}
+
+.bleft h1 {
+	float: left;
+	width: 1024px;
+	font: normal 90px 'myriad_pro_condensed', arial;
+	color: #ffffff;
+	letter-spacing: -4px;
+	padding: 20px 0px 0px 0px;
+}
+
+.btext {
+	float: left;
+	width: 632px;
+	font: normal 30px 'myriad_pro_condensed', arial;
+	color: #fff;
+	padding: 0px 0px 20px 0px;
+	letter-spacing: -1px;
+}
+
+.man {
+	float: left;
+	position: absolute;
+	top: 103px;
+	right: -100px;
+}
+
+.y5 {
+	float: left;
+	position: absolute;
+	top: 53px;
+	right: 0px;
+	margin: 0px -100px 0px 0px;
+}
+
+.y4 {
+	float: left;
+	position: absolute;
+	top: 80px;
+	right: -150px;
+}
+
+.y3 {
+	float: left;
+	position: absolute;
+	top: 100px;
+	right: -140px;
+}
+
+.y2 {
+	float: left;
+	position: absolute;
+	top: 100px;
+	right: -50px;
+}
+
+#slides {
+	float: left;
+	width: 1140px;
+	position: relative;
+	height: 800px;
+}
+
+#slides .slide {
+	float: left;
+	width: 1024px;
+	height: 800px;
+	display: block;
+}
+
+.pagination {
+	float: left;
+	width: 500px;
+	margin: -200px 0px 0px -30px;
+}
+
+.pagination li {
+	float: left;
+	margin: 0px 4px 0px 0px;
+	list-style: none;
+}
+
+.pagination li a {
+	display: block;
+	width: 19px;
+	background: url('../images-new/dot3.png') no-repeat;
+	float: left;
+	text-indent: -9999px;
+	overflow: hidden;
+	position: relative;
+	z-index: 9999;
+}
+
+.pagination li.current a {
+	background: url('../images-new/dot2.png') no-repeat;
+}
+
+.whitebg {
+	float: left;
+	width: 100%;
+	background: url('../images-new/wbg1.png') no-repeat top center;
+	margin: -74px 0px 0px 0px;
+	position: relative;
+	z-index: 9999;
+}
+
+.wbg {
+	float: left;
+	width: 1024px;
+	margin: 100px 0px 0px 0px;
+}
+
+.wbg h1 {
+	float: left;
+	width: 1024px;
+	font: normal 100px 'myriad_pro_condensed', arial;
+	color: #939393;
+	letter-spacing: -5px;
+	padding: 20px 0px 26px 0px;
+}
+
+.imgbgs {
+	float: left;
+	width: 1024px;
+}
+
+.imgbgs ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.imgbgs ul li {
+	float: left;
+	width: 218px;
+	margin: 0px 32px 0px 0px;
+}
+
+.imgbgs ul li img {
+	float: left;
+	background: url('../images-new/imgbg.png') no-repeat;
+	padding: 13px 13px 15px 13px;
+}
+
+.imgbgs ul li span {
+	float: left;
+	width: 218px;
+	font: bold 18px 'myriad_pro_condensed', arial;
+	color: #b3b3b3;
+	padding: 5px 0px 24px 0px;
+}
+
+.imgbgs ul li a span {
+	text-decoration: none;
+	color: #b3b3b3;
+}
+
+.contactbg {
+	float: left;
+	width: 100%;
+	background: #000;
+	padding: 60px 0px 0px 0px;
+}
+
+.cbg {
+	float: left;
+	width: 100%;
+	background: url('../images-new/cbg.png') repeat-x top;
+	height: 81px;
+	position: relative;
+	z-index: 9999;
+	margin: 230px 0px 0px 0px;
+}
+
+.contactbg h1 {
+	float: left;
+	width: 1024px;
+	font: bold 100px 'myriad_pro_condensed', arial;
+	color: #fff;
+}
+
+.ctext {
+	float: left;
+	width: 760px;
+	font: normal 20px 'myriad_pro_condensed', arial;
+	color: #fff;
+}
+
+.cbox {
+	width: 310px;
+	margin: 18px 0px 0px 0px;
+}
+
+.cspan {
+	float: left;
+	width: 310px;
+	font: normal 18px 'myriad_pro_condensed', arial;
+	color: #fff;
+}
+
+.cspan span.txt {
+	color: #fff;
+}
+
+.cspan span {
+	color: #ed8200;
+}
+
+.tboxsel {
+	float: left;
+	width: 310px;
+	height: 32px;
+	font: normal 15px 'myriad_pro_condensed', arial;
+	color: #878787;
+}
+
+.tbox {
+	float: left;
+	width: 310px;
+	height: 32px;
+	background: url('../images-new/textbox.jpg') no-repeat;
+	margin: 6px 0px 0px 0px;
+}
+
+.t_box {
+	float: left;
+	width: 274px;
+	height: 32px;
+	border: 0px;
+	background: none;
+	font: normal 15px 'myriad_pro_condensed', arial;
+	color: #878787;
+	padding: 0px 5px 0px 5px;
+	line-height: 32px;
+}
+
+.tbox img {
+	float: left;
+	margin: 10px 0px 0px 0px;
+}
+
+.tboxarea {
+	float: left;
+	width: 570px;
+	height: 70px;
+	background: url('../images-new/textarea.jpg') no-repeat;
+}
+
+.tbox_area {
+	float: left;
+	width: 560px;
+	height: 60px;
+	background: none;
+	border: 0px;
+	font: normal 15px 'myriad_pro_condensed', arial;
+	color: #878787;
+	padding: 5px;
+}
+
+.sbtn {
+	float: left;
+	width: 119px;
+	height: 41px;
+	clear: both;
+	margin: 30px 0px 0px 0px;
+}
+
+.s_btn {
+	float: left;
+	width: 119px;
+	height: 41px;
+	background: url('../images-new/send.jpg') no-repeat;
+	font: normal 20px arial;
+	color: #fff;
+	bordeR: 0px;
+	text-align: center;
+}
+
+.cimgs {
+	float: left;
+	width: 100%;
+	margin: -48px 0px 0px 150px;
+	background-color: #000000;
+}
+
+.cimgbg {
+	float: left;
+	width: 1024px;
+	position: relative;
+}
+
+.cleft {
+	float: left;
+	width: 727px;
+	margin: 0px 0px 0px -336px;
+}
+
+.cleftimg1 {
+	float: left;
+	width: 727px;
+	height: 566px;
+}
+
+.cleftimg2 {
+	float: left;
+	width: 727px;
+	height: 546px;
+	margin: 2px 0px 0px 0px;
+}
+
+.cright {
+	float: left;
+	width: 751px;
+	position: absolute;
+	top: 0px;
+	right: -120px;
+}
+
+.cleftimg3 {
+	float: left;
+	width: 751px;
+	height: 566px;
+}
+
+.cleftimg4 {
+	float: left;
+	width: 751px;
+	height: 546px;
+	margin: 2px 0px 0px 0px;
+}
+
+#footer {
+	float: left;
+	width: 100%;
+	font: normal 20px 'myriad_pro_condensed', arial;
+	color: #b3b3b3;
+	text-align: center;
+	padding: 80px 0px 62px 0px;
+}

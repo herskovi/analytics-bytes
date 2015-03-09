@@ -1,0 +1,67 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for org.analyticsbytes:rest:war:1.0.0-BUILD-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-compiler-plugin is missing. @ line 324, column 12
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-surefire-plugin is missing. @ line 396, column 12
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-war-plugin is missing. @ line 334, column 12
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Rest 1.0.0-BUILD-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ rest ---
+[INFO] Deleting /Users/admin/Documents/workspace/AnalyticsBytes/target
+[INFO] 
+[INFO] --- aspectj-maven-plugin:1.2:compile (default) @ rest ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ rest ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/admin/Documents/workspace/AnalyticsBytes/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ rest ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 141 source files to /Users/admin/Documents/workspace/AnalyticsBytes/target/classes
+[WARNING] /Users/admin/Documents/workspace/AnalyticsBytes/src/main/java/com/analytic/reports/utils/CredentialUtils.java: Some input files use or override a deprecated API.
+[WARNING] /Users/admin/Documents/workspace/AnalyticsBytes/src/main/java/com/analytic/reports/utils/CredentialUtils.java: Recompile with -Xlint:deprecation for details.
+[WARNING] /Users/admin/Documents/workspace/AnalyticsBytes/src/main/java/com/analytic/reports/servlets/AccountSelectionServlet.java: Some input files use unchecked or unsafe operations.
+[WARNING] /Users/admin/Documents/workspace/AnalyticsBytes/src/main/java/com/analytic/reports/servlets/AccountSelectionServlet.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- aspectj-maven-plugin:1.2:test-compile (default) @ rest ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ rest ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/admin/Documents/workspace/AnalyticsBytes/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ rest ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ rest ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-war-plugin:2.2:war (default-war) @ rest ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [rest] in [/Users/admin/Documents/workspace/AnalyticsBytes/target/rest-1.0.0-BUILD-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Copying webapp webResources [/Users/admin/Documents/workspace/AnalyticsBytes/src/main/webapp] to [/Users/admin/Documents/workspace/AnalyticsBytes/target/rest-1.0.0-BUILD-SNAPSHOT]
+[INFO] Copying webapp resources [/Users/admin/Documents/workspace/AnalyticsBytes/src/main/webapp]
+[INFO] Webapp assembled in [2234 msecs]
+[INFO] Building war: /Users/admin/Documents/workspace/AnalyticsBytes/target/abc.war
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 8.834 s
+[INFO] Finished at: 2015-03-06T06:54:45+02:00
+[INFO] Final Memory: 23M/309M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-war-plugin:2.2:war (default-war) on project rest: Error assembling WAR: webxml attribute is required (or pre-existing WEB-INF/web.xml if executing in update mode) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

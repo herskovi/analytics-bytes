@@ -1,0 +1,11 @@
+<!-- Indices written at Sun, 8 Feb 2015 02:00:35 IST -->
+
+<datastore-indexes>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="TransactionHistory" ancestor="false" source="auto">
+        <property name="emailAddress" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>

@@ -1,0 +1,16 @@
+#accountSelectionSubmitBtn {
+    
+	min-width:360px;
+}
+
+#spinnerForWebProperty
+{	
+	display: inline-block;
+	margin-left: -200px;
+}
+
+#spinnerForProfile
+{
+	display: inline-block;
+	margin-left: -200px;
+}

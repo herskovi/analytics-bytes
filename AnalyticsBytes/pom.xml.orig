@@ -1,0 +1,673 @@
+<repositories>
+ <repository>
+  <id>maven-gae-plugin-repo</id>
+  <url>http://maven-gae-plugin.googlecode.com/svn/repository</url>
+  <name>maven-gae-plugin repository</name>
+ </repository>
+</repositories>
+<pluginRepositories>
+ <pluginRepository>
+  <id>maven-gae-plugin-repo</id>
+  <name>Maven Google App Engine Repository</name>
+  <url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
+ </pluginRepository>
+</pluginRepositories>
+<dependency>
+ <groupId>javax.jdo</groupId>
+ <artifactId>jdo2-api</artifactId>
+ <version>2.3-eb</version>
+ <exclusions>
+  <exclusion>
+   <groupId>javax.transaction</groupId>
+   <artifactId>transaction-api</artifactId>
+  </exclusion>
+
+ </exclusions>
+</dependency>
+ 
+<dependency>
+ <groupId>com.google.appengine.orm</groupId>
+ <artifactId>datanucleus-appengine</artifactId>
+ <version>1.0.6.final</version>
+</dependency>
+
+<dependency>
+ <groupId>org.datanucleus</groupId>
+ <artifactId>datanucleus-core</artifactId>
+ <version>1.1.5</version>
+ <scope>runtime</scope>
+ <exclusions>
+  <exclusion>
+   <groupId>javax.transaction</groupId>
+   <artifactId>transaction-api</artifactId>
+  </exclusion>
+ </exclusions>
+</dependency>
+<dependency>
+ <groupId>com.google.appengine</groupId>
+ <artifactId>geronimo-jta_1.1_spec</artifactId>
+ <version>1.1.1</version>
+
+ <scope>runtime</scope>
+</dependency>
+<dependency>
+ <groupId>com.google.appengine</groupId>
+ <artifactId>geronimo-jpa_3.0_spec</artifactId>
+ <version>1.1.1</version>
+ <scope>runtime</scope>
+</dependency>
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>org.springframework</groupId>
+ <artifactId>rest</artifactId>
+ <name>Rest</name>
+ <packaging>war</packaging>
+ <version>1.0.0-BUILD-SNAPSHOT</version>
+ <properties>
+  <java-version>1.6</java-version>
+  <org.springframework-version>3.0.4.RELEASE</org.springframework-version>
+  <org.aspectj-version>1.6.9</org.aspectj-version>
+  <org.slf4j-version>1.5.10</org.slf4j-version>
+  <!-- Specify AppEngine version for your project. It should match SDK version
+016
+   pointed to by ${gae.home} property (Typically, one used by your Eclipse plug-in) -->
+  <gae.home>/home/alex/.m2/repository/com/google/appengine/appengine-java-sdk/1.5.5/appengine-java-sdk-1.5.5</gae.home>
+  <gaeApplicationName>alexsotoblog</gaeApplicationName>
+  <gaePluginVersion>0.9.0</gaePluginVersion>
+  <gae.version>1.5.5</gae.version>
+  <!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
+  <gae.application.version>test</gae.application.version>
+ </properties>
+ <dependencies>
+
+  <!-- Rest -->
+  <dependency>
+
+   <groupId>com.sun.xml.bind</groupId>
+
+   <artifactId>jaxb-impl</artifactId>
+
+   <version>2.2.4-1</version>
+
+  </dependency>
+
+  <dependency>
+
+   <groupId>org.codehaus.jackson</groupId>
+036
+   <artifactId>jackson-core-lgpl</artifactId>
+037
+   <version>1.8.5</version>
+038
+  </dependency>
+039
+  <dependency>
+040
+   <groupId>org.codehaus.jackson</groupId>
+041
+   <artifactId>jackson-mapper-lgpl</artifactId>
+042
+   <version>1.8.5</version>
+043
+  </dependency>
+044
+ 
+045
+  <!-- GAE libraries for local testing as described here: http://code.google.com/appengine/docs/java/howto/unittesting.html -->
+046
+  <dependency>
+047
+   <groupId>com.google.appengine</groupId>
+048
+   <artifactId>appengine-api-labs</artifactId>
+049
+   <version>${gae.version}</version>
+050
+   <scope>test</scope>
+051
+  </dependency>
+052
+ 
+053
+  <dependency>
+054
+   <groupId>com.google.appengine</groupId>
+055
+   <artifactId>appengine-api-stubs</artifactId>
+056
+   <version>${gae.version}</version>
+057
+   <scope>test</scope>
+058
+  </dependency>
+059
+ 
+060
+  <dependency>
+061
+   <groupId>com.google.appengine</groupId>
+062
+   <artifactId>appengine-testing</artifactId>
+063
+   <version>${gae.version}</version>
+064
+   <scope>test</scope>
+065
+  </dependency>
+066
+ 
+067
+ 
+068
+  <dependency>
+069
+   <groupId>com.google.appengine</groupId>
+070
+   <artifactId>appengine-api-1.0-sdk</artifactId>
+071
+   <version>${gae.version}</version>
+072
+  </dependency>
+073
+ 
+074
+  <dependency>
+075
+   <groupId>com.google.appengine</groupId>
+076
+   <artifactId>appengine-tools-api</artifactId>
+077
+   <version>1.3.7</version>
+078
+  </dependency>
+079
+ 
+080
+  <!-- Spring -->
+081
+  <dependency>
+082
+   <groupId>org.springframework</groupId>
+083
+   <artifactId>spring-context</artifactId>
+084
+   <version>${org.springframework-version}</version>
+085
+   <exclusions>
+086
+    <!-- Exclude Commons Logging in favor of SLF4j -->
+087
+    <exclusion>
+088
+     <groupId>commons-logging</groupId>
+089
+     <artifactId>commons-logging</artifactId>
+090
+    </exclusion>
+091
+   </exclusions>
+092
+  </dependency>
+093
+  <dependency>
+094
+   <groupId>org.springframework</groupId>
+095
+   <artifactId>spring-webmvc</artifactId>
+096
+   <version>${org.springframework-version}</version>
+097
+  </dependency>
+098
+  <dependency>
+099
+   <groupId>org.springframework</groupId>
+100
+   <artifactId>spring-oxm</artifactId>
+101
+   <version>${org.springframework-version}</version>
+102
+  </dependency>
+103
+ 
+104
+  <!-- AspectJ -->
+105
+  <dependency>
+106
+   <groupId>org.aspectj</groupId>
+107
+   <artifactId>aspectjrt</artifactId>
+108
+   <version>${org.aspectj-version}</version>
+109
+  </dependency>
+110
+ 
+111
+  <!-- Logging -->
+112
+  <dependency>
+113
+   <groupId>org.slf4j</groupId>
+114
+   <artifactId>slf4j-api</artifactId>
+115
+   <version>${org.slf4j-version}</version>
+116
+  </dependency>
+117
+  <dependency>
+118
+   <groupId>org.slf4j</groupId>
+119
+   <artifactId>jcl-over-slf4j</artifactId>
+120
+   <version>${org.slf4j-version}</version>
+121
+   <scope>runtime</scope>
+122
+  </dependency>
+123
+  <dependency>
+124
+   <groupId>org.slf4j</groupId>
+125
+   <artifactId>slf4j-log4j12</artifactId>
+126
+   <version>${org.slf4j-version}</version>
+127
+   <scope>runtime</scope>
+128
+  </dependency>
+129
+  <dependency>
+130
+   <groupId>log4j</groupId>
+131
+   <artifactId>log4j</artifactId>
+132
+   <version>1.2.15</version>
+133
+   <exclusions>
+134
+    <exclusion>
+135
+     <groupId>javax.mail</groupId>
+136
+     <artifactId>mail</artifactId>
+137
+    </exclusion>
+138
+    <exclusion>
+139
+     <groupId>javax.jms</groupId>
+140
+     <artifactId>jms</artifactId>
+141
+    </exclusion>
+142
+    <exclusion>
+143
+     <groupId>com.sun.jdmk</groupId>
+144
+     <artifactId>jmxtools</artifactId>
+145
+    </exclusion>
+146
+    <exclusion>
+147
+     <groupId>com.sun.jmx</groupId>
+148
+     <artifactId>jmxri</artifactId>
+149
+    </exclusion>
+150
+   </exclusions>
+151
+   <scope>runtime</scope>
+152
+  </dependency>
+153
+ 
+154
+  <!-- @Inject -->
+155
+  <dependency>
+156
+   <groupId>javax.inject</groupId>
+157
+   <artifactId>javax.inject</artifactId>
+158
+   <version>1</version>
+159
+  </dependency>
+160
+ 
+161
+  <!-- Servlet -->
+162
+  <dependency>
+163
+   <groupId>javax.servlet</groupId>
+164
+   <artifactId>servlet-api</artifactId>
+165
+   <version>2.5</version>
+166
+   <scope>provided</scope>
+167
+  </dependency>
+168
+  <dependency>
+169
+   <groupId>javax.servlet.jsp</groupId>
+170
+   <artifactId>jsp-api</artifactId>
+171
+   <version>2.1</version>
+172
+   <scope>provided</scope>
+173
+  </dependency>
+174
+  <dependency>
+175
+   <groupId>javax.servlet</groupId>
+176
+   <artifactId>jstl</artifactId>
+177
+   <version>1.2</version>
+178
+  </dependency>
+179
+ 
+180
+  <!-- Test -->
+181
+  <dependency>
+182
+   <groupId>junit</groupId>
+183
+   <artifactId>junit</artifactId>
+184
+   <version>4.7</version>
+185
+   <scope>test</scope>
+186
+  </dependency>
+187
+ 
+188
+ </dependencies>
+189
+ <repositories>
+190
+  <!-- For testing against latest Spring snapshots -->
+191
+  <repository>
+192
+   <id>org.springframework.maven.snapshot</id>
+193
+   <name>Spring Maven Snapshot Repository</name>
+194
+   <url>http://maven.springframework.org/snapshot</url>
+195
+   <releases>
+196
+    <enabled>false</enabled>
+197
+   </releases>
+198
+   <snapshots>
+199
+    <enabled>true</enabled>
+200
+   </snapshots>
+201
+  </repository>
+202
+  <!-- For developing against latest Spring milestones -->
+203
+  <repository>
+204
+   <id>org.springframework.maven.milestone</id>
+205
+   <name>Spring Maven Milestone Repository</name>
+206
+   <url>http://maven.springframework.org/milestone</url>
+207
+   <snapshots>
+208
+    <enabled>false</enabled>
+209
+   </snapshots>
+210
+  </repository>
+211
+  <!-- GAE repositories -->
+212
+  <repository>
+213
+   <id>maven-gae-plugin-repo</id>
+214
+   <url>http://maven-gae-plugin.googlecode.com/svn/repository</url>
+215
+   <name>maven-gae-plugin repository</name>
+216
+  </repository>
+217
+ </repositories>
+218
+ 
+219
+ <pluginRepositories>
+220
+  <pluginRepository>
+221
+   <id>maven-gae-plugin-repo</id>
+222
+   <name>Maven Google App Engine Repository</name>
+223
+   <url>http://maven-gae-plugin.googlecode.com/svn/repository/</url>
+224
+  </pluginRepository>
+225
+ </pluginRepositories>
+226
+ 
+227
+ <build>
+228
+  <plugins>
+229
+   <plugin>
+230
+    <groupId>org.apache.maven.plugins</groupId>
+231
+    <artifactId>maven-compiler-plugin</artifactId>
+232
+    <configuration>
+233
+     <source>${java-version}</source>
+234
+     <target>${java-version}</target>
+235
+    </configuration>
+236
+   </plugin>
+237
+ 
+238
+   <!-- Adding appengine-web into war -->
+239
+   <plugin>
+240
+    <groupId>org.apache.maven.plugins</groupId>
+241
+    <artifactId>maven-war-plugin</artifactId>
+242
+    <configuration>
+243
+     <webResources>
+244
+      <resource>
+245
+       <directory>src/main/webapp</directory>
+246
+       <filtering>true</filtering>
+247
+       <includes>
+248
+        <include>**/appengine-web.xml</include>
+249
+       </includes>
+250
+      </resource>
+251
+     </webResources>
+252
+     <warName>abc</warName>
+253
+    </configuration>
+254
+   </plugin>
+255
+   <plugin>
+256
+    <groupId>org.apache.maven.plugins</groupId>
+257
+    <artifactId>maven-dependency-plugin</artifactId>
+258
+    <executions>
+259
+     <execution>
+260
+      <id>install</id>
+261
+      <phase>install</phase>
+262
+      <goals>
+263
+       <goal>sources</goal>
+264
+      </goals>
+265
+     </execution>
+266
+    </executions>
+267
+   </plugin>
+268
+   <plugin>
+269
+    <groupId>org.codehaus.mojo</groupId>
+270
+    <artifactId>aspectj-maven-plugin</artifactId>
+271
+    <!-- Have to use version 1.2 since version 1.3 does not appear to work
+272
+     with ITDs -->
+273
+    <version>1.2</version>
+274
+    <dependencies>
+275
+     <!-- You must use Maven 2.0.9 or above or these are ignored (see MNG-2972) -->
+276
+     <dependency>
+277
+      <groupId>org.aspectj</groupId>
+278
+      <artifactId>aspectjrt</artifactId>
+279
+      <version>${org.aspectj-version}</version>
+280
+     </dependency>
+281
+     <dependency>
+282
+      <groupId>org.aspectj</groupId>
+283
+      <artifactId>aspectjtools</artifactId>
+284
+      <version>${org.aspectj-version}</version>
+285
+     </dependency>
+286
+    </dependencies>
+287
+    <executions>
+288
+     <execution>
+289
+      <goals>
+290
+       <goal>compile</goal>
+291
+       <goal>test-compile</goal>
+292
+      </goals>
+293
+     </execution>
+294
+    </executions>
+295
+    <configuration>
+296
+     <outxml>true</outxml>
+297
+     <source>${java-version}</source>
+298
+     <target>${java-version}</target>
+299
+    </configuration>
+300
+   </plugin>
+301
+   <plugin>
+302
+    <groupId>org.apache.maven.plugins</groupId>
+303
+    <artifactId>maven-surefire-plugin</artifactId>
+304
+    <configuration>
+305
+     <junitArtifactName>junit:junit</junitArtifactName>
+306
+    </configuration>
+307
+   </plugin>
+308
+   <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>tomcat-maven-plugin</artifactId>
+    <version>1.0-beta-1</version>
+   </plugin>
+   <!-- The actual maven-gae-plugin. Type "mvn gae:run" to run project, "mvn
+    gae:deploy" to upload to GAE. -->
+   <plugin>
+    <groupId>net.kindleit</groupId>
+    <artifactId>maven-gae-plugin</artifactId>
+    <version>${gaePluginVersion}</version>
+    <configuration>
+     <serverId>appengine.google.com</serverId>
+    </configuration>
+    <dependencies>
+     <dependency>
+      <groupId>net.kindleit</groupId>
+      <artifactId>gae-runtime</artifactId>
+      <version>${gae.version}</version>
+      <type>pom</type>
+     </dependency>
+    </dependencies>
+   </plugin>
+  </plugins>
+ </build>
+</project>

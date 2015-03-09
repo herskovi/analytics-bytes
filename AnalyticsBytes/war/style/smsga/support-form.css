@@ -1,0 +1,76 @@
+.support-form div.form-item 
+{
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+.support-form div.form-item label , legend
+{
+	float: left;
+	min-width: 140px;
+	max-width: 130px;
+	font-size: 96%;
+	font-style: normal;
+	font-weight: 700;
+	color: #2a3f46;
+}
+.support-form div.form-item span.req
+{
+	color: #30AADB !important;
+}
+.support-form div.form-item input, .support-form div.form-item  select , .support-form div.form-item  textarea
+{
+	min-width: 280px;
+	float: left;
+}
+.support-form div.form-item input[type=checkbox]
+{
+	min-width: 12px;
+	max-width: 12px;
+	clear: both;
+}
+.support-form div.form-item input[type=submit]
+{
+	max-width: 190px;
+    min-width: 170px;
+    width: 170px;
+    display: block;
+    margin: 0 0 0 140px;
+    box-shadow: none;
+    float: none;
+}
+.support-form div.form-item fieldset .float-left
+{
+	float: left;
+}
+.support-form div.form-item fieldset label
+{
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 25px;
+	margin-left: 10px;
+}
+legend {
+	display: block;
+	padding: 0;
+	margin-bottom: 20px;
+	line-height: 27px;
+	color: #333;
+	border: 0;
+}
+
+.support-form div.form-item fieldset  label
+{
+	min-width:90px;
+	max-width: 90px;
+}
+.support-form div.form-item  textarea
+{
+	min-width: 280px;
+	min-height: 100px;
+	max-width: 340px;
+}
+
+form .btn:focus
+{
+	outline: none;
+}

@@ -1,0 +1,73 @@
+#pageslide {
+	/* These styles MUST be included. Do not change. */
+	display: none;
+	position: absolute;
+	position: fixed;
+	top: 0;
+	height: 100%; 
+	z-index: 999999;
+	
+	/* Specify the width of your pageslide here */
+	width: 200px;
+	
+	/* These styles are optional, and describe how the pageslide will look */
+	background: #1d2e35;
+	color: #FFF;
+}
+#pageslide ul#nav {
+	margin: 0;
+	padding: 0;
+	text-transform: none;
+	font-weight: bold;
+	float: none;
+}
+#pageslide ul#nav > li {
+	list-style-type: none;
+	border-bottom: 1px solid #2c434b;
+}
+#pageslide ul#nav li a {
+	display: block;
+	color: #ffffff;
+	padding: 1em 2em ;
+	text-decoration: none;
+}
+	#pageslide ul#nav ul.sub-menu li a {
+		padding-left: 3em;
+		color: #b3c3c9;
+	}
+
+#pageslide ul#nav li a:hover {
+	background-color: #16272d;
+}
+#pageslide ul#nav li ul {
+	display: block;
+	position: relative;
+	background: none;
+	width: 100%;
+	box-shadow: none;
+	float: none;
+	padding: 0;
+	border: none;
+	border-radius: 0;
+}
+#pageslide ul#nav li a.btn {
+	box-shadow: none;
+	background: none;
+	text-align: left;
+	padding: 1em 2em;
+	border-radius: 0;
+}
+#pageslide ul#nav li a.btn:hover {
+	background: #5C5C5C;
+}
+#pageslide ul#nav li a.btn-primary {
+	margin-top: 0;
+	border-radius: 0;
+}
+#pageslide ul#nav li a.dropdown {
+	display: block;
+}
+#pageslide .btn-primary {
+	background: none;
+	box-shadow: none;
+}

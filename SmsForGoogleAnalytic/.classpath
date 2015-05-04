@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/google-api-client-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/libphonenumber-6.2-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/libphonenumber-6.2.jar" sourcepath="war/WEB-INF/lib/libphonenumber-6.2-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/mockito-all-1.9.5.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/jersey-client-1.9.1.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/jersey-core-1.9.1.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/jersey-json-1.9.1.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/jersey-server-1.9.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SmsForGoogleAnalyticsLib"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/gson-2.2.4.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

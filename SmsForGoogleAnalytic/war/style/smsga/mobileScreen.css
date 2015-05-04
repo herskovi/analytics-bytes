@@ -1,0 +1,748 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+* {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+html, body {
+	height: 100%;
+}
+
+body {
+	background-color: #E7E7E4;
+	background-position: center center;
+	background-repeat: no-repeat;
+	font-family: 'Open Sans';
+	font-weight: 300;
+	height: 100%;
+	margin: 0;
+	overflow-y: scroll;
+	padding: 0;
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+
+img {
+	border: none;
+}
+input {
+	outline: none;
+}
+h1 {
+	font-size: 30px;
+	color: #333333;
+	text-align: left;
+	font-weight: 300;
+	padding: 22px 0 15px 23px;
+	margin: 0;
+}
+
+#left .form2 h1 {
+	padding: 0;
+}
+h2 {
+	font-weight: normal;
+	text-align: left;
+	color: #4c4c4c;
+	font-size: 20px;
+	margin: -11px 0 14px 0;
+	text-align: center;
+}
+ul {
+	width: 100%;
+}
+ul, li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	float: left;
+}
+.divFloatContainer {
+	clear: both;
+	float: none;
+	display: block;
+}
+.divFloatContainer:after {
+	content: ".";
+	display: block;
+	height: 0;
+	line-height: 0;
+	font-size: 0;
+	clear: both;
+	visibility: hidden;
+}
+#headerMain {
+	background: none repeat scroll 0 0 #2A2A2A;
+	height: 30px;
+	position: relative;
+	z-index: 7000;
+}
+#headerMain > div {
+	margin: 0 auto;
+	width: 1000px;
+}
+.header_logo {
+	float: left;
+	padding: 5px 0;
+	width: 180px;
+}
+#headerSecond {
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/UpBorder.png");
+	background-position: center bottom;
+	background-repeat: repeat-x;
+	border-top: 1px solid #3C3C3C;
+	color: #4C4C4C;
+	font-size: 29px;
+	height: 83px;
+	padding-top: 15px;
+}
+#headerSecond > div {
+	margin: 0 auto;
+	width: 1000px;
+}
+#headerSecond > div.appNameHead {
+	display: none;
+}
+/*#headerSecond > div.appTitleHead { display: block; font-size: 31px; height: 40px; margin-bottom: -41px; padding-left: 27px; padding-top: 45px; position: relative; top: 19px; }*/
+#headerSecond > div img {
+	display: none
+}
+/*.AppNameTitle { float: left; background-position: 7px 3px; background-repeat: no-repeat; color: #FFFFFF; display: block; font-family: verdana; font-size: 22px; text-transform: capitalize; padding: 12px 0 0 7px; }*/
+#underStrip {
+	display: none; /*border-bottom: 1px solid #B9B9B9;*/
+}
+#content_wrapper {
+	width: 100%; /*background-color: #E7E7E4;*/
+	padding-top: 0 !important;
+	border: 0 none !important; /*border-top: 1px#FFFFFF solid;*/
+}
+#content_wrapper > div {
+	margin: 0 auto;
+	width: 1000px;
+	position: relative;
+}
+#content_wrapper > div > div {
+	float: left;
+}
+/*  Left  */
+#left {
+	height: 690px;
+	overflow: hidden;
+	position: absolute;
+	width: 526px;
+}
+/*Navigation*/
+#left ul.nav, ul.nav li {
+	list-style: none;
+	font-weight: bold;
+}
+#left ul.nav {
+	height: 70px;
+}
+ul.nav li {
+	height: 70px;
+	padding-top: 0;
+	width: 156px;
+	width: 173px;
+	font-size: 18px;
+	color: #777777;
+	font-weight: 400;
+	padding-left: 27px;
+}
+ul.nav li:hover {
+	cursor: pointer;
+}
+ul.nav li span {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #777777;
+	border: 2px solid #777777;
+	border-radius: 50%;
+	color: #FFFFFF;
+	display: inline-block;
+	font-size: 33px;
+	font-weight: 300;
+	height: 44px;
+	margin-bottom: 26px;
+	margin-right: 5px;
+	padding-bottom: 48px;
+	position: relative;
+	text-align: center;
+	top: 8px;
+	width: 53px;
+}
+ul.nav li.selected span {
+	background-color: #09B9E4;
+	border: 2px solid #09B9E4;
+}
+ul.nav li.done span {
+	background-color: rgba(0, 0, 0, 0);
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/viSign.png");
+	background-position: 13px 15px;
+	background-repeat: no-repeat;
+	border: 2px solid #09B9E4;
+	color: rgba(0, 0, 0, 0);
+}
+ul.nav li.selected .borderTriangle, ul.nav li.selected .triangle {
+	-webkit-transition: opacity 0.3s ease-in; /* opacity: 1; */
+	-moz-transition: opacity 0.3s ease-in;
+	transition: opacity 0.3s ease-in;
+}
+ul.nav li:first-child .borderTriangle, ul.nav li:first-child .triangle {
+	opacity: 1;
+}
+ul.nav li .borderTriangle {
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/new.png");
+	background-position: -38px -252px;
+	background-repeat: no-repeat;
+	height: 16px;
+	position: relative;
+	width: 50px;
+	z-index: 100;
+	left: -1px;
+	top: -12px;
+	opacity: 0;
+	-webkit-transition: opacity 0.3s ease-out;
+	-moz-transition: opacity 0.3s ease-out;
+	transition: opacity 0.3s ease-out;
+}
+ul.nav li .triangle {
+	display: none;
+}
+#left .form {
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCA;
+	float: left;
+	margin: 0 94px 0 10px;
+	min-height: 149px;
+	padding-bottom: 0;
+	position: relative;
+	text-align: center;
+	width: 519px;
+	border-radius: 3px;
+}
+#left .form2 {
+	min-height: 223px;
+	margin: 0 10px 0 10px;
+	width: 510px;
+	padding: 25px 25px 0;
+}
+#left .form .back {
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/backArrow.png");
+	background-position: 0 4px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	display: block;
+	float: left;
+	margin: 0 0 20px 22px;
+	padding-left: 21px;
+	position: relative;
+}
+
+#left .form.form2 .back {
+	margin-left: 2px;
+	bottom: 0;
+	position: absolute;
+}
+#left .form .defaultText {
+	background-clip: padding-box;
+	border: 1px solid #D0D0D0;
+	border-radius: 3px;
+	font-size: 18px;
+	height: 37px;
+	padding-left: 10px;
+	width: 369px;
+	position: relative;
+	z-index: 5;
+	font-family: 'Open Sans';
+	font-weight: 400;
+}
+#left .form0 .defaultText, #left .form0 input[type="button"] {
+	left: -50px;
+	position: relative;
+}
+#left .form input[type="button"] {
+	background-color: #09B9E4;
+	border-radius: 4px;
+	color: #FFFFFF;
+	font-family: 'Open Sans';
+	font-size: 25px;
+	font-weight: 300;
+	height: 37px;
+	margin: 0 0 0 12px;
+	padding: 0 0 11px;
+	text-align: center;
+	width: 84px;
+	border: medium none;
+	top: 2px;
+}
+#left .form1 input[type="button"] {
+	position: absolute;
+	right: 27px;
+	top: 28px;
+}
+.form.form1 > h1 {
+	padding-bottom: 35px;
+}
+#left .form input[type="button"]:hover {
+	background-color: #10A9D0;
+	cursor: pointer;
+}
+/*#left .form input[type="button"]:active { background-color: #C1005F; box-shadow: 1px 2px #740039 inset, -1px 1px 1px rgba(0, 0, 0, 0.15); padding: 11px 0 10px; }*/
+#left .form.selected {
+	display: block;
+}
+#left .form1 > ul {
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+#left .form1 > ul > li {
+	background-color: #FFFFFF;
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/new.png");
+	background-repeat: no-repeat;
+	border: 1px solid #CECECE;
+	margin: 0 5px 5px 0;
+	padding-top: 119px;
+	width: 114px;
+	height: 147px;
+	font-weight: 300;
+}
+#left .form1 > ul > li:focus {
+	outline: none;
+}
+/* Segments li bg position*/
+/*
+ #left .form1 > ul > li.Bussiness.selectedLi,
+ #left .form1 > ul > li:hover.Bussiness {background-position: -53px -1259px;}
+ #left .form1 > ul > li.Bussiness {background-position: -51px -956px;}
+ #left .form1 > ul > li.Music.selectedLi,
+ #left .form1 > ul > li:hover.Music {background-position: -174px -1259px;}
+ #left .form1 > ul > li.Music {background-position: -172px -956px;}
+ #left .form1 > ul > li.Events.selectedLi,
+ #left .form1 > ul > li:hover.Events {background-position: -297px -1259px;}
+ #left .form1 > ul > li.Events {background-position: -295px -956px;}
+ #left .form1 > ul > li.Restaurants.selectedLi,
+ #left .form1 > ul > li:hover.Restaurants {background-position: -420px -1259px;}
+ #left .form1 > ul > li.Restaurants {background-position: -418px -956px;}
+ #left .form1 > ul > li.Blog.selectedLi,
+ #left .form1 > ul > li:hover.Blog {background-position: -53px -1408px;}
+ #left .form1 > ul > li.Blog {background-position: -51px -1105px;}
+ #left .form1 > ul > li.Education.selectedLi,
+ #left .form1 > ul > li:hover.Education {background-position: -176px -1408px;}
+ #left .form1 > ul > li.Education {background-position: -174px -1105px;}
+ #left .form1 > ul > li.Photography.selectedLi,
+ #left .form1 > ul > li:hover.Photography {background-position: -295px -1408px;}
+ #left .form1 > ul > li.Photography {background-position: -293px -1105px;}
+ #left .form1 > ul > li.Other.selectedLi,
+ #left .form1 > ul > li:hover.Other {background-position: -419px -1408px;}
+ #left .form1 > ul > li.Other {background-position: -417px -1105px;}
+
+ #left .form1 > ul > li:hover { border: 3px solid #A5A5A5; padding-top: 117px;color:#09B9E4;}
+ #left .form1 > ul > li.selectedLi {border: 3px solid #09B9E4;width: 114px;color:#09B9E4;padding-top: 117px;}
+
+ */
+/* Bussiness */
+#left .form1 > ul > li.Bussiness.selectedLi, #left .form1 > ul > li:hover.Bussiness.selectedLi {
+	background-position: -53px -1259px;
+}
+#left .form1 > ul > li:hover.Bussiness {
+	background-position: -53px -958px;
+}
+#left .form1 > ul > li.Bussiness {
+	background-position: -51px -956px;
+}
+/* Music */
+#left .form1 > ul > li.Music.selectedLi, #left .form1 > ul > li:hover.Music.selectedLi {
+	background-position: -174px -1259px;
+}
+#left .form1 > ul > li:hover.Music {
+	background-position: -174px -958px;
+}
+#left .form1 > ul > li.Music {
+	background-position: -172px -956px;
+}
+/* Music */
+#left .form1 > ul > li.Events.selectedLi, #left .form1 > ul > li:hover.Events.selectedLi {
+	background-position: -295px -1259px;
+}
+#left .form1 > ul > li:hover.Events {
+	background-position: -295px -958px;
+}
+#left .form1 > ul > li.Events {
+	background-position: -293px -956px;
+}
+/* Restaurants */
+#left .form1 > ul > li.Restaurants.selectedLi, #left .form1 > ul > li:hover.Restaurants.selectedLi {
+	background-position: -416px -1259px;
+}
+#left .form1 > ul > li:hover.Restaurants {
+	background-position: -416px -958px;
+}
+#left .form1 > ul > li.Restaurants {
+	background-position: -414px -956px;
+}
+/* Blog */
+#left .form1 > ul > li.Blog.selectedLi, #left .form1 > ul > li:hover.Blog.selectedLi {
+	background-position: -53px -1408px;
+}
+#left .form1 > ul > li:hover.Blog {
+	background-position: -53px -1107px;
+}
+#left .form1 > ul > li.Blog {
+	background-position: -51px -1105px;
+}
+/* Education */
+#left .form1 > ul > li.Education.selectedLi, #left .form1 > ul > li:hover.Education.selectedLi {
+	background-position: -176px -1408px;
+}
+#left .form1 > ul > li:hover.Education {
+	background-position: -176px -1107px;
+}
+#left .form1 > ul > li.Education {
+	background-position: -174px -1105px;
+}
+/* Photography */
+#left .form1 > ul > li.Photography.selectedLi, #left .form1 > ul > li:hover.Photography.selectedLi {
+	background-position: -295px -1408px;
+}
+#left .form1 > ul > li:hover.Photography {
+	background-position: -295px -1107px;
+}
+#left .form1 > ul > li.Photography {
+	background-position: -293px -1105px;
+}
+/* Other */
+#left .form1 > ul > li.Other.selectedLi, #left .form1 > ul > li:hover.Other.selectedLi {
+	background-position: -415px -1408px;
+}
+#left .form1 > ul > li:hover.Other {
+	background-position: -415px -1107px;
+}
+#left .form1 > ul > li.Other {
+	background-position: -413px -1105px;
+}
+
+#left .form1 > ul > li:hover {
+	border: 3px solid #A5A5A5;
+	padding-top: 117px;
+}
+#left .form1 > ul > li.selectedLi {
+	border: 3px solid #09B9E4;
+	width: 114px;
+	color: #09B9E4;
+	padding-top: 117px;
+}
+/*#left .form1 > ul > li.Bussiness.selected {
+ margin-left: 5px;
+ }*/
+#left .form1 > ul > li.music, #left .form1 > ul > li.music:hover {
+	background-image: none;
+	border: 1px solid #CECECE;
+	font-size: 15px;
+	font-weight: 300;
+	height: 112px;
+	margin: 2px;
+	padding: 0;
+	width: 468px;
+}
+#left .form1 > ul > li.music p {
+	text-align: left;
+	padding-left: 15px;
+}
+#left .form1 > ul > li.music a.soundCloud {
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/new.png");
+	background-repeat: no-repeat;
+	display: block;
+	float: left;
+	height: 35px;
+	width: 142px;
+	cursor: pointer;
+	text-decoration: none;
+	margin-left: 10px;
+	background-position: -33px -695px;
+}
+#left .form1 ul {
+	float: none;
+	width: 100%;
+	padding: 0px 20px 22px;
+}
+#left .form2 input[type="button"] {
+	font-size: 24px;
+	height: 37px;
+	margin: 4px 0 0 4px;
+	width: 95px;
+	margin-left: -7px;
+}
+#left .form2 input[type="text"] {
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/new.png");
+	background-position: -163px -749px;
+	padding-left: 48px;
+	width: 342px;
+}
+#left .form2 input.URlInput {
+	background-position: -163px -795px;
+}
+#left .form2 .inputContaner {
+	float: left;
+	left: 0;
+	max-height: 600px;
+	overflow: hidden;
+	padding: 4px;
+	position: relative;
+	text-align: left;
+}
+#left .form2 .inputContaner ul.resultsList {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background-color: #FFFFFF;
+	border-color: -moz-use-text-color #C2C2C2 #C2C2C2;
+	border-image: none;
+	border-style: none solid solid;
+	border-width: medium 1px 1px;
+	display: none;
+	max-height: 308px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding: 0;
+	position: relative;
+	right: -42px;
+	top: 0px;
+	width: 300px;
+	z-index: 10;
+}
+#left .form2 .inputContaner ul.resultsList li {
+	text-align: left;
+	color: #000000;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size: 12px;
+	height: 50px;
+	overflow: hidden;
+	padding-left: 65px;
+	padding-top: 5px;
+	position: relative;
+	width: 282px;
+}
+#left .form2 .inputContaner ul.resultsList li:hover, #left .form2 .inputContaner ul.resultsList li:focus {
+	background-color: #4C66A4;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+#left .form2 .inputContaner ul.resultsList li img {
+	height: 50px;
+	left: 2px;
+	position: absolute;
+	top: 2px;
+	width: 50px;
+}
+#left .form2 .inputContaner ul.resultsList li span {
+	color: #999999;
+	font-size: 11px;
+}
+#left .form2 .inputContaner ul, #left .form2 .inputContaner li {
+	float: none;
+}
+#left .form2 .submition {
+	height: 130px;
+	padding-top: 24px;
+	position: absolute;
+	width: 94%;
+}
+#left .form .Corner {
+	font-size: 13px;
+}
+#left .form .Corner a {
+	cursor: pointer;
+	color: #00b9e4;
+	text-decoration: underline;
+}
+#left .form2 .submition .Corner {
+	float: left;
+	font-size: 14px;
+	font-weight: 300;
+	padding: 4px 0 17px 7px;
+	text-align: left;
+	width: 100%;
+}
+#left .form2 .submition.hidden {
+	display: none;
+}
+#left .form2 .noFacebookOrBack {/*position: relative;
+	 z-index: 50;
+	 top: 105px;
+	 left: -219px;*/
+}
+/*Navigation*/
+/*  Right  */
+#RightSide 	
+{
+	background-color: #1E1E1E;
+	background-image: url("../../images-new/smsga/DiscoveryPhone.png");
+	background-repeat: no-repeat;
+	height: 731px;
+	position: absolute;
+	right: 0;
+	top: 25px;
+	width: 372px;
+}
+	background-color: #272727;
+	border-bottom: 10px solid #272727;
+	color: #FFFFFF;
+	display: block;
+	font-family: helvetica, arial;
+	font-size: 23px;
+	font-weight: bold;
+	left: 30px;
+	line-height: 29px;
+	overflow: hidden;
+	padding-top: 8px;
+	position: absolute;
+	text-align: center;
+	top: 148px;
+	width: 321px;
+}
+#RightSide .letsStartBuilding {
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/StartBuilding.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	height: 133px;
+	position: relative;
+	top: -150px;
+	font-size: 23px;
+	font-weight: bold;
+}
+#RightSide .PhoneContentOverlay {
+	background-color: #000000;
+	height: 417px;
+	left: 30px;
+	opacity: 0.7;
+	position: absolute;
+	top: 192px;
+	width: 320px;
+	font-weight: bold;
+	left: 30px;
+	line-height: 29px;
+	
+}
+#RightSide .PhoneContent {
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	height: 415px;
+	left: 30px;
+	position: relative;
+	top: 192px;
+	width: 320px;
+}
+#RightSide .phoneIcon {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 90px auto;
+	display: none;
+	height: 90px;
+	left: 139px;
+	position: absolute;
+	top: 290px;
+	width: 90px;
+}
+/*Errors MSGS*/
+.errorMsg {
+	background-color: #000000;
+	border-radius: 5px;
+	color: #FFFFFF;
+	display: none;
+	font-size: 12px;
+	height: 90px;
+	padding: 16px 11px 9px;
+	position: absolute;
+	text-align: left;
+	width: 200px;
+	z-index: 2;
+	opacity: 0.7;
+}
+.errorMsg a {
+	color: #018DFF;
+}
+.errorMsg span.close {
+	position: absolute;
+	right: 4px;
+	top: 3px;
+	cursor: pointer;
+}
+.errorMsg .triangle {
+	border-left: 11px solid rgba(0, 0, 0, 0);
+	border-right: 11px solid rgba(0, 0, 0, 0);
+	border-top: 11px solid #000000;
+	bottom: -10px;
+	height: 0;
+	left: 87px;
+	position: absolute;
+	width: 0;
+}
+.emptyFaceBook {
+	left: 291px;
+	top: -80px;
+	z-index: 1000;
+	opacity: 1;
+}
+.FaceBookChoose {
+	top: -25px;
+	left: 60px;
+}
+.emptyUrl {
+	left: 281px;
+	opacity: 1;
+	top: -84px;
+	z-index: 100;
+}
+/*
+ .submitDisable {background-color:red; background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/Group-4.gif"); background-position:133px 136px; background-repeat: no-repeat; height:213px; padding-top:0;  z-index: 200; }
+ */
+.submitDisable {
+
+	background-image: url("/Images/Mobile/Marketing/NewDesign/GoWithTheFlowPage/Group-4.gif");
+	background-position: 419px 270px;
+	background-repeat: no-repeat;
+	height: 313px;
+	padding-top: 101px;
+	position: absolute;
+	top: -101px;
+	width: 462px;
+	z-index: 200;
+}
+
+#left .submitDisable h1 {
+	padding-bottom: 15px;
+	padding-top: 30px;
+	text-align: center;
+	color: #4C4C4C;
+}
+#myPages .item span {
+	color: #fff;
+}
+/* Dans Choice */
+#left .form0 {
+	margin: 0 98px 0 0;
+	width: 526px;
+}
+
+#left .form0 .defaultText, #left .form0 input[type="button"] {
+	left: 0;
+	position: relative;
+}
+.testerForm {
+	opacity: 0.5;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	z-index: -2;
+	background-color: green;
+	width: 160px;
+}
+
+.submitionURL h2 {
+	display: none;
+}

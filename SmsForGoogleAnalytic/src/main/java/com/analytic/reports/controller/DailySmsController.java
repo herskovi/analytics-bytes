@@ -157,11 +157,11 @@ public class DailySmsController extends BaseController
 						String dateFormatToDisplay = dateUtils.getDateStringWithDayName();
 						endDate = startDate;
 						textMessage.append("On " + dateFormatToDisplay + ", ");
-						getAnalyticData(startDate, endDate, profileID, analytic, metricsArr,goalDT);
+						boolean dataWasRecievedFromGA = getAnalyticData(startDate, endDate, profileID, analytic, metricsArr,goalDT);
 						textMessage.append(custUtils.setClosureIntoMessageText());
 
 
-						if (!isLocalMode) 
+						if (!isLocalMode && dataWasRecievedFromGA) 
 						{ 
 							boolean isUSANumber = CustomerUtils.isUSAPhoneNumber(cust);
 							IController smsFlowController = getController(cust,isUSANumber);							
@@ -170,10 +170,14 @@ public class DailySmsController extends BaseController
 									userId,
 									ConvertUtils.convertListToStringSeperatedByComma(cust.getTelNoForSMS()),textMessage.toString());
 							SmsHistoryDAO.insertNewSMS(smsHistory);
+						}else if (!dataWasRecievedFromGA)
+						{
+							log.severe("GA DATA THROW AN ERROR FOR THIS CUSTOMER");
+							//FIXME - Insert Into New Table
 						}
 
 					} catch (Exception ex) {
-						log.severe(" cust.getCustomerAnalyticList().get(0) was not defined for this user   " + userId);
+						log.severe(" scanAllCustomersAndSendSMS throw an Exception    " + userId);
 						throw ex;
 					}
 					setResponse(textMessage.toString());
@@ -321,16 +325,19 @@ public class DailySmsController extends BaseController
 	 * 
 	 * @Author: Moshe Herskovits
 	 * @Date: Jun 12, 2014
-	 * @Description: Get Analytic Data from Google Server
+	 * @Description: Get Analytic Data from Google Server. Return True if no exception occured
 	 */
 
-	public void getAnalyticData(String startDate, String endDate, String profileID, Analytics analytics, String[] metricsArr,GoalDT goalDT) throws IOException 
+	public boolean getAnalyticData(String startDate, String endDate, String profileID, Analytics analytics, String[] metricsArr,GoalDT goalDT) throws IOException 
 	{
 
 		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileID, metricsArr, startDate, endDate,goalDT);
 		if (gaData != null) 
 		{
 			textMessage.append(AnalyticUtils.printGaData(gaData,metricsArr,goalDT) + "\n");
+			return true;
+		}else{
+			return false;
 		}
 
 	}

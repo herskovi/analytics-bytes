@@ -103,9 +103,9 @@ public class CustomerUtils
 	 *@Date:        Dec 21, 2014
 	 *@Description: Is Customer located at U.S.A
 	 */
-	public static boolean isCustomerAlreadyExistsInDB(String telephoneNumber) 
+	public static boolean isCustomerAlreadyExistsInDB(String telephoneNumber, String emailAddress) 
 	{
-		return CustomerDAO.isTelephoneNumberAlreadyExistInSystem(telephoneNumber);
+		return CustomerDAO.isTelephoneNumberAlreadyExistInSystem(telephoneNumber, emailAddress);
 		
 	}
 		

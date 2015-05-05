@@ -79,7 +79,7 @@ public class CustomerDAO {
 	 * @Date: Feb 13, 2015
 	 * @Description: Check If telephone Number Exists in the system
 	 */
-	public static boolean isTelephoneNumberAlreadyExistInSystem(String telephoneNumber)
+	public static boolean isTelephoneNumberAlreadyExistInSystem(String telephoneNumber, String emailAddress)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<Customer> results = new ArrayList<Customer>();
@@ -87,7 +87,9 @@ public class CustomerDAO {
 			//Customer customer = null;
 			Query query = pm.newQuery(Customer.class,
 					"telephoneNumber == '" + telephoneNumber + "'"
-							+"&&  " 
+							+"&&  "
+							+ "emailAddress == '" + emailAddress + "'"
+							+"&&  "
 							+ "userSts <= '" + RegistrationConsts.USER_IS_CANCELED_WITHOUT_EMAIL_CONFIRMATION + "'"
 							+"&&  " 
 							+ "userSts >= '" + RegistrationConsts.USER_ENROLED_AND_COMPETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL + "'");

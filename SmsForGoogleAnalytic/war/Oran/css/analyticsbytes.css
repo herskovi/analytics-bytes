@@ -1,0 +1,59 @@
+body{
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  }
+  .navtop{
+   background-color: #FEFEFE;
+   padding: 0 4% 0 4%;
+   margin: 0;
+  }
+  
+  .navbarsignin{
+   margin-top: 5px;   
+  }
+
+  .graydiv{
+      background-color: #F0F2F3;
+      text-align: center;
+  }
+  .whitediv{
+      background-color: #FEFEFE;
+      text-align: center;
+  }
+  .toppadding{
+   padding-top: 6%;   
+  }
+  .rapper{
+ 
+  }
+  .hero-title{
+      font-size: 1.2em;
+      font-weight: light;
+  }
+  #hero-second-title{
+      font-size: 1.5em;
+      font-weight: 100;
+  }
+ #mainbtn{
+  background-color: #288EDF;
+  margin: 5% 0 3% 0;
+ }
+ .smltxt{
+    font-size: 0.9em;
+     color: #288EDF;
+  }
+ .rec-image{
+  height: 120px;
+  width: 120px;
+  border-radius: 60px;
+  margin: 2% 0 4% 0;
+ }
+ .footerdiv{
+  background-color:  #13181B;
+  padding: 3% 0 3% 0;
+  text-align: center;
+ }
+.topbtn{
+ background-color: #288EDF;
+ color: #FEFEFE;
+}
+    

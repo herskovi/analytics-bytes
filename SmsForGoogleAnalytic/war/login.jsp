@@ -68,7 +68,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		<div class="row-fluid">
 			<div class="span2">
 				<div id="logo" style="display: none;">
-					<a href="smsga.html" title="Go to Home page"></a>
+					<a href="/home" title="Go to Home page"></a>
 				</div>
 			</div>
 			<div class="span10">
@@ -82,7 +82,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<nav>
 					<ul id="nav" class="nav-slide">
 						<li class="nav-tour">
-							<a href="/smsga.html">
+							<a href="/home">
 								<span class="link-wrap">Home</span>
 							</a>
 						</li>

@@ -127,7 +127,7 @@
 		<url-pattern>/oauth2callback/*</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>smsga.html</welcome-file>
+		<welcome-file>home</welcome-file>
 	</welcome-file-list>
 	<servlet>
 		<servlet-name>SystemServiceServlet</servlet-name>
@@ -153,13 +153,21 @@
 
 	<servlet>
 		<servlet-name>support</servlet-name>
-		<jsp-file>/support.jsp</jsp-file>
+		<jsp-file>/analyticsbytes/support.html</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>support</servlet-name>
 		<url-pattern>/support/*</url-pattern>
 	</servlet-mapping>	
 	
+	<servlet>
+		<servlet-name>whatwedo</servlet-name>
+		<jsp-file>/analyticsbytes/whatwedo.html</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>whatwedo</servlet-name>
+		<url-pattern>/whatwedo/*</url-pattern>
+	</servlet-mapping>	
 	
 	<servlet>
 		<servlet-name>SendSmsServlet</servlet-name>
@@ -264,6 +272,16 @@
 		<servlet-name>register</servlet-name>
 		<url-pattern>/register/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>home</servlet-name>
+		<jsp-file>/analyticsbytes/smsga.html</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>home</servlet-name>
+		<url-pattern>/home/*</url-pattern>
+	</servlet-mapping>
+	
 
 	<servlet>
 		<servlet-name>topup</servlet-name>

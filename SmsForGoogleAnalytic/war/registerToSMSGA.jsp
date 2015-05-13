@@ -15,9 +15,7 @@
 
 
 <!-- Google Webfonts -->
-<link
-	href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic'
-	rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="style/smsga/bootstrap-responsive.css">
 <link rel="stylesheet" href="style/smsga/bootstrap.min.css">
 <link rel="stylesheet" href="style/smsga/theme.css">

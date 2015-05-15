@@ -100,8 +100,7 @@ public class DailySmsController extends BaseController
 			
 			log.severe("Start with Customer " + cust.getName() + " @@@email@@@ " + cust.getEmailAddress());
 			setPrefixForMessageText(custUtils);
-			GoalDT goalDT = prepareGoalDataType(custUtils);
-						
+			GoalDT goalDT = prepareGoalDataType(custUtils);				
 			int hourOfTimeToSendSmsThatWasRequestedByUser = -1;
 			log.severe("before getUserTimeZone" );			
 			userTimeZone = getUserTimeZone(cust);	

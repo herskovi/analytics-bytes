@@ -74,7 +74,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 						<nav>
 							<ul id="nav" class="nav-slide">
-								<li class="nav-tour"><a href="/smsga.html"><span
+								<li class="nav-tour"><a href="/home"><span
 										class="link-wrap">Home</span></a></li>
 							<!-- 	<li class="nav-pricing"><a href="/pricing"><span class="link-wrap">Pricing</span></a></li>  -->
 								<li class="nav-docs"><a href="/support"><span

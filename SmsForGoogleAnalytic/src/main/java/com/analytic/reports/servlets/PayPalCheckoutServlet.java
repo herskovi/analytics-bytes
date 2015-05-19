@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import main.java.com.analytic.reports.utils.PaypalFunctionsUtils;
 import main.java.com.analytic.reports.utils.URLUtils;
+import main.java.com.analytic.reports.utils.consts.PayPalConsts;
 
 @SuppressWarnings("serial")
 public class PayPalCheckoutServlet extends HttpServlet 
@@ -20,83 +21,78 @@ public class PayPalCheckoutServlet extends HttpServlet
 	 PayPal Express Checkout Call
 	 ===================================================================
 	 */
+	
 
 
 
 		public void doGet(HttpServletRequest req, HttpServletResponse resp)
 				throws ServletException, IOException {
 
-			// Use "request" to read incoming HTTP headers (e.g. cookies)
-			// and HTML form data (e.g. data the user entered and submitted)
+			String paymentAmount =  req.getParameter(PayPalConsts.AMOUNT);
+			String returnURL = PayPalConsts.RETURN_URL;
+			String cancelURL = PayPalConsts.CANCEL_URL;
+			Map item = prepareMap(paymentAmount);
 
-			// Use "response" to specify the HTTP response line and headers
-			// (e.g. specifying the content type, setting cookies).
-
-			/*
-			 *  The paymentAmount is the total value of ' the purchase. ' ' 
-			 * TODO:  Enter the total Payment Amount within the quotes. ' example :
-			 * paymentAmount = "15.00"; 
-			 */
-			String paymentAmount =  req.getParameter("amount");
-
-
-			/*
-			 * '------------------------------------ ' The returnURL is the location
-			 * where buyers return to when a ' payment has been succesfully
-			 * authorized. ' ' This is set to the value entered on the Integration
-			 * Assistant '------------------------------------
-			 */
-
-			String returnURL = "http://www.analyticsbytes.com/private/orderConfirmation";
-
-			/*
-			 * '------------------------------------ ' The cancelURL is the location
-			 * buyers are sent to when they hit the ' cancel button during
-			 * authorization of payment during the PayPal flow ' ' This is set to
-			 * the value entered on the Integration Assistant
-			 * '------------------------------------
-			 */
-			String cancelURL = "http://www.analyticsbytes.com/private/dashboard.jsp";
-
-			/*
-			 * '------------------------------------ ' The items hashmap contains
-			 * the details of each item '------------------------------------
-			 * TODO: change "item name" to desired item name
-			 */
-
-			Map item = new HashMap();
-			item.put("name", "Analytics Bytes");
-			item.put("amt", paymentAmount);
-			item.put("qty", "1");
-
-			/*
-			 * '------------------------------------ ' Calls the SetExpressCheckout
-			 * API call ' ' The SetExpressCheckout function is defined in the file
-			 * PayPalFunctions.java,
-			 * '-------------------------------------------------
-			 */
+			
 			boolean isLocalMode = URLUtils.isServerRunningInLocalMode(req.getRequestURL().toString());
+			//boolean isLocalMode = true;
 			PaypalFunctionsUtils ppf = new PaypalFunctionsUtils(isLocalMode);
-			HashMap nvp = ppf.setExpressCheckout(paymentAmount, returnURL,
-					cancelURL, item);
-			String strAck = nvp.get("ACK").toString();
-			if (strAck != null && strAck.equalsIgnoreCase("Success")) {
-
-				// ' Redirect to paypal.com
-				
-				String redirectURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token="
-						+ nvp.get("TOKEN").toString();
-
+			//invoke PayPal
+			HashMap nvp = invokePayPal(paymentAmount, returnURL, cancelURL,
+					item, ppf);
+			
+			String strAck = nvp.get(PayPalConsts.ACK).toString();
+			if (strAck != null && strAck.equalsIgnoreCase(PayPalConsts.SUCCESS)) {
+				// Redirect to paypal.com or to sandbox.paypal.com
+				String redirectURL = getRedirectURL(isLocalMode) + nvp.get(PayPalConsts.TOKEN).toString();
 				resp.sendRedirect(redirectURL);
 			} else {
 				// Display a user friendly Error on the page using any of the
 				// following error information returned by PayPal
+				//FIXME - Add more informative error
 
 				String ErrorCode = nvp.get("L_ERRORCODE0").toString();
 				String ErrorShortMsg = nvp.get("L_SHORTMESSAGE0").toString();
 				String ErrorLongMsg = nvp.get("L_LONGMESSAGE0").toString();
 				String ErrorSeverityCode = nvp.get("L_SEVERITYCODE0").toString();
 			}
+		}
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 19, 2015
+	 *@Description: Invoke PayPal
+	 */
+	private HashMap invokePayPal(String paymentAmount, String returnURL,
+			String cancelURL, Map item, PaypalFunctionsUtils ppf) {
+		HashMap nvp = ppf.setExpressCheckout(paymentAmount, returnURL, 	cancelURL, item);
+		return nvp;
+	}
+		
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 19, 2015
+	 *@Description: Prepare Map for Product
+	 */
+
+	private Map prepareMap(String paymentAmount) {
+		Map item = new HashMap();
+		item.put("name", PayPalConsts.PRODUCT_NAME);
+		item.put("amt", paymentAmount);
+		item.put("qty", "1");
+		return item;
+	}
+
+		/**
+		 * 
+		 *@Author:      Moshe Herskovits
+		 *@Date:        May 19, 2015
+		 *@Description: Get Redirect URL Based on localMode. If Local Mode is on should go for sandbox while 
+		 */
+		private String getRedirectURL(boolean isLocalMode) 
+		{		
+			return (isLocalMode ? PayPalConsts.REDIRECT_URL_SANDBOX : PayPalConsts.REDIRECT_URL);	
 		}
 
 		public void doPost(HttpServletRequest request, HttpServletResponse response)

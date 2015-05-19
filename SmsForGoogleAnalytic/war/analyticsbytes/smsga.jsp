@@ -81,7 +81,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 							messages.</span>
 					</h1>
 
-					<a href="register.html" type="button"
+					<a href="/register" type="button"
 						class="btn btn-primary btn-lg" id="mainbtn">Test It Now, It's
 						Free</a>
 					<p class="smltxt">It's free for limited time. Signup takes less
@@ -150,7 +150,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<a href="register.html" type="button"
+					<a href="/register" type="button"
 						class="btn btn-primary btn-lg" id="mainbtn">Get AnalyticsBytes</a>
 					<p class="smltxt">Because it's awesome. Oh, Did we mantioned
 						that it's Free?</p>

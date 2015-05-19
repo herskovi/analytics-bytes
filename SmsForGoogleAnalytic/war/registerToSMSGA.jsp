@@ -61,7 +61,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<div class="row-fluid">
 					<div class="span2">
 						<div id="logo" style="display: none;">
-							<a href="/nexmo.html" title="Go to Home page"></a>
+							<a href="/home" title="Go to Home page"></a>
 						</div>
 					</div>
 					<div class="span10">

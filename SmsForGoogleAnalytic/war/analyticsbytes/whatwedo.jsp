@@ -85,7 +85,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <h1><span class="hero-title">Stay connected to your product.</span></h1>  
-                            <p class="lead">AnalyticsBytes started as a tool we developed for ourselves. We quickly found that our friends and colleaghues find it useful too, So we published it. hope you'll love it.</p>
+                            <p class="lead">AnalyticsBytes started as a tool we developed for ourselves. We quickly found that our friends and colleagues find it useful too, So we published it. hope you'll love it.</p>
                 
                             <a href="/register" type="button" class="btn btn-primary btn-lg" id="mainbtn">Test It Now, It's Free</a>
             

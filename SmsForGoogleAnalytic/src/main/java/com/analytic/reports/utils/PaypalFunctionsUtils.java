@@ -29,7 +29,12 @@ public class PaypalFunctionsUtils {
 	private String gv_APIUserName;
 	private String gv_APIPassword;
 	private String gv_APISignature;
+	private String gv_APIUserName_sandbox;
+	private String gv_APIPassword_sandbox;
+	private String gv_APISignature_sandbox;
 
+	
+	
 	private String gv_APIEndpoint;
 	private String gv_BNCode;
 
@@ -49,12 +54,15 @@ public class PaypalFunctionsUtils {
 		// Replace <API_USERNAME> with your API Username
 		// Replace <API_PASSWORD> with your API Password
 		// Replace <API_SIGNATURE> with your Signature
-		gv_APIUserName = "herskovi77-facilitator_api1.gmail.com";
-		gv_APIPassword = "X8SDHG325E7DEVVD"; //moshe1977
-		gv_APISignature = "AFcWxV21C7fd0v3bYYYRCpSSRl31A-lZdYbd6q-kB5mCMdLCk5mGBmXK";
+		gv_APIUserName = "herskovi77_api1.gmail.com";
+		gv_APIPassword = "HR4JUZKRYNRCKQFS"; 
+		gv_APISignature = "AGKj-ajRiv-xEitL6gSoIXe6SuC0A-G3LcTIPE5E.pRSwQCZEDnX7cmk";
 		// In case localMode Run with Sand Box otherwise run it via regular paypal API.
 		bSandbox = isLocalMode; 
-
+		
+		gv_APIUserName_sandbox = "herskovi77-facilitator_api1.gmail.com";
+		gv_APIPassword_sandbox = "X8SDHG325E7DEVVD";
+		gv_APISignature_sandbox = "AFcWxV21C7fd0v3bYYYRCpSSRl31A-lZdYbd6q-kB5mCMdLCk5mGBmXK";
 
 		/*
 		 * Servers for NVP API Sandbox: https://api-3t.sandbox.paypal.com/nvp
@@ -70,9 +78,14 @@ public class PaypalFunctionsUtils {
 		 */
 		String PAYPAL_DG_URL = null;
 		if (bSandbox == true) {
+			System.out.println("saa");
 			gv_APIEndpoint = "https://api-3t.sandbox.paypal.com/nvp";
 			PAYPAL_URL = "https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=";
 			PAYPAL_DG_URL = "https://www.sandbox.paypal.com/incontext?token=";
+			gv_APIUserName = gv_APIUserName_sandbox;
+			gv_APIPassword = gv_APIPassword_sandbox;
+			gv_APISignature = gv_APISignature_sandbox;
+			
 		} else {
 			gv_APIEndpoint = "https://api-3t.paypal.com/nvp";
 			PAYPAL_URL = "https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=";

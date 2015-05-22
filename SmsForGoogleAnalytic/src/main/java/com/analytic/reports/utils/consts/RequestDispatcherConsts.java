@@ -19,7 +19,12 @@ public interface RequestDispatcherConsts extends GeneralConsts
 	public static  final String FROM_SUPPORT_TO_THANK_YOU_PAGE = "/supportThankYouPage.jsp";
 	public static  final String FROM_SUPPORT_TO_FAILURE_PAGE = "/confirmationFailurePage.jsp";
 	public static  final String FROM_LOGIN_TO_ADMIN_DASHBOARD = "/private/adminDashboard.jsp";
-	public static  final String FROM_REGISTRATION_TO_REGISTRAION_ERROR = "/registerToSMSGA.jsp";
+	//public static  final String FROM_REGISTRATION_TO_REGISTRAION_ERROR = "/registerToSMSGA.jsp";
+	public static  final String FROM_REGISTRATION_TO_REGISTRAION_ERROR = "/analyticsbytes/registerToAnalyticsbytes.jsp";
+	//public static  final String FROM_REGISTRATION_TO_ACCOUNT_SELECTION = "/accountSelectionAfterRegistration";
+	public static  final String FROM_REGISTRATION_TO_ACCOUNT_SELECTION = "/analyticsbytes/accountSelection.jsp";
+
+
 
 
 

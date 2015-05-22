@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>AnalyticsBytes - SMS that connects you directly to your analytics</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" media="all" href="/style/smsga/firstTimeLogin.css?v=184" />
+    <!-- Custom styles for this template -->
+    <link href="css/jumbotron.css" rel="stylesheet"> <!-- added by oran -->    
+	<link rel="stylesheet" href="css/analyticsbytes.css"> <!-- added by oran -->
+
+    <script src="./js/assets/ie-emulation-modes-warning.js"></script>
+
+  </head>
+
+  <body id="getsms">
+
+     <nav class="navbar navbar-default navtop">
+        <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home"><strong>AnalyticsBytes</strong></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/whatwedo">What we do?</a></li>
+                    <li><a href="/support">Support</a></li>  
+                </ul>
+        
+
+
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+
+      <div class="rapper graydiv toppadding"> <!-- oran added - main gray div -->
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1><span class="hero-title">Thats it! You're a click away from fresh Analytics Bytes..</span></h1>  
+                        <p class="lead">Click "Get SMS" to start receiving you analytics SMS..  </p>
+                        <button id="getSmsNow" type="button" class="btn btn-success btn-lg btnmargin">Get SMS</button>
+                        <p>P.S - Please check your email inbox to validate your account</p>
+                    </div> 
+                </div>
+
+                <div class="row" id="sms-recieved-container" name="sms-recieved-container" style="display: none;">
+                    <div class="col-md-8 col-md-offset-2">
+                        <p>Did you receive SMS?</p>
+                        <button id="btnConfirmationYes" type="button" class="btn btn-success btn-lg btnsmsval">Yes</button>
+                        <button id="btnConfirmationNo"  type="button" class="btn btn-danger btn-lg btnsmsval">No</button>
+                    </div> 
+                </div>
+                
+                <div class="row" id="smsvalsuccess" style="display: none;">
+                    <div class="col-md-8 col-md-offset-2">
+                            <div class="alert alert-success btnmargin" role="alert"><strong>Great,</strong> We hope you'll enjoy it! Reach to us anytime at  <b>Support@analyticsbytes.com</b></div>
+                    </div> 
+                </div>
+                <div class="row" id="smsvalfail" style="display: none;">
+                    <div class="col-md-8 col-md-offset-2">
+                            <div class="alert alert-danger btnmargin" role="alert"><strong>Oops,</strong> There was a problam sending your SMS.. We will conatct you shortly to fix that!</div>
+                    </div> 
+                </div> 
+            </div>
+     </div> <!-- oran added - main gray div close -->
+      
+
+ <!-- /container -->
+      
+      
+      
+      
+      <div class="whitediv">  <!-- oran added - footer div -->
+        <hr> 
+        <p><span class="glyphicon glyphicon-heart"></span> AnalyticsBytes was created by Analytics geeks, for Analytics geeks. And it will keep getting better.</p>
+       
+      </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="/js/smsga/jquery.min.js?v=184"></script>
+    <script type="text/javascript" src="./bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/getsms.js?v=184"></script>
+    <script type="text/javascript" src="./js/assets/ie10-viewport-bug-workaround.js"></script>
+    
+    <script type="text/javascript">
+		var userId = "${userid}";
+		var useridStr = "userid=" + userId;
+	</script>
+    
+  </body>
+</html>

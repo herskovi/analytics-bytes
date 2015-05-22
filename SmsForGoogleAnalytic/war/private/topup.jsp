@@ -27,13 +27,13 @@
 <link rel="stylesheet" type="text/css" media="all" href="/style/smsga/flexslider.css?v=184" />
 <link rel="stylesheet" type="text/css" media="all" href="/style/smsga/jquery.pageslide.css?v=184" />
 <link rel="stylesheet" type="text/css" media="all" href="/style/smsga/jquery-ui.css?v=184" />
-<link rel="stylesheet" type="text/css" media="all" href="/style/smsga/jquery.jqplot.css?v=184" />
+
 
 <script type="text/javascript" src="/js/smsga/jquery.min.js?v=184"></script>
 
 <!--[if lt IE 9]>
 <script src="/resources/js/kit/selectivizr-min.js"></script>
-<script language="javascript" type="text/javascript" src="/resources/js/kit/jqplot/excanvas.min.js"></script>
+
 <![endif]-->
 </head>
 <body id="dashboard">
@@ -323,11 +323,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script type="text/javascript" src="/js/smsga/jquery.metadata.js?v=184"></script>
 <script type="text/javascript" src="/js/smsga/menu.js?v=184"></script>
 <script type="text/javascript" src="/js/smsga/script.js?v=184"></script>
-<script type="text/javascript" src="/js/smsga/jqplot/jquery.jqplot.min.js?v=184"></script>
-<script type="text/javascript" src="/js/smsga/jqplot/plugins/jqplot.dateAxisRenderer.min.js?v=184"></script>
-<script type="text/javascript" src="/js/smsga/jqplot/plugins/jqplot.canvasTextRenderer.min.js?v=184"></script>
-<script type="text/javascript" src="/js/smsga/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js?v=184"></script>
-<script type="text/javascript" src="/js/smsga/jqplot/plugins/jqplot.highlighter.js?v=184"></script>
+
 <!-- <script type="text/javascript" src="/js/smsga/dashboard.js?v=184"></script>  -->
 <script type="text/javascript" src="/js/smsga/topup.js?v=184"></script>
 

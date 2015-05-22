@@ -78,7 +78,6 @@ public class PaypalFunctionsUtils {
 		 */
 		String PAYPAL_DG_URL = null;
 		if (bSandbox == true) {
-			System.out.println("saa");
 			gv_APIEndpoint = "https://api-3t.sandbox.paypal.com/nvp";
 			PAYPAL_URL = "https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=";
 			PAYPAL_DG_URL = "https://www.sandbox.paypal.com/incontext?token=";

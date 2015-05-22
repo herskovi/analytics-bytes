@@ -696,7 +696,7 @@
 }
 .intl-tel-input {
 	position: relative;
-	display: inline-block
+	display: block; /* Oran - Change it to block */
 }
 .intl-tel-input * {
 	box-sizing: border-box;
@@ -717,10 +717,12 @@
 		margin-bottom: 0 !important;
 		padding-left: 44px;
 		margin-left: 0;
+		/*
 		width:200px;
 		height:50px;
 		border-radius: 5px;
-		border: 2px solid #adb6ba;; 
+		border: 2px solid #adb6ba;;
+		*/ 
 	}		
 }
 
@@ -729,18 +731,23 @@
 	
 	.intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		position: relative;
+		
 		z-index: 0;
 		margin-top: 0 !important;
 		margin-bottom: 0 !important;
 		padding-left: 44px;
 		margin-left: 0;
+		/*
 		width:270px;
 		height:50px;
 		border-radius: 5px;
-		border: 2px solid #adb6ba;; 
+		border: 2px solid #adb6ba;;
+		*/ 
 	
 	}
 }
+
+
 .intl-tel-input .flag-dropdown {
 	position: absolute;
 	top: 0;

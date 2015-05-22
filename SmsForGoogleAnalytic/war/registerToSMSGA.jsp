@@ -15,22 +15,27 @@
 
 
 <!-- Google Webfonts -->
-<link
-	href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic'
-	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="style/smsga/bootstrap-responsive.css">
-<link rel="stylesheet" href="style/smsga/bootstrap.min.css">
-<link rel="stylesheet" href="style/smsga/theme.css">
-<link rel="stylesheet" href="style/smsga/animation.css">
-<link rel="stylesheet" href="style/smsga/fonts/social.css">
-<link rel="stylesheet" href="style/smsga/fonts/symbolicons.css">
-<link rel="stylesheet" href="style/smsga/fonts/standard.css">
-<link rel="stylesheet" href="style/smsga/flexslider.css" />
-<link rel="stylesheet" href="style/smsga/jquery.pageslide.css">
-<link rel="stylesheet" href="style/smsga/jquery-ui.css">
-<link rel="stylesheet" href="js/smsga/telephoneWithCountry/build/css/intlTelInput.css">
-<link rel="stylesheet" href="style/smsga/tooltip/tooltipster.css">
-<link rel="stylesheet" href="style/smsga/testimonial.css">
+
+<link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic' rel='stylesheet' type='text/css'>
+<!--  
+<link rel="stylesheet" href="../style/smsga/bootstrap-responsive.css">
+<link rel="stylesheet" href="../style/smsga/bootstrap.min.css">
+-->
+<link rel="stylesheet" href="../style/smsga/theme.css">
+<link rel="stylesheet" href="../style/smsga/animation.css">
+<link rel="stylesheet" href="../style/smsga/fonts/social.css">
+<link rel="stylesheet" href="../style/smsga/fonts/symbolicons.css">
+<link rel="stylesheet" href="../style/smsga/fonts/standard.css">
+<link rel="stylesheet" href="../style/smsga/flexslider.css" />
+<link rel="stylesheet" href="../style/smsga/jquery.pageslide.css">
+<link rel="stylesheet" href="../style/smsga/jquery-ui.css">
+<link rel="stylesheet" href="../js/smsga/telephoneWithCountry/build/css/intlTelInput.css">
+<link rel="stylesheet" href="../style/smsga/tooltip/tooltipster.css">
+<link rel="stylesheet" href="../style/smsga/testimonial.css">
+<!-- Custom styles for this template -->
+<link href="css/jumbotron.css" rel="stylesheet"> <!-- added by oran -->
+<link href="css/bootstrap.min.css" rel="stylesheet">    <!-- added by oran -->
+<link rel="stylesheet" href="css/analyticsbytes.css"> <!-- added by oran -->
 
 
 

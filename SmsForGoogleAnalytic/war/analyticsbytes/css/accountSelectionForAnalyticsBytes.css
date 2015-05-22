@@ -1,0 +1,29 @@
+@media (max-width: 480px)
+{
+	#accountSelectionSubmitBtn {
+	    
+		min-width:280px;
+	}
+	
+}
+a
+@media (min-width: 481px )
+{
+	#accountSelectionSubmitBtn 
+	{	    
+		min-width:360px;
+	
+}
+
+
+#spinnerForWebProperty
+{	
+	display: inline-block;
+	margin-left: -200px;
+}
+
+#spinnerForProfile
+{
+	display: inline-block;
+	margin-left: -200px;
+}

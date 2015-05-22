@@ -24,6 +24,7 @@ import main.java.com.analytic.reports.utils.AnalyticUtils;
 import main.java.com.analytic.reports.utils.DateUtils;
 import main.java.com.analytic.reports.utils.HttpClientUtils;
 import main.java.com.analytic.reports.utils.consts.CredentialConsts;
+import main.java.com.analytic.reports.utils.consts.RequestDispatcherConsts;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
@@ -44,22 +45,21 @@ import com.google.api.services.analytics.model.Webproperties;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
-public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthorizationCodeCallbackServlet 
-{
+public class SmsForGoogleAnalyticCallbackSample extends
+		AbstractAppEngineAuthorizationCodeCallbackServlet {
 
 	private static final String APPLICATION_NAME = "";
-	private static final Logger log = Logger.getLogger(SmsForGoogleAnalyticCallbackSample.class.getName());
+	private static final Logger log = Logger
+			.getLogger(SmsForGoogleAnalyticCallbackSample.class.getName());
 
 	@Override
 	protected void onSuccess(HttpServletRequest req, HttpServletResponse resp,
-			Credential credential) throws ServletException, IOException 
-	{
+			Credential credential) throws ServletException, IOException {
 
 		String authorizationCode = req.getParameter("code");
 		String accessToken = credential.getAccessToken();
 		String refreshToken = credential.getRefreshToken();
 		String userId = getUserId(req);
-
 
 		Customer cust = CustomerDAO.getCustomerInformationByUserID(userId);
 
@@ -67,90 +67,95 @@ public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthori
 		String refreshTokenFromDB = cust.getRefreshToken();
 		boolean shouldUpdateRefreshTokenInDB = false;
 
-		if (refreshToken == null || refreshToken.length() == 0) 
-		{
+		if (refreshToken == null || refreshToken.length() == 0) {
 			String url = excahngeAutorizationCodeWithRefreshToken(authorizationCode);
 			resp.sendRedirect(url); // exchange
-		}else 
-		{
+		} else {
 			// refreshTokenWasReceivedFromGoogleOAuth
 			shouldUpdateRefreshTokenInDB = shouldUpdateRefreshTokenInDB(
 					refreshToken, refreshTokenFromDB);
 		}
 		if (shouldUpdateRefreshTokenInDB)
-			CustomerDAO.updateCustomerTokenInDB(cust, refreshToken, accessToken,	authorizationCode);
+			CustomerDAO.updateCustomerTokenInDB(cust, refreshToken,
+					accessToken, authorizationCode);
 
 		Analytics analytic = initializeAnalytics(credential);
 		log.info("initializeAnalytics completed successfuly ");
 		Accounts accounts = analytic.management().accounts().list().execute();
 		Gson gson = new Gson();
 
-
 		// Future Enhancement - In case User has several accounts
 		// boolean isAccountHasMoreThanOneProfile =
 		// AnalyticUtils.isAccountHasMoreThanOneProfile(accounts);
 		int numberOfAccounts = AnalyticUtils.getNumberOfAccounts(accounts);
-		//String accountId = accounts.getItems().get(0).getId();
-		//Display All Web Properties for the first Account
-		//displayAllWebPropertiesForTheFirstAccount(accountId);
+		// String accountId = accounts.getItems().get(0).getId();
+		// Display All Web Properties for the first Account
+		// displayAllWebPropertiesForTheFirstAccount(accountId);
 
 		List<AccountDT> accountList = new ArrayList<AccountDT>();
-		for (int i = 0; i < numberOfAccounts; i++) 
-		{
+		for (int i = 0; i < numberOfAccounts; i++) {
 			String accountId = accounts.getItems().get(i).getId();
 			String name = accounts.getItems().get(i).getName();
 			AccountDT acc = new AccountDT(accountId, name);
 
-//			sleep(1000);
-//			Webproperties webproperties = analytic.management().webproperties().list(accountId).execute();
-//			List<WebpropertiesDT> webPropertiesList = new ArrayList<WebpropertiesDT>();
-//			int size = webproperties.getItems().size();
-//
-//			if (size == 0)
-//			{
-//				log.info("Account " +accountId +" without WebProperty ");
-//				return;
-//			}else
-//			{
-//				//Loop over the webProperty
-//				for (int j=0; j<size; j++)
-//				{
-//					String webPropertyId = webproperties.getItems().get(j).getId();
-//					String webPropertyName = webproperties.getItems().get(j).getName();
-//					WebpropertiesDT webpropertiesDT = new WebpropertiesDT(accountId, webPropertyId,webPropertyName);
-//
-//					sleep(1000);
-//					Profiles profiles = analytic.management().profiles().list(accountId, webPropertyId).execute();
-//					int profileSize = profiles.getItems().size();
-//					List<ProfileDT> profileList = new ArrayList<ProfileDT>();
-//
-//
-//					//Loop over the Profiles
-//
-//					for (int k=0; k < profileSize; k++)
-//					{
-//						String profileId =  profiles.getItems().get(k).getId();
-//						String profileName =  profiles.getItems().get(k).getName();
-//						String timeZone =  profiles.getItems().get(k).getTimezone();
-//						//DateTime updated = profiles.getItems().get(k).getUpdated(); 
-//						//DateTime dateTime = new LocalDateTime().toDateTime(DateTimeZone.forID(timeZone));
-//						ProfileDT profileDT = new ProfileDT(accountId,  webPropertyId, profileId,  profileName,timeZone);
-//						profileList.add(profileDT);
-//					}
-//					webpropertiesDT.setProfileDTList(profileList);
-//					webPropertiesList.add(webpropertiesDT);
-//
-//				}
-//				acc.setWebPropertiesList(webPropertiesList);
-//			}	
+			// sleep(1000);
+			// Webproperties webproperties =
+			// analytic.management().webproperties().list(accountId).execute();
+			// List<WebpropertiesDT> webPropertiesList = new
+			// ArrayList<WebpropertiesDT>();
+			// int size = webproperties.getItems().size();
+			//
+			// if (size == 0)
+			// {
+			// log.info("Account " +accountId +" without WebProperty ");
+			// return;
+			// }else
+			// {
+			// //Loop over the webProperty
+			// for (int j=0; j<size; j++)
+			// {
+			// String webPropertyId = webproperties.getItems().get(j).getId();
+			// String webPropertyName =
+			// webproperties.getItems().get(j).getName();
+			// WebpropertiesDT webpropertiesDT = new WebpropertiesDT(accountId,
+			// webPropertyId,webPropertyName);
+			//
+			// sleep(1000);
+			// Profiles profiles =
+			// analytic.management().profiles().list(accountId,
+			// webPropertyId).execute();
+			// int profileSize = profiles.getItems().size();
+			// List<ProfileDT> profileList = new ArrayList<ProfileDT>();
+			//
+			//
+			// //Loop over the Profiles
+			//
+			// for (int k=0; k < profileSize; k++)
+			// {
+			// String profileId = profiles.getItems().get(k).getId();
+			// String profileName = profiles.getItems().get(k).getName();
+			// String timeZone = profiles.getItems().get(k).getTimezone();
+			// //DateTime updated = profiles.getItems().get(k).getUpdated();
+			// //DateTime dateTime = new
+			// LocalDateTime().toDateTime(DateTimeZone.forID(timeZone));
+			// ProfileDT profileDT = new ProfileDT(accountId, webPropertyId,
+			// profileId, profileName,timeZone);
+			// profileList.add(profileDT);
+			// }
+			// webpropertiesDT.setProfileDTList(profileList);
+			// webPropertiesList.add(webpropertiesDT);
+			//
+			// }
+			// acc.setWebPropertiesList(webPropertiesList);
+			// }
 			accountList.add(acc);
 		}
 		req.getSession().setAttribute("userId", userId);
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE,-1);
+		cal.add(Calendar.DATE, -1);
 		DateUtils dateUtils = new DateUtils(cal);
-		req.getSession().setAttribute("yesterdayDate", dateUtils.getDateStringWithDayName());
-		
+		req.getSession().setAttribute("yesterdayDate",
+				dateUtils.getDateStringWithDayName());
 
 		req.getSession().setAttribute("userName", userName);
 		req.getSession().setAttribute("accountNameList", accountList);
@@ -159,55 +164,40 @@ public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthori
 		req.getSession().setAttribute("accountsJson", json);
 		req.getSession().setAttribute("accounts", accountList);
 
-
-		String [] availableTimeZoneIDs = TimeZone.getAvailableIDs();
+		String[] availableTimeZoneIDs = TimeZone.getAvailableIDs();
 		narrowNumberOfAvailableTimeZoneIDs(availableTimeZoneIDs);
 		String availableTimeZoneIDsJson = gson.toJson(availableTimeZoneIDs);
 		req.setAttribute("availableTimeZoneIDs", availableTimeZoneIDs);
 		req.setAttribute("availableTimeZoneIDsJson", availableTimeZoneIDsJson);
 
-
-		//getServletContext().getRequestDispatcher("/accountSelection.jsp").forward(req, resp);
-		getServletContext().getRequestDispatcher("/accountSelectionAfterRegistration.jsp").forward(req, resp);
-
+		// getServletContext().getRequestDispatcher("/accountSelection.jsp").forward(req,
+		// resp);
+		getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_REGISTRATION_TO_ACCOUNT_SELECTION).forward(req, resp);
 
 	}
-
-	
-	
-
-
 
 	/**
-	 *@Author:      Moshe Herskovits
-	 *@Date:        Apr 28, 2015
-	 *@Description:
+	 * @Author: Moshe Herskovits
+	 * @Date: Apr 28, 2015
+	 * @Description:
 	 */
-	private void narrowNumberOfAvailableTimeZoneIDs(String[] availableTimeZoneIDs) 
-	{
+	private void narrowNumberOfAvailableTimeZoneIDs(
+			String[] availableTimeZoneIDs) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
-
-
-
 
 	/**
 	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        Jul 17, 2014
-	 *@Description: 
+	 * @Author: Moshe Herskovits
+	 * @Date: Jul 17, 2014
+	 * @Description:
 	 */
-	public void sleep(long seconds) 
-	{
-		try 
-		{
+	public void sleep(long seconds) {
+		try {
 			Thread.sleep(seconds);
-		} catch (InterruptedException e) 
-		{
-			log.severe(e.getMessage());		
+		} catch (InterruptedException e) {
+			log.severe(e.getMessage());
 		}
 	}
 
@@ -267,15 +257,16 @@ public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthori
 
 	}
 
-
 	@Override
 	protected void onError(HttpServletRequest req, HttpServletResponse resp,
 			AuthorizationCodeResponseUrl errorResponse)
-					throws ServletException, IOException {
+			throws ServletException, IOException {
 		// handle error
-//		String nickname = UserServiceFactory.getUserService().getCurrentUser()
-//				.getNickname();
-		getServletContext().getRequestDispatcher("/registerToSMSGA.jsp").forward(req, resp);
+		// String nickname =
+		// UserServiceFactory.getUserService().getCurrentUser()
+		// .getNickname();
+		getServletContext().getRequestDispatcher("/registerToSMSGA.jsp")
+				.forward(req, resp);
 	}
 
 	@Override
@@ -292,8 +283,8 @@ public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthori
 				new JacksonFactory(), CredentialConsts.CLIENT_ID,
 				CredentialConsts.CLIENT_SECRET,
 				Collections.singleton(AnalyticsScopes.ANALYTICS_READONLY))
-		.setCredentialStore(new AppEngineCredentialStore())
-		.setAccessType("offline").build();
+				.setCredentialStore(new AppEngineCredentialStore())
+				.setAccessType("offline").build();
 
 		// return new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
 		// JSON_FACTORY,
@@ -304,22 +295,22 @@ public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthori
 
 	@Override
 	protected String getUserId(HttpServletRequest req) throws ServletException,
-	IOException {
+			IOException {
 
-		//String userName = UserServiceFactory.getUserService().getCurrentUser().getUserId();
+		// String userName =
+		// UserServiceFactory.getUserService().getCurrentUser().getUserId();
 		String uniqueUserID = "";
 		String googleAnalyticEmailAddress = req.getParameter("state");
 
-		if (googleAnalyticEmailAddress != null) 
-		{
+		if (googleAnalyticEmailAddress != null) {
 			uniqueUserID = googleAnalyticEmailAddress;
-		} else 
-		{
+		} else {
 			uniqueUserID = CredentialConsts.CLIENT_ID;
 		}
-		log.info("SmsForGoogleAnalyticCallbackSample User ID is " + uniqueUserID );
-		//		} else if (userName != null) {
-		//			uniqueUserID = userName;
+		log.info("SmsForGoogleAnalyticCallbackSample User ID is "
+				+ uniqueUserID);
+		// } else if (userName != null) {
+		// uniqueUserID = userName;
 		//
 		return uniqueUserID;
 	}
@@ -338,10 +329,8 @@ public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthori
 
 		return new Analytics.Builder(new UrlFetchTransport(),
 				new JacksonFactory(), credential).setApplicationName(
-						APPLICATION_NAME).build();
+				APPLICATION_NAME).build();
 	}
-
-	
 
 	/**
 	 ** 
@@ -350,7 +339,8 @@ public class SmsForGoogleAnalyticCallbackSample extends AbstractAppEngineAuthori
 	 * @Description: Get Customer Informatio nBy User ID
 	 */
 
-	public void updateCustomerWithRefreshToken(Customer cust,String refreshToken) {
+	public void updateCustomerWithRefreshToken(Customer cust,
+			String refreshToken) {
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {

@@ -56,4 +56,16 @@ body{
  background-color: #288EDF;
  color: #FEFEFE;
 }
-    
+/**
+.form-horizontal .control-label {
+	
+	font-weight: bolder;
+	-webkit-font-smoothing: subpixel-antialiased;!important;
+	display: inline-block;
+	float: none;
+	width: 28%;
+	padding-top: 1em;
+	text-align: left;
+	
+}
+   */ 

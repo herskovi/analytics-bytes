@@ -106,11 +106,17 @@ $(document).ready(function()
 			
 			if (eventValue == "Yes")
 			{		
-				$("#smileyForBtnConfirmationYes").show();
+				//$("#smileyForBtnConfirmationYes").show();
+				$("#smsvalfail").hide();
+
+				$("#smsvalsuccess").show();
+				
 			}
 			if (eventValue == "No")
 			{
-				$("#sadEmoticonForBtnConfirmationNo").show();
+				//$("#sadEmoticonForBtnConfirmationNo").show();
+				$("#smsvalsuccess").hide();
+				$("#smsvalfail").show();
 				
 
 			}

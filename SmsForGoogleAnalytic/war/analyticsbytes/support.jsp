@@ -98,7 +98,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       
       
       
-      <div class="whitediv">  <!-- oran added - footer div -->
+      <div class="whitediv navbar navbar-fixed-bottom">  <!-- oran added - footer div -->
         <hr> 
         <p><span class="glyphicon glyphicon-heart"></span> AnalyticsBytes was created by Analytics geeks, for Analytics geeks. And it will keep getting better.</p>
        

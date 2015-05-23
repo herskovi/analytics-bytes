@@ -13,13 +13,11 @@
     <title>AnalyticsBytes - SMS that connects you directly to your analytics</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/analyticsbytes/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" media="all" href="/style/smsga/firstTimeLogin.css?v=184" />
-    <!-- Custom styles for this template -->
-    <link href="css/jumbotron.css" rel="stylesheet"> <!-- added by oran -->    
-	<link rel="stylesheet" href="css/analyticsbytes.css"> <!-- added by oran -->
-
-    <script src="./js/assets/ie-emulation-modes-warning.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="/analyticsbytes/css/jumbotron.css">
+	<link rel="stylesheet" type="text/css" media="all" href="/analyticsbytes/css/analyticsbytes.css"> 
+	<script src="/analyticsbytes/js/assets/ie-emulation-modes-warning.js"></script>
 
   </head>
 
@@ -59,7 +57,7 @@
                     <div class="col-md-8 col-md-offset-2">
                         <h1><span class="hero-title">Thats it! You're a click away from fresh Analytics Bytes..</span></h1>  
                         <p class="lead">Click "Get SMS" to start receiving you analytics SMS..  </p>
-                        <button id="getSmsNow" type="button" class="btn btn-success btn-lg btnmargin">Get SMS</button>
+                        <button id="getSmsNow" type="button" class="btn btn-success btn-lg btn-block ">Get SMS</button>
                         <p>P.S - Please check your email inbox to validate your account</p>
                     </div> 
                 </div>
@@ -91,7 +89,7 @@
       
       
       
-      <div class="whitediv">  <!-- oran added - footer div -->
+      <div class="whitediv navbar navbar-fixed-bottom">  <!-- oran added - footer div -->
         <hr> 
         <p><span class="glyphicon glyphicon-heart"></span> AnalyticsBytes was created by Analytics geeks, for Analytics geeks. And it will keep getting better.</p>
        
@@ -102,9 +100,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="/js/smsga/jquery.min.js?v=184"></script>
-    <script type="text/javascript" src="./bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/getsms.js?v=184"></script>
-    <script type="text/javascript" src="./js/assets/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="/analyticsbytes/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/analyticsbytes/js/getsms.js?v=184"></script>
+    <script type="text/javascript" src="/analyticsbytes/js/assets/ie10-viewport-bug-workaround.js"></script>
     
     <script type="text/javascript">
 		var userId = "${userid}";

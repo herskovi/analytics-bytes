@@ -265,7 +265,7 @@ public class SmsForGoogleAnalyticCallbackSample extends
 		// String nickname =
 		// UserServiceFactory.getUserService().getCurrentUser()
 		// .getNickname();
-		getServletContext().getRequestDispatcher("/registerToSMSGA.jsp")
+		getServletContext().getRequestDispatcher("/analyticsbytes/registerToAnalyticsBytes.jsp")
 				.forward(req, resp);
 	}
 

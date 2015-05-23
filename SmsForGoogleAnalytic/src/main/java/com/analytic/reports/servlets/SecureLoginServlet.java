@@ -71,7 +71,7 @@ public class SecureLoginServlet extends HttpServlet {
 		}else 
 		{
 			req.setAttribute("login_error", "1");
-			getServletContext().getRequestDispatcher("/login.jsp").forward(req,	resp);
+			getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_LOGIN_TO_LOGIN_ERROR).forward(req,	resp);
 		}
 	}
 	

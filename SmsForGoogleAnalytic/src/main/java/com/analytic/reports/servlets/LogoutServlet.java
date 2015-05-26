@@ -42,7 +42,7 @@ public class LogoutServlet extends HttpServlet {
 		req.setAttribute("username","");
 		req.setAttribute("balance","0.0");
 		req.getSession().invalidate();
-		getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_LOGIN_TO_LOGOUT_PAGE).forward(req, resp);
+		getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_LOGOUT_TO_LOGIN_PAGE).forward(req, resp);
 	}
 
 	

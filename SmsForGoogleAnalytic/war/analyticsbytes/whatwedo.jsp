@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
+   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -87,8 +87,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <h1><span class="hero-title">Stay connected to your product.</span></h1>  
                             <p class="lead">AnalyticsBytes started as a tool we developed for ourselves. We quickly found that our friends and colleagues find it useful too, So we published it. hope you'll love it.</p>
                 
-                            <a href="/register" type="button" class="btn btn-primary btn-lg" id="mainbtn">Test It Now, It's Free</a>
-            
+                            <a href="/register" type="button" class="btn btn-primary btn-lg mainbtn">Test It Now, It's Free</a>
+                            <br />
                 
                         </div> 
                     </div>
@@ -102,28 +102,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <!-- Example row of columns -->
                     <div class="row">
                         <div class="col-md-4">
+                            <span class="glyphicon glyphicon-dashboard glyphy"></span>
                             <h2>Fast and Secured</h2>
                             <blockquote><p>Secured Google Analytics integration. Less then 2 Minutes to roll.</p></blockquote>
                         </div>
                         <div class="col-md-4">
+                             <span class="glyphicon glyphicon-apple glyphy"></span>
                             <h2>Bite Size Analytics</h2>
                             <blockquote><p>3 metrics to Start the day. Sessions, New users and Conversion. Right to the point.</p></blockquote>
                         </div>
                         <div class="col-md-4">
+                             <span class="glyphicon glyphicon-piggy-bank glyphy"></span>
                             <h2>Data Driven Habbit</h2>
-                            <blockquote><p>Get your SMS update before your first coffee. Stay updated over your product.</p></blockquote>
+                            <blockquote><p>Get your SMS update before your first coffee. Stay updated over your prodeuct.</p></blockquote>
                         </div>
                     </div>
 
       
         
                 </div> <!-- /container --> <!-- Oran Added - secondery white div close -->
-                <div class="whitediv navbar navbar-fixed-bottom"> <!-- footer div = oran added -->
+                <div class="whitediv  navbar"> <!-- footer div = oran added -->
                     <hr> 
                     <p><span class="glyphicon glyphicon-heart"></span> AnalyticsBytes was created by Analytics geeks, for Analytics geeks. And it will keep getting better.</p>
        
                 </div>
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

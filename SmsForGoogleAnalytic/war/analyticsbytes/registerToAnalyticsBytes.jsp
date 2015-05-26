@@ -112,60 +112,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<!-- /.container-fluid -->
 			</nav>
 
-			<!-- 
-			<div class="container-fluid">
-				<div class="row-fluid">
-					<div class="span2">
-						<div id="logo" style="display: none;">
-							<a href="/home" title="Go to Home page"></a>
-						</div>
-					</div>
-					<div class="span10">
-			
-						<div class="nav_link">
-							<a class="open" href="#nav"> <span
-								id="main_mobile_menu_toggle">&#9776;</span>
-							</a>
-						</div>
-
-						<nav>
-							<ul id="nav" class="nav-slide">
-								<li class="nav-tour"><a href="/home"><span
-										class="link-wrap">Home</span></a></li>
-			
-								<li class="nav-docs"><a href="/support"><span
-										class="link-wrap">Support</span></a></li>
-								<li class="login"><a href="/login"><span
-										class="link-wrap">Login</span></a></li>
-								<li class="signup"><a href="/register" class="btn-primary">Try
-										it for Free</a></li>
-							</ul>
-			
-							<ul class="login-sign-up nav-slide">
-								<li class="login nav-login"><a href="/login"><span
-										class="link-wrap">Login</span></a></li>
-								<li class="signup nav-sign-up"><a href="/register"
-									class="btn-primary"><span class="link-wrap">Try it
-											for Free</span></a></li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div>
-			-->
-			<!-- / container-fluid -->
-
-		</header>
-
-		<!-- 
-		<div class="hero-unit">
-			<h1>YYY Get your first text message in 2 minutes.</h1>
-			<p>
-				Sign up for a free 30 day trial - <strong>No credit card
-					required </strong>
-			</p>
-		</div>
- -->
+		
 		<div class="rapper graydiv toppadding">
 			<!-- added by oran -main gray div -->
 			<div class="container">
@@ -191,16 +138,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<div class="col-sm-6 col-sm-offset-3">
 					<form autocomplete="off" id="registration_form" class="form-horizontal" action="/smsforgoogleanalyticloginservlet" 	method="post">
 
-						<div class="control-group" id="formResponseError" style="display: none;">
-							<div class="ui-widget">
-								<div class="ui-state-error ui-corner-all"
-									style="padding: 0 .7em;">
-									<p>
-										<span class="ui-icon ui-icon-alert"
-											style="float: left; margin-right: .3em;"></span> <span
-											id="error_message" name="error_message"
-											class="error inline-error">
-									</p>
+						<div class="form-group" id="formResponseError" style="display: none;">
+							<label class="col-sm-4 control-label"></label>
+							<div class="col-sm-8">
+								<div class="alert alert-error">
+									
+										 <span id="error_message" name="error_message"></span>
+									
 								</div>
 							</div>
 						</div>
@@ -215,7 +159,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 									placeholder="Enter your name..." class="form-control"
 									type="text" value=""  aria-describedby="nameErrorStatus" tabindex=1 /> 
   									<span class="glyphicon glyphicon-remove form-control-feedback" style="display: none;"></span>
-  									 <span id="nameErrorStatus" class="error" style="display: none;">Name should be 3 to 20 characters</span>									
+  									 <span id="nameErrorStatus" class="inline-error" style="display: none;">Name should be 3 to 20 characters</span>									
 							</div>
 						</div>
 
@@ -287,7 +231,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
  						<div class="form-group">
  							<label for="empty" class="col-sm-4 control-label"></label>
  								<div class="col-sm-8">
- 						           <button type="submit" class="btn btn-primary btn-lg btn-block">Sign me in</button>
+ 						           <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex=6>Sign me in</button>
                             	</div>
                          </div>
 
@@ -422,7 +366,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 
-	<script type="text/javascript" src="../js/smsga/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/smsga/jquery.min.js"></script> 
 	<script src="../js/smsga/jquery.pageslide.min.js"></script>
 	<script src="../js/smsga/jquery.flexslider-min.js"></script>
 	<script src="../js/smsga/scripts.js"></script>

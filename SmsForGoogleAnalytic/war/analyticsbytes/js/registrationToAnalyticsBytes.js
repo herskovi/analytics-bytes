@@ -88,12 +88,16 @@ $(document).ready( function()
 		{
 			//$(this).next().show().html("Min 3 charts no space");
 			//$(this).next().show();
+			$("#name").next().next().show();
+			$("#name").closest('.form-group').addClass('has-error');
+			event.preventDefault();				
+
 
 		}
 		else
 		{
-			$(this).next().hide();
-			$("li").next("li.password").slideDown({duration: 'slow',easing: 'easeOutElastic'});
+			$(this).next().next().hide();
+			$("#name").closest('.form-group').removeClass('has-error');
 		}
 			});
 //	Password validation
@@ -104,10 +108,14 @@ $(document).ready( function()
 		{
 			//$(this).next().show().html("Minimum 6 Characters");
 			$(this).next().show();
+			$("#password").next().next().show();
+			$("#password").closest('.form-group').addClass('has-error');
 		}
 		else
 		{
 			$(this).next().hide();
+			$("#password").closest('.form-group').removeClass('has-error');
+
 			$("li").next("li.submit").slideDown({duration: 'slow',easing: 'easeOutElastic'});
 		}
 			});
@@ -157,7 +165,9 @@ $(document).ready( function()
 		}
 		if (!(ck_username.test(username)))
 		{
-			//$("#name").next().show();			
+			//$("#name").next().show();		
+			$("#name").next().show();
+			$(element).closest('.form-group').addClass('has-error');
 			event.preventDefault();				
 
 		}

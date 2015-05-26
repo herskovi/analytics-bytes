@@ -174,7 +174,7 @@ public class CustomerDAO {
 
 		try {
 			List<Customer> results = (List<Customer>) q.execute(userID);
-			if (!results.isEmpty()) 
+			if (results!= null && !results.isEmpty()) 
 			{
 				customer = results.get(0);
 				if (customer.getCustomerAnalyticList() != null && customer.getCustomerAnalyticList().size() > 0)

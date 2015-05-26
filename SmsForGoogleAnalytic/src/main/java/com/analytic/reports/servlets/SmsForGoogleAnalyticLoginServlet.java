@@ -37,7 +37,7 @@ public class SmsForGoogleAnalyticLoginServlet extends HttpServlet
 
 		Customer newCustomer = prepareCustomerData(req);
 		
-		if (true || validateInput(req,resp,newCustomer, req.getParameter(RegistrationConsts.CONFIRM_PASSWORD)))
+		if (false || validateInput(req,resp,newCustomer, req.getParameter(RegistrationConsts.CONFIRM_PASSWORD)))
 		{
 			CustomerDAO.insertNewCustomer(newCustomer);
 			String emailAddress = req.getParameter(RegistrationConsts.EMAIL_ADDRESS);//FIXME - Needs to be removed

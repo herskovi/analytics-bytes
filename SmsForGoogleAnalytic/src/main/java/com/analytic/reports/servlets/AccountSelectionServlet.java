@@ -82,7 +82,8 @@ public class AccountSelectionServlet extends HttpServlet
 		
 		//Insert into TransactionHistoryDT
 		insertIntoTransactionHistoryEntity(cust); 		
-		sendConfirmationEmailToCustomer(cust.getEmailAddress());
+		String emailAddress = cust.getEmailAddress();
+		sendConfirmationEmailToCustomer(emailAddress);
 		req.getSession().setAttribute("userid", cust.getUniqueAccountNumber());
 		req.getSession().setAttribute("email", cust.getEmailAddress());
 		req.getSession().setAttribute("username", cust.getName());

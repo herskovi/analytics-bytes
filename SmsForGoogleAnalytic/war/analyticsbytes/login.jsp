@@ -38,6 +38,21 @@
   </head>
 
   <body id="login">
+  
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5SJWBM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5SJWBM');</script>
+<!-- End Google Tag Manager -->
+
+<c:set var="login_error" value="${login_error}" scope="page" />
+  
+  
 
      <nav class="navbar navbar-default navtop">
         <div class="container-fluid">
@@ -88,7 +103,7 @@
 		                          <div class="form-wrapper">
                                     <form name="loginForm" action="/securelogin" method="post" class="form-horizontal login-form">	
                                        
-                                        <div class="form-group row-fluid">
+                                        <div class="form-group">
 					                       <label class="col-sm-4 control-label">Email <span class="required">*</span></label>
 					                       <div class="col-sm-8">
 						                      <input  class="form-control" id="username" name="username" placeholder="Enter your email..."  title="Enter your Email" type="text" value="" placeholder="Enter your email...">
@@ -171,7 +186,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript" src="/analyticsbytes/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/analyticsbytes/js/assets/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="/analyticsbytes/js/assets/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="/analyticsbytes/js/login.js?v=184"></script>
+    
 
   </body>
+  
+  
+<script type="text/javascript">
+	var isLoginError = '${login_error}';
+</script>
+  
 </html>

@@ -145,7 +145,8 @@ public class PaypalFunctionsUtils {
 				+ "&L_PAYMENTREQUEST_0_AMT0=" + item.get("amt")
 				+ "&L_PAYMENTREQUEST_0_QTY0=" + item.get("qty")
 				+ "&L_PAYMENTREQUEST_0_ITEMCATEGORY0=Digital"
-				+ "&SOLUTIONTYPE=Sole";//Should Inclure also
+				+ "&SOLUTIONTYPE=Sole" //Should Inclure also
+				+"&LANDINGPAGE=Billing";
 
 		/*
 		 * Make the call to PayPal to get the Express Checkout token If the API

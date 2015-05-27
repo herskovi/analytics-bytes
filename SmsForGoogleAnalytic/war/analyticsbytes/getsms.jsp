@@ -22,7 +22,18 @@
   </head>
 
   <body id="getsms">
-
+<!-- Google Tag Manager -->
+	<noscript>
+		<iframe src="//www.googletagmanager.com/ns.html?id=GTM-5SJWBM"
+			height="0" width="0" style="display: none; visibility: hidden"></iframe>
+	</noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5SJWBM');</script>
+	<!-- End Google Tag Manager -->
+	
      <nav class="navbar navbar-default navtop">
         <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -65,8 +76,8 @@
                 <div class="row" id="sms-recieved-container" name="sms-recieved-container" style="display: none;">
                     <div class="col-md-8 col-md-offset-2">
                         <p>Did you receive SMS?</p>
-                        <button id="btnConfirmationYes" type="button" class="btn btn-success btn-lg btnsmsval">Yes</button>
-                        <button id="btnConfirmationNo"  type="button" class="btn btn-danger btn-lg btnsmsval">No</button>
+                        <button id="btnConfirmationYes" type="button" class="btn btn-success btn-lg btnsmsval selectorbtn">Yes</button>
+                        <button id="btnConfirmationNo"  type="button" class="btn btn-danger btn-lg btnsmsval selectorbtn">No</button>
                     </div> 
                 </div>
                 

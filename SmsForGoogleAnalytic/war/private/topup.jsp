@@ -59,9 +59,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			
 		<div class="header-right clearfix hide-mobile">
 			
-	<a href="/private/topup" class="balance" style="color:#ffffff">
-		Balance: <strong>${balance} &euro;</strong> <span>+</span>
-	</a>
 
 
 			
@@ -178,10 +175,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 								<div class="controls">
 								<select id="amount" name="amount">
 							           <option value="">-Select-</option>
-							           <option value="0.01">0.01$ - Trial</option>
-							           <option value="5.99">5.99$ - 1 Month</option>
-							           <option value="9.99">9.99$ - 3 Motnts</option>
-							           <option value="29.99">29.99$ - 1 year </option>														           			
+							          <!--  <option value="0.01">0.01$ - Trial</option>  -->
+							           <option value="5.99">$5.99 - 1 Month</option>
+							           <option value="9.99">$9.99 - 3 Months</option>
+							           <option value="29.99">$49.99 - 1 year </option>														           			
 								</select>	
 								</div>
 							</div>

@@ -213,18 +213,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 												<option value='${availableTimeZone}'>
 													<c:out value="${availableTimeZone}" />
 												</option>
-											</c:forEach>
+											</c:forEach> 
 										</select>
 									</div>
 									</br>
-									<input type="time" class="form-control" id="time" placeholder="time" value="08:00">
+									
+												
+									<input type="time" class="form-control" name="timepicker_customminutes" id="timepicker_customminutes" placeholder="time" value="07:00">
 									</br>
-									<!-- 
-									 <div class="input-append bootstrap-timepicker">
-            							<input id="timepicker_customminutes" type="text" class="input-small">
-            								<span class="add-on"><i class="icon-time"></i></span>
-        							</div>
-        							 -->
+								
  								<!-- 	<input type="text" class="form-control" name="timepicker_customminutes" id="timepicker_customminutes" value="08:00" /> -->
 									
 
@@ -302,7 +299,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   
 
 	<footer>
-	  <div class="whitediv navbar navbar-fixed-bottom"> <!-- added by oran - footer -->
+	  <div class="whitediv navbar"> <!-- added by oran - footer -->
       <hr> 
         <p><span class="glyphicon glyphicon-heart"></span> AnalyticsBytes was created by Analytics geeks, for Analytics geeks. And it will keep getting better.</p>
        
@@ -338,18 +335,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<script src="../js/smsga/scripts.js"></script>
 	<script type="text/javascript" src="/js/smsga/modernizr.custom.10128.js?v=184"></script>
 	<script type="text/javascript" src="/js/smsga/bootstrap.min.js?v=184"></script>
-	<script type="text/javascript" src="/analyticsbytes/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="/analyticsbytes/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>  
+ 	
 	
 	
 	<script type="text/javascript" src="/js/smsga/jquery.validate.min.js?v=184"></script>
 	<script type="text/javascript" src="/js/smsga/jquery.metadata.js?v=184"></script>
-	<script type="text/javascript" src="/analyticsbytes/js/accountSelectionForAnalyticsBytes.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/analyticsbytes/js/accountSelectionForAnalyticsBytes.js" charset="utf-8"></script> 
 	
 
 
 	<script type="text/javascript">
-    var accountsJson= '${accountsJson}' ;
-</script>
+    	var accountsJson= '${accountsJson}' ;
+	</script>
+
 	<!--  
 <script>
   $(function(){

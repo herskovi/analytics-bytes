@@ -171,11 +171,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 								<input id="tooltipMobileNumber" class="tooltip"
 									title="Use the number for which you want to receive your daily stats." />
 									 -->
+								<input id="countryCode" name="countryCode" type="hidden" value="" /> 	 
 								<input type="tel" id="demo" class="form-control" name="mobile_number" placeholder="SMS will be sent to this number" tabindex=2>
-								<input id="countryCode" name="countryCode" type="hidden" value="" /> 
-									<span for="mobile_number_error" class="error inline-error" style="display: none;"> </span> 
-									<span for="mobile_number_message" class="error inline-error" style="display: none;">
-									Note: Use this number to receive your daily stats </span>
+								<span id="mobile_number_error" name="mobile_number_error" class="error inline-error" style="display: none;">Please specify a valid phone number</span>
+									
 
 							</div>
 						</div>
@@ -293,7 +292,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 	</div>
 
-	  <div class="whitediv navbar navbar-fixed-bottom"> <!-- added by oran - footer div -->
+	  <div class="whitediv navbar"> <!-- added by oran - footer div -->
       <hr> 
         <p><span class="glyphicon glyphicon-heart"></span> AnalyticsBytes was created by Analytics geeks, for Analytics geeks. And it will keep getting better.</p>
        

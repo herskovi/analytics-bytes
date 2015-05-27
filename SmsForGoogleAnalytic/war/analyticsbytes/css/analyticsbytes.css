@@ -72,6 +72,10 @@ body{
 	font-weight:700;
 }
 
+.selectorbtn{
+ margin: 2% 3% 2% 3%;   
+}
+
 /**
 .form-horizontal .control-label {
 	

@@ -56,7 +56,9 @@ $(document).ready( function()
 	var ck_username = /^[a-zA-Z0-9()._\-\s]{3,20}$/;
 	var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 	var ck_password = /^[A-Za-z0-9!@#$%^&*()_]{6,20}$/;
-	var ck_phoneNumber  =/\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*(\d{1,2})$/;
+	var ck_phoneNumber = /^[+0-9]{9,20}$/;
+
+	//var ck_phoneNumber  =/\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*(\d{1,2})$/;
 //	Email validation
 
 
@@ -73,7 +75,7 @@ $(document).ready( function()
 
 
 		}else{
-//		hideElement(this); FIXME - REFACTOR FOR ONE METHOd to HIDE
+//			hideElement(this); FIXME - REFACTOR FOR ONE METHOd to HIDE
 			$(this).closest('.form-group').removeClass('has-error');
 			$(this).closest('.form-group').removeClass('has-feedback');
 			$(this).next().hide();
@@ -82,7 +84,7 @@ $(document).ready( function()
 			});
 //	Username validation
 	$('#name').blur(function(e)
-			{
+	{
 		var username=$(this).val();
 		if (!ck_username.test(username)) 
 		{
@@ -91,17 +93,32 @@ $(document).ready( function()
 			$("#name").next().next().show();
 			$("#name").closest('.form-group').addClass('has-error');
 			event.preventDefault();				
-
-
 		}
 		else
 		{
 			$(this).next().next().hide();
 			$("#name").closest('.form-group').removeClass('has-error');
 		}
+	});
+
+	$('#mobile_number').blur(function(e)
+			{
+
+		if (!(ck_phoneNumber.test(phoneNumber)))
+		{
+			$("#demo").next().show();
+			$("#mobile_number").closest('.form-group').addClass('has-error');
+			event.preventDefault();				
+		}else
+		{
+			$(this).next().hide();
+			$("#mobile_number").closest('.form-group').removeClass('has-error');
+		}
 			});
+
+
 //	Password validation
-	$('#password').blur(function()
+	$('#password').blur(function(e)
 			{
 		var password=$(this).val();
 		if (!ck_password.test(password)) 
@@ -115,10 +132,10 @@ $(document).ready( function()
 		{
 			$(this).next().hide();
 			$("#password").closest('.form-group').removeClass('has-error');
-
-			$("li").next("li.submit").slideDown({duration: 'slow',easing: 'easeOutElastic'});
 		}
 			});
+
+
 
 	$('#confirmPassword').keyup(function()
 			{
@@ -140,7 +157,10 @@ $(document).ready( function()
 
 //	Submit button action
 
-
+	/**
+	 *	Submit button action
+	 *  PERFORM VALIDATION ON SUBMIT PAGE 
+	 */
 	$("#registration_form").submit(function( event ) 
 			{
 		$("#formResponseError").css("display", "none");
@@ -154,23 +174,28 @@ $(document).ready( function()
 		var confirmationCheckBox = $('#confirmationCheckBox').val();
 		var phoneNumber = $("#demo").val();
 
+		if (!(ck_username.test(username)))
+		{
+			$("#name").next().next().show();
+			$("#name").closest('.form-group').addClass('has-error');
+			event.preventDefault();				
+		}
+
+		if (!(ck_phoneNumber.test(phoneNumber)))
+		{
+			$("#mobile_number_error").show();
+			$("#mobile_number").closest('.form-group').addClass('has-error');
+			event.preventDefault();				
+		}
 
 
 		if (!(ck_email.test(email)))
 		{
 			$("#email_address").next().show();
-			$(element).closest('.form-group').addClass('has-error');
+			$("#email_address").closest('.form-group').addClass('has-error');
 			event.preventDefault();				
-
 		}
-		if (!(ck_username.test(username)))
-		{
-			//$("#name").next().show();		
-			$("#name").next().show();
-			$(element).closest('.form-group').addClass('has-error');
-			event.preventDefault();				
 
-		}
 		if (!(ck_password.test(password) ))
 		{
 			$("#password").next().show();
@@ -178,11 +203,6 @@ $(document).ready( function()
 
 		}
 
-		if (!(ck_phoneNumber.test(phoneNumber)))
-		{
-			$("#phoneNumber").next().show();
-			event.preventDefault();				
-		}
 
 		if (!(password == confirmPassword))
 		{
@@ -190,11 +210,11 @@ $(document).ready( function()
 			event.preventDefault();				
 		}
 
-		if (!((ck_email.test(email) && ck_username.test(username) && ck_password.test(password))))
-		{
-			event.preventDefault();
-			return;
-		} 
+//		if (!((ck_email.test(email) && ck_username.test(username) && ck_password.test(password) && ck_phoneNumber.test(phoneNumber))))
+//		{
+//		event.preventDefault();
+//		return;
+//		} 
 
 
 //		if (!($('#confirmationCheckBox').is(":checked")))

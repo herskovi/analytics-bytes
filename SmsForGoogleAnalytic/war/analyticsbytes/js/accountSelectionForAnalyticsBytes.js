@@ -214,6 +214,8 @@ function disableProertyDropDownAndPrfofileDropDown()
 	disablePropertyDropDown();
 	disableProfileDropDown();
 	disableGoalNameDropDown();
+	
+
 }
 
 function enablePropertyDropDown()

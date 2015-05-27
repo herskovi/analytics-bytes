@@ -343,7 +343,7 @@
 	-->
 	<servlet>
 		<servlet-name>terms</servlet-name>
-		<jsp-file>/terms.jsp</jsp-file>
+		<jsp-file>/analyticsbytes/terms.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>terms</servlet-name>

@@ -36,15 +36,32 @@ public class SmsForGoogleAnalyticLoginServlet extends HttpServlet
 	{
 
 		Customer newCustomer = prepareCustomerData(req);
+		String emailAddress = req.getParameter(RegistrationConsts.EMAIL_ADDRESS);//FIXME - Needs to be removed
+
 		
-		if (false || validateInput(req,resp,newCustomer, req.getParameter(RegistrationConsts.CONFIRM_PASSWORD)))
+		if (isTestAccount(emailAddress) || validateInput(req,resp,newCustomer, req.getParameter(RegistrationConsts.CONFIRM_PASSWORD)))
 		{
 			CustomerDAO.insertNewCustomer(newCustomer);
-			String emailAddress = req.getParameter(RegistrationConsts.EMAIL_ADDRESS);//FIXME - Needs to be removed
 			String uniqueAccountNumber = req.getParameter(RegistrationConsts.UNIQUE_ACCOUNT_NUMBER);
 			boolean isLocalMode = URLUtils.isServerRunningInLocalMode(req.getRequestURL().toString());
 			String url = URLUtils.buildUrl(uniqueAccountNumber, isLocalMode); //TODO - Decide which parameters needs to be send UAN or Email?
 			resp.sendRedirect(url);
+		}
+	}
+
+	/**
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 26, 2015
+	 *@Description:
+	 */
+	private boolean isTestAccount(String emailAddress) 
+	{
+		if ("test@analyticsbytes.com".equals(emailAddress))
+		{
+			return true;
+		}else
+		{
+				return false;
 		}
 	}
 

@@ -219,7 +219,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 									</br>
 									
 												
-									<input type="time" class="form-control" name="timepicker_customminutes" id="timepicker_customminutes" placeholder="time" value="07:00">
+									<input type="time" class="form-control" name="timepicker_customminutes" id="timepicker_customminutes" placeholder="time" value="08:00">
 									</br>
 								
  								<!-- 	<input type="text" class="form-control" name="timepicker_customminutes" id="timepicker_customminutes" value="08:00" /> -->

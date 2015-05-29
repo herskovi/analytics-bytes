@@ -15,6 +15,8 @@ import main.java.com.analytic.reports.datatypes.CancelAccountDT;
 import main.java.com.analytic.reports.datatypes.EmailNotificationDT;
 import main.java.com.analytic.reports.datatypes.SupportDT;
 import main.java.com.analytic.reports.interfaces.IController;
+import main.java.com.analytic.reports.jdo.dao.CustomerDAO;
+import main.java.com.analytic.reports.jdo.model.Customer;
 
 @SuppressWarnings("serial")
 public class UpdateAccountServlet extends HttpServlet 
@@ -30,53 +32,22 @@ public class UpdateAccountServlet extends HttpServlet
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)	throws IOException 
 	{
 
-		CancelAccountDT cancelAccountDT = populateCancelAccountDTDataTypeFromHttpReq(req);
-		IController cancelAccountController = getController(cancelAccountDT); 
-		
-		try 
-		{
-			cancelAccountController.execute();
-			resp.getWriter().println(cancelAccountController.getResponse().getMessage());
-			//writeJsonObject();
-		} catch (Exception e) 
-		{
-			log.severe("CancelAccountServlet failed " +  e.getMessage());
-		}
-
-	}
-
-	/**
-	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        Aug 30, 2014
-	 *@Description: Populate Support Data Type From Http Request
-	 */
-
-	public CancelAccountDT populateCancelAccountDTDataTypeFromHttpReq(HttpServletRequest req) 
-	{
-	
 		String email = req.getParameter("email");
-		String uniqueKey = req.getParameter("uniqueKey");
-		if (uniqueKey == null || uniqueKey.trim().length() == 0 )
-		{
-			  uniqueKey = UUID.randomUUID().toString();
-		}
-		String communicationChannel = req.getParameter("communicationChannel");
+		String telephoneNumber = req.getParameter("telephoneNumber");
+
+			Customer cust = CustomerDAO.getCustomerInformationByUserID(email);
+			if (cust  != null)
+			{
+				cust.setTelephoneNumber(telephoneNumber);
+				cust.getTelNoForSMS().remove(0);
+				cust.getTelNoForSMS().add(telephoneNumber);
+				CustomerDAO.updateCustomerInDB(cust);
+			}
+			
 		
-		CancelAccountDT cancelAccountDT = new CancelAccountDT(email, uniqueKey, communicationChannel) ;
-		return cancelAccountDT;
-	}
 
+		
 
-
-	/**
-	 * @Author:       Moshe Herskovits
-	 * @Date:         Aug 16, 2014
-	 * @Description:  get Support Controller
-	 */
-	private IController getController(CancelAccountDT cancelAccountDT) 
-	{
-		return new CancelAccountController(cancelAccountDT);
 	}
 
 	/**

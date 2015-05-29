@@ -85,7 +85,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						class="btn btn-primary btn-lg" id="mainbtn">Test It Now, It's
 						Free</a>
 					<p class="smltxt">It's free for limited time. Signup takes less
-						then 2 minuts.</p>
+						then 2 minutes.</p>
 
 					<img class="hidden-xs" src="/analyticsbytes/images/hero.png" />
 				</div>
@@ -104,10 +104,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
 					<p>
-						<span id="hero-second-title">We love data. And we are sure
+						<span id="hero-second-title">We love data. We are sure
 							that you do as well. So we created Analyticsbytes, a small tool
-							to get easy and simple update on the projects that we are
-							involved with. That's it, Simple right? </span>
+							to get easy and simple update on your website / App traffic. That's it, Simple right? </span>
 					</p>
 
 
@@ -121,7 +120,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					<img src="/analyticsbytes/images/rec1.jpg" class="rec-image"> <br />
 					<blockquote>
 						<p>Let's face it, we are not checking our Analytics daily.
-							AnalyticsBytes is just the update i need to catch up first thing
+							AnalyticsBytes is just the update I need to catch up first thing
 							on the morning.</p>
 						<footer>
 							Lissa Hopper <cite title="Source Title">Head of digital

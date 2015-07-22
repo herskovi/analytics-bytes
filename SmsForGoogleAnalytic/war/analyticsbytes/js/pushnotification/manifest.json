@@ -1,0 +1,21 @@
+{
+    "name": "Analytics Bytes Push Notification",
+     "short_name": "Analytics Bytes",
+    "version": "1",
+    "manifest_version": 2,
+    "description": "Small tool to get easy and simple update on your website / App traffic",
+    "icons": {
+        "16": "./images/icon-16.png",
+        "128": "./images/icon-128.png"
+    },
+    "app": {
+        "background": {
+          "scripts": ["./main.js", "./jquery.min.js"]
+        }
+    },
+    "permissions": ["gcm","storage"],
+    "start_url": "./push.html",
+  	"display": "standalone",
+  	"gcm_sender_id": "350054109263",
+    "gcm_user_visible_only": true
+}

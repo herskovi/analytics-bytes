@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+ 
+    <title>AngularJS & Firebase Web App</title>
+ 
+    <link href="/analyticsbytes/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="/analyticsbytes/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="all" href="/analyticsbytes/css/jumbotron.css">
+	<link rel="stylesheet" type="text/css" media="all" href="/analyticsbytes/css/analyticsbytes.css"> 
+	 
+</head>
+ <!-- Adding the ng-app declaration to initialize AngularJS -->
+<div id="main" ng-app>
+	<!-- The navigation menu will get the value of the "active" variable as a class.
+		 The $event.preventDefault() stops the page from jumping when a link is clicked. -->
+
+	<nav class="{{active}}" ng-click="$event.preventDefault()">
+
+		<!-- When a link in the menu is clicked, we set the active variable -->
+
+		<a href="#" class="home" ng-click="active='home'">Home</a>
+		<a href="#" class="projects" ng-click="active='projects'">Projects</a>
+		<a href="#" class="services" ng-click="active='services'">Services</a>
+		<a href="#" class="contact" ng-click="active='contact'">Contact</a>
+	</nav>
+
+	<!-- ng-show will show an element if the value in the quotes is truthful,
+		 while ng-hide does the opposite. Because the active variable is not set
+		 initially, this will cause the first paragraph to be visible. -->
+
+	<p ng-hide="active">Please click a menu item</p>
+	<p ng-show="active">You chose <b>{{active}}</b></p>
+</div>
+<body>
+
+<div id="main" ng-app>
+
+	<div id="wrap">
+		<header>
+
+			<nav class="navbar navbar-default navtop">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed"
+							data-toggle="collapse"
+							data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/home"><strong>AnalyticsBytes</strong></a>
+					</div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse"
+						id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li><a href="/whatwedo">What we do?</a></li>
+							<li><a href="/support">Support</a></li>
+						</ul>
+
+						<div class="nav navbar-nav navbar-right navbarsignin">
+							<a href="/login" type="button" class="btn">Log in</a> <a
+								href="/register" type="button" class="btn btn-default topbtn">Test
+								it now, It's Free</a>
+
+
+						</div>
+
+
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+
+		</header>
+ 
+    <div class="container">
+      <div class="row">
+           <div class="col-md-6 col-md-offset-3">
+         		<h1><span class="hero-title">Hey Again!</span> <small>it's good to see you...</small>  </h1>
+         	</div>
+      </div>
+         
+       
+         <div class="form-wrapper">
+            <form name="loginForm" action="/securelogin" method="post" class="form-horizontal "  role="form">	
+                                   
+        
+
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Email <span
+					class="required">*</span></label>
+				<div class="col-sm-6">
+					<input class="form-control" id="username" name="username"
+						placeholder="Enter your email..." title="Enter your Email"
+						type="text" value="" placeholder="Enter your email...">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Password <span
+					class="required">*</span></label>
+				<div class="col-sm-6">
+					<input class="form-control" id="j_password" name="j_password"
+						placeholder="Enter your password..." title="Enter your Password"
+						type="password" value="" placeholder="Enter your password...">
+					<label class="  control-label">  <input type="checkbox" value="remember-me" id="remember_me"> Remember me</label>
+				</div>
+			</div>
+
+           <div class="col-sm-6 col-md-offset-4">
+        				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        	</div>
+      </form>
+ 
+    </div>
+ </div>
+   
+ 
+</body></html>

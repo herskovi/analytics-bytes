@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/json-simple-1.1.jar"/>
 	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/google-api-client-1.18.0-rc.jar"/>
 	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/libphonenumber-6.2-sources.jar"/>
 	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/libphonenumber-6.2.jar" sourcepath="war/WEB-INF/lib/libphonenumber-6.2-sources.jar"/>

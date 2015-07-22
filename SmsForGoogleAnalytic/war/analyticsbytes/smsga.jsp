@@ -16,6 +16,7 @@
 <!-- Oran Added -->
 <script type=text/javascript src="/js/smsga/jquery.min.js"></script>
 <script type=text/javascript src="/analyticsbytes/bootstrap/dist/js/bootstrap.min.js"></script>
+<link rel="manifest" href="/analyticsbytes/js/pushnotification/manifest.json">
 
 
 </head>
@@ -82,7 +83,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					</h1>
 
 					<a href="/register" type="button"
-						class="btn btn-primary btn-lg" id="mainbtn">Test It Now, It's
+						class="btn btn-primary btn-lg mainbtn" id="mainbtn">Test It Now, It's
 						Free</a>
 					<p class="smltxt">It's free for limited time. Signup takes less
 						then 2 minutes.</p>
@@ -150,13 +151,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
 					<a href="/register" type="button"
-						class="btn btn-primary btn-lg" id="mainbtn">Get AnalyticsBytes</a>
+						class="btn btn-primary btn-lg mainbtn" id="mainbtn">Get AnalyticsBytes</a>
 					<p class="smltxt">Because it's awesome. Oh, Did we mantioned
 						that it's Free?</p>
 				</div>
 			</div>
-
-
+			
+<!-- 			
+	<p>
+        <button class="js-push-button">  Enable Push Messages </button>
+    </p>
+    
+        <div class="js-curl-command"></div>
+    
+			
+ -->
 		</div>
 		<hr>
 		<footer>
@@ -178,12 +187,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<!--  <script type="text/javascript" src="../js/smsga/scripts.js"></script>  -->
 	<script type="text/javascript" src="../js/smsga/jquery.flexslider-min.js"></script>
 	<script type="text/javascript" src="/analyticsbytes/bootstrap/dist/js/bootstrap.min.js"></script>
-
+	<!-- 
+    <script type="text/javascript" src="/analyticsbytes/js/pushnotification/config.js"></script>
+    <script type="text/javascript" src="/analyticsbytes/js/pushnotification/demo.js"></script>
+    <script type="text/javascript" src="/analyticsbytes/js/pushnotification/main.js"></script>
 		
-	</script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../js/smsga/bootstrap.min.js"></script>
-
+	 -->
 
 </body>
 </html>

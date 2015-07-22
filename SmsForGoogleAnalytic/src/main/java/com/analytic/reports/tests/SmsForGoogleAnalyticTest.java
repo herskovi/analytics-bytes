@@ -128,7 +128,7 @@ public class SmsForGoogleAnalyticTest
 	@org.junit.Test
 	 public void testRevokeTokenFromOAuth2()
     {
-		String tokenToRevoke = "1/LGeahlH_owCxJCfn1f8ztnoUfLjE98OanBY6VeDdySY";
+		String tokenToRevoke = "1/qBhFIO3t5jtW2J-z33MeZyMkgfKfdmcJoh1FzpUDzCkMEudVrK5jSpoR30zcRFq6";
     	boolean isrevokeSuccessful = revokeGoogleAnalyticServer(tokenToRevoke);
         assertTrue(isrevokeSuccessful);
     }

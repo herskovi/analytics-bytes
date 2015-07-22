@@ -251,7 +251,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<div class="form-group">
 							<label class="control-label col-sm-4"></label>
 							<div class="col-sm-8">
-								<input class="btn btn-primary btn-lg btn-block"  id="accountSelectionSubmitBtn"
+								<input class="btn btn-primary btn-lg btn-block mainbtn"  id="accountSelectionSubmitBtn"
 									name="accountSelectionSubmitBtn" type="submit" value="Finish" />
 							</div>
 						</div>

@@ -14,9 +14,6 @@
 
     <!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="/analyticsbytes/bootstrap/dist/css/bootstrap.min.css">
-	
-	
-	<link rel="stylesheet" href="/analyticsbytes/bootstrap/dist/css/bootstrap.min.css" >
     <link rel="stylesheet" type="text/css" media="all" href="/analyticsbytes/css/jumbotron.css">
 	<link rel="stylesheet" type="text/css" media="all" href="/analyticsbytes/css/analyticsbytes.css"> 
 	
@@ -126,7 +123,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				                          <div class="form-group">
  												<label for="empty" class="col-sm-4 control-label"></label>
  												<div class="col-sm-8">
- 						           						<button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+ 						           						<button type="submit" class="btn btn-primary btn-lg btn-block mainbtn">Login</button>
                             					</div>
                             					<label for="forgot_link_label"><a href="#" id="forgot_link" alt="Forgot your password?">Forgot your password?</a>
                             				</div>	

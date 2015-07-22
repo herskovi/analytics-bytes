@@ -19,9 +19,7 @@
 			<value>/private/</value>
 		</property>
 	 
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
+		
 	</bean>
   
 </beans>

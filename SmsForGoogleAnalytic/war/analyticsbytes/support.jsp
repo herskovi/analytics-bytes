@@ -85,7 +85,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h1><span class="hero-title">We are here for you.</span></h1>  
-                        <p class="lead">We would love to assist you with any question you may have. Also, You can also just say hey! </p>
+                        <p class="lead">We would love to assist you with any question you may have. Also, You can just say hey! </p>
                         <p class="lead">please contact us here: support@analyticsbytes.com</p>
                     </div> 
                 </div>                    

@@ -78,15 +78,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
 					<h1>
-						<span class="hero-title">Daily Google analytics text
-							messages.</span>
+						<span class="hero-title"> Get daily text alerts with your just basic Google Analytics data	</span>
+						</br>
+						<p class="lead">
+							You know your data is valuable but you just don't have the time to log into Google Analytics every day...
+								</br></br>
+							We've got you covered!
+						</p> 
+						
 					</h1>
 
 					<a href="/register" type="button"
 						class="btn btn-primary btn-lg mainbtn" id="mainbtn">Test It Now, It's
 						Free</a>
-					<p class="smltxt">It's free for limited time. Signup takes less
-						then 2 minutes.</p>
+					<p class="smltxt">Give it a try, it's Free. Signup takes less
+						than 2 minutes.</p>
 
 					<img class="hidden-xs" src="/analyticsbytes/images/hero.png" />
 				</div>

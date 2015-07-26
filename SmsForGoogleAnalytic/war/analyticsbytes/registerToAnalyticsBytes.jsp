@@ -124,7 +124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</h1>
 
 						<p class="lead">Setting up your account is really easy and
-							takes no longer then 72 seconds. Try us</p>
+							takes no longer than 72 seconds. Try us</p>
 						<br />
 
 					</div>

@@ -97,7 +97,9 @@ public class AccountSelectionServlet extends HttpServlet
 			req.setAttribute("balance", "0.00");
 		}
 
-		getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_REGISTRATION_TO_FIRST_TIME_DASHBOARD_PAGE).forward(req, resp);
+		//getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_REGISTRATION_TO_FIRST_TIME_DASHBOARD_PAGE).forward(req, resp);
+		getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_WIZARD_ACCOUNT_SELECTION_TO_FIRST_TIME_DASHBOARD_PAGE).forward(req, resp);
+		
 	}
 	
 	/**

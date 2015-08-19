@@ -172,7 +172,7 @@ public class SmsForGoogleAnalyticCallbackSample extends
 
 		// getServletContext().getRequestDispatcher("/accountSelection.jsp").forward(req,
 		// resp);
-		getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_REGISTRATION_TO_ACCOUNT_SELECTION).forward(req, resp);
+		getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_WIZARD_EMAIL_SELECTION_TO_WIZARD_ACCOUNT_SELECTION_PAGE).forward(req, resp);
 
 	}
 

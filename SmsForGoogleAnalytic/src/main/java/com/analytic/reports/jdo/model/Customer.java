@@ -124,6 +124,15 @@ public class Customer  implements IEntity
 		this.creationDate = DateUtils.getCurrentDateObject();
 	}
 	
+	public Customer(String uniqueAccountNumber,String userId,  String countryCode, String telephoneNumber) 
+	{
+		super();
+		this.uniqueAccountNumber=uniqueAccountNumber;
+		this.userId = userId;
+		this.countryCode = countryCode;
+		this.telephoneNumber = telephoneNumber;
+	}
+	
 
 	public String getUniqueAccountNumber() {
 		return uniqueAccountNumber;

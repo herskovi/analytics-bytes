@@ -14,10 +14,10 @@ import main.java.com.analytic.reports.utils.consts.ValidationConsts;
  * @author admin
  * Dec 6, 2014
  */
-public class CustomerUtils 
+public class CustomerHelper 
 {
 
-	private static final Logger log = Logger.getLogger(CustomerUtils.class.getName());
+	private static final Logger log = Logger.getLogger(CustomerHelper.class.getName());
 	private Customer cust = null;
 	private String userId = null;
 
@@ -27,7 +27,7 @@ public class CustomerUtils
 	 * @param cust
 	 * @param userId
 	 */
-	public CustomerUtils(Customer cust, String userId) 
+	public CustomerHelper(Customer cust, String userId) 
 	{
 		this.setCust(cust);
 		this.setUserId(userId);
@@ -43,8 +43,14 @@ public class CustomerUtils
 	public String setIntroductionIntoMessageText() 
 	{
 		StringBuffer textMessage = new StringBuffer();
-		textMessage.append("Hello " + cust.getName() + ",\n");
+		String cutomerName = getCustomerName();
+		textMessage.append("Hello " + cutomerName + ",\n");
 		return textMessage.toString();
+	}
+
+	public String getCustomerName() {
+		String cutomerName= cust.getName()!=null ? cust.getName() : "";
+		return cutomerName;
 	}
 	
 	/**

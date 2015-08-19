@@ -68,11 +68,7 @@ public class AnalyticUtils
 			//Thread.sleep(1000);
 			get.setMaxResults(25);
 			get.setQuotaUser("XX"+profileId);
-			//Thread.sleep(1000);
 			gaData = get.execute();
-			
-			//com.google.api.services.analytics.Analytics.Data.Ga
-			
 			
 //			gaData =  analytics.data().ga().get("ga:" + profileId, // Table Id. ga: + profile id.
 //					startDate, // Start date.

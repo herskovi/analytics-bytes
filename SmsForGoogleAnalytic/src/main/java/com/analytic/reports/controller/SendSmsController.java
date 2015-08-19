@@ -22,7 +22,7 @@ import main.java.com.analytic.reports.servlets.DailySmsServlet;
 import main.java.com.analytic.reports.utils.AnalyticUtils;
 import main.java.com.analytic.reports.utils.ConvertUtils;
 import main.java.com.analytic.reports.utils.CredentialUtils;
-import main.java.com.analytic.reports.utils.CustomerUtils;
+import main.java.com.analytic.reports.utils.CustomerHelper;
 import main.java.com.analytic.reports.utils.DateUtils;
 
 import com.google.api.services.analytics.Analytics;
@@ -70,7 +70,7 @@ public class SendSmsController extends BaseController
 			if (cust != null)
 			{
 				userId = cust.getUniqueAccountNumber(); //FIXME - Might be cust.getUniqueAccountNumber()
-				CustomerUtils custUtils = new CustomerUtils(cust,userId);
+				CustomerHelper custUtils = new CustomerHelper(cust,userId);
 
 				textMessage.append(custUtils.setIntroductionIntoMessageText());
 
@@ -109,7 +109,7 @@ public class SendSmsController extends BaseController
 
 					if (!isLocalMode) 
 					{ 
-						boolean isUSANumber = CustomerUtils.isUSAPhoneNumber(cust);
+						boolean isUSANumber = CustomerHelper.isUSAPhoneNumber(cust);
 						log.severe("isUSANumber "  + isUSANumber);
 
 						IController smsFlowController = getController(cust,isUSANumber);							

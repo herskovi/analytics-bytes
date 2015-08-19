@@ -15,8 +15,10 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import main.java.com.analytic.reports.alerts.controller.AlertReportController;
 import main.java.com.analytic.reports.controller.response.DailySmsResponse;
 import main.java.com.analytic.reports.datatypes.GoalDT;
+import main.java.com.analytic.reports.interfaces.IAlertsController;
 import main.java.com.analytic.reports.interfaces.IController;
 import main.java.com.analytic.reports.interfaces.IResponse;
 import main.java.com.analytic.reports.jdo.dao.CustomerDAO;
@@ -28,7 +30,7 @@ import main.java.com.analytic.reports.servlets.DailySmsServlet;
 import main.java.com.analytic.reports.utils.AnalyticUtils;
 import main.java.com.analytic.reports.utils.ConvertUtils;
 import main.java.com.analytic.reports.utils.CredentialUtils;
-import main.java.com.analytic.reports.utils.CustomerUtils;
+import main.java.com.analytic.reports.utils.CustomerHelper;
 import main.java.com.analytic.reports.utils.DateUtils;
 import main.java.com.analytic.reports.utils.URLUtils;
 import main.java.com.analytic.reports.utils.consts.RegistrationConsts;
@@ -96,27 +98,26 @@ public class DailySmsController extends BaseController
 			try
 			{
 			Calendar systemDateCal =  null;
-			CustomerUtils custUtils = new CustomerUtils(cust,cust.getUniqueAccountNumber());
+			CustomerHelper custUtils = new CustomerHelper(cust,cust.getUniqueAccountNumber());
 			
 			log.severe("Start with Customer " + cust.getName() + " @@@email@@@ " + cust.getEmailAddress());
 			setPrefixForMessageText(custUtils);
 			GoalDT goalDT = prepareGoalDataType(custUtils);				
 			int hourOfTimeToSendSmsThatWasRequestedByUser = -1;
-			log.severe("before getUserTimeZone" );			
 			userTimeZone = getUserTimeZone(cust);	
 			systemDateCal = setUserTimeZone(userTimeZone);
 			int currentUserTimeInUserTimeZone = getCurentTimeInUserTimeZone(systemDateCal);
-			log.severe("currentUserTimeInUserTimeZone XXXX!!!  " + currentUserTimeInUserTimeZone);
 
 			//getUserIdBasedOnPKInCredentialStore
 			//From Next Release all Users ID
 			userId = cust.getUniqueAccountNumber();
 			userId = changeUserIdInCaseCredentialDoesNotExistWithUAN(userId, cust);
-			log.severe("userId 2.0, 2.0 ,2.0!!!  " + userId);
 
 				
 			profileID = getProfileId(userId, cust);
-			log.severe("profileID 2.5,2.5,2.5!!!  " + profileID);
+			
+			logInformation(userId, profileID, currentUserTimeInUserTimeZone);
+
 
 			//profileTimeZone = getProfileTimeZone(userId, cust);
 			ArrayList<CustomerAnalyticInfo> customerAnalyticList =   cust.getCustomerAnalyticList();
@@ -126,24 +127,10 @@ public class DailySmsController extends BaseController
 				hourOfTimeToSendSmsThatWasRequestedByUser = Integer.parseInt(timeToSendSms.substring(0,2));
 			}
 			
-			log.severe("currentUserTimeInUserTimeZone 333!!!  " + currentUserTimeInUserTimeZone);
-			log.severe("hourOfTimeToSendSmsThatWasRequestedByUser 444!!!  " + hourOfTimeToSendSmsThatWasRequestedByUser);
-			log.severe("profileID 5555!!!  " + profileID);
-
+			
 			if (currentUserTimeInUserTimeZone == hourOfTimeToSendSmsThatWasRequestedByUser)
 			{
-				Analytics analytic = null;
-					try
-					{		
-						analytic = CredentialUtils.loadAnalytics(userId);
-					} catch (Exception ex) 
-					{
-						// Token was not refreshed properly, call one more time for
-						// refresh token
-						analytic = CredentialUtils.loadAnalytics(userId);
-						profileID = getProfileId(userId, cust);
-						log.severe("profileID 5555EXCEPTION - Exception!!!  " + profileID);
-					}
+				Analytics analytic = getAnalyticsCredential(userId);
 					
 					try 
 					{
@@ -157,12 +144,20 @@ public class DailySmsController extends BaseController
 						endDate = startDate;
 						textMessage.append("On " + dateFormatToDisplay + ", ");
 						boolean dataWasRecievedFromGA = getAnalyticData(startDate, endDate, profileID, analytic, metricsArr,goalDT);
+						
+						IAlertsController iAlertsController = getAlertController(cust);
+						iAlertsController.execute();
+						
+						
 						textMessage.append(custUtils.setClosureIntoMessageText());
+						//IAlert()
+						
+				
 
 
 						if (!isLocalMode && dataWasRecievedFromGA) 
 						{ 
-							boolean isUSANumber = CustomerUtils.isUSAPhoneNumber(cust);
+							boolean isUSANumber = CustomerHelper.isUSAPhoneNumber(cust);
 							IController smsFlowController = getController(cust,isUSANumber);							
 							smsFlowController.execute();
 							SmsHistory smsHistory = new SmsHistory(DateUtils.getCurrentDateTime(),
@@ -189,6 +184,39 @@ public class DailySmsController extends BaseController
 		}
 	}
 
+
+	/**
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Aug 9, 2015
+	 *@Description:
+	 */
+	private IAlertsController getAlertController(Customer cust) 
+	{
+		return new AlertReportController(cust);
+	}
+
+
+	private Analytics getAnalyticsCredential(String userId) throws IOException {
+		Analytics analytic = null;
+			try
+			{		
+				analytic = CredentialUtils.loadAnalytics(userId);
+			} catch (Exception ex) 
+			{
+				// Token was not refreshed properly, call one more time fo refresh token
+				analytic = CredentialUtils.loadAnalytics(userId);
+			}
+		return analytic;
+	}
+
+
+	private void logInformation(String userId, String profileID,
+			int currentUserTimeInUserTimeZone) {
+		log.severe("currentUserTimeInUserTimeZone XXXX!!!  " + currentUserTimeInUserTimeZone);
+		log.severe("userId 2.0, 2.0 ,2.0!!!  " + userId);
+		log.severe("profileID 2.5,2.5,2.5!!!  " + profileID);
+	}
+
 	/**
 	 * 
 	 *@Author:      Moshe Herskovits
@@ -196,7 +224,7 @@ public class DailySmsController extends BaseController
 	 *@Description: Set Prefix for Message Text
 	 */
 
-	private void setPrefixForMessageText(CustomerUtils custUtils) {
+	private void setPrefixForMessageText(CustomerHelper custUtils) {
 		textMessage.delete(0, textMessage.length());
 		textMessage.append(custUtils.setIntroductionIntoMessageText());
 	}
@@ -225,7 +253,7 @@ public class DailySmsController extends BaseController
 	 *@Description: Prepare Goal Data Type
 	 */
 	
-	private GoalDT prepareGoalDataType(CustomerUtils custUtils) 
+	private GoalDT prepareGoalDataType(CustomerHelper custUtils) 
 	{
 		String profileID;
 		String accountId = custUtils.getAccountId();

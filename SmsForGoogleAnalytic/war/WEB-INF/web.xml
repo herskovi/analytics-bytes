@@ -212,8 +212,6 @@
 		<url-pattern>/submitaticket</url-pattern>
 	</servlet-mapping>
 	
-	
-	
 	<servlet>
 		<servlet-name>EmailNotificationServlet</servlet-name>
 		<servlet-class>main.java.com.analytic.reports.servlets.EmailNotificationServlet</servlet-class>
@@ -293,6 +291,34 @@
 		<url-pattern>/updateAccount</url-pattern>
 	</servlet-mapping>
 	
+	
+	<servlet>
+		<servlet-name>MobileSelectionWizard</servlet-name>
+		<jsp-file>/analyticsbytes/wizard/mobileSelectionWizard.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MobileSelectionWizard</servlet-name>
+		<url-pattern>/mobileselectionwizard</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>MobileSelectionWizardServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.MobileSelectionWizardServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MobileSelectionWizardServlet</servlet-name>
+		<url-pattern>/mobilewizard</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>EmailGASelectionWizardServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.EmailGASelectionWizardServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EmailGASelectionWizardServlet</servlet-name>
+		<url-pattern>/emailgaselectionwizard</url-pattern>
+	</servlet-mapping>	
+	
+	
 
 	
 
@@ -302,6 +328,7 @@
 		<jsp-file>/registerToSMSGA.jsp</jsp-file>
 	</servlet>
 -->
+<!-- 
 	<servlet>
 		<servlet-name>register</servlet-name>
 		<jsp-file>/analyticsbytes/registerToAnalyticsBytes.jsp</jsp-file>
@@ -311,6 +338,17 @@
 		<servlet-name>register</servlet-name>
 		<url-pattern>/register/*</url-pattern>
 	</servlet-mapping>
+ -->	
+	<servlet>
+		<servlet-name>register</servlet-name>
+		<jsp-file>/analyticsbytes/registrationWizard.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>register</servlet-name>
+		<url-pattern>/register/*</url-pattern>
+	</servlet-mapping>
+	
  	
 	<servlet>
 		<servlet-name>home</servlet-name>

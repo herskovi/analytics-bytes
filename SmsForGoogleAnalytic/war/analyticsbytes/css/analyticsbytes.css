@@ -20,7 +20,7 @@ body{
       text-align: center;
   }
   .toppadding{
-   padding-top: 6%;   
+   padding-top: 3%;   
   }
   .rapper{
  
@@ -85,5 +85,9 @@ body{
 .selectorbtn{
  margin: 2% 3% 2% 3%;   
 }
+.wizard{
+   margin-top: 5px;   
+  }
+
 
      

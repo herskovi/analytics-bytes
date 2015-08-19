@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import main.java.com.analytic.reports.exceptions.AppException;
 import main.java.com.analytic.reports.interfaces.IValidator;
 import main.java.com.analytic.reports.jdo.model.Customer;
-import main.java.com.analytic.reports.utils.CustomerUtils;
+import main.java.com.analytic.reports.utils.CustomerHelper;
 import main.java.com.analytic.reports.utils.consts.ErrorMessagesConsts;
 import main.java.com.analytic.reports.utils.consts.ValidationConsts;
 
@@ -49,7 +49,7 @@ public class RegistrationValidator extends BaseValidator implements IValidator
 	 */
 	private void validateMobileNumberIsNotAlreadyExists(String telephoneNumber, String emailAddress) throws Exception
 	{
-		if (CustomerUtils.isCustomerAlreadyExistsInDB(telephoneNumber,emailAddress))
+		if (CustomerHelper.isCustomerAlreadyExistsInDB(telephoneNumber,emailAddress))
 		{
 			throw new AppException(ErrorMessagesConsts.TELEPHONE_NUMBER_ALREADY_EXISTS);	
 		};

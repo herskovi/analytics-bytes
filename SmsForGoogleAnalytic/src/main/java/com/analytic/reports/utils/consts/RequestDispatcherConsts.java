@@ -24,6 +24,11 @@ public interface RequestDispatcherConsts extends GeneralConsts
 	public static  final String FROM_REGISTRATION_TO_REGISTRAION_ERROR = "/analyticsbytes/registerToAnalyticsBytes.jsp";
 	public static  final String FROM_REGISTRATION_TO_FIRST_TIME_DASHBOARD_PAGE = "/analyticsbytes/getsms.jsp";
 	public static  final String FROM_LOGIN_TO_LOGIN_ERROR = "/analyticsbytes/login.jsp";
+	public static  final String FROM_WIZARD_MOBILE_SELECTION_TO_WIZARD_EMAIL_SELECTION_PAGE = "/analyticsbytes/wizard/emailOfGoogleAnalyticsSelectionWizard.jsp";
+	public static  final String FROM_WIZARD_EMAIL_SELECTION_TO_WIZARD_ACCOUNT_SELECTION_PAGE = "/analyticsbytes/wizard/accountSelectionWizard.jsp";
+	public static  final String FROM_WIZARD_ACCOUNT_SELECTION_TO_FIRST_TIME_DASHBOARD_PAGE = "/analyticsbytes/wizard/gettextmessages.jsp";
+
+
 	//public static  final String FROM_REGISTRATION_TO_ACCOUNT_SELECTION = "/accountSelectionAfterRegistration";
 	//public static  final String FROM_REGISTRATION_TO_REGISTRAION_ERROR = "/registerToSMSGA.jsp";
 	//public static  final String FROM_REGISTRATION_TO_FIRST_TIME_DASHBOARD_PAGE = "/private/firstTimeLogin.jsp";

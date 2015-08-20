@@ -138,7 +138,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        		  <div class="form-group">           	   
             	 <div class="col-lg-12">
 	            	   <blockquote>
-							<p style="font-style:italic;font-size: 1.875em;"> Please Enter Your mobile Phone Number</p>
+							<p style="font-style:italic;font-size: 1.875em;"> Please enter your mobile phone number</p>
 						</blockquote>    
 				 </div>  
 				</div>
@@ -159,9 +159,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               </div>
              </form>
         </div>
-							
-					
-              		  </form></div>
+	</div>
         	</div>
 		</div>
 	</div>

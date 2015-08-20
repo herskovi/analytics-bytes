@@ -43,13 +43,23 @@ public class CustomerHelper
 	public String setIntroductionIntoMessageText() 
 	{
 		StringBuffer textMessage = new StringBuffer();
-		String cutomerName = getCustomerName();
-		textMessage.append("Hello " + cutomerName + ",\n");
+		String customerName = getCustomerName();
+		textMessage.append(appendCustomerNameToMessageIfExists(customerName));
 		return textMessage.toString();
 	}
 
+	/**
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Aug 20, 2015
+	 *@Description:
+	 */
+	private String appendCustomerNameToMessageIfExists(String customerName) 
+	{
+		return ("").equals(customerName) ? "" : ("Hello" + customerName + ",\n");
+	}
+
 	public String getCustomerName() {
-		String cutomerName= cust.getName()!=null ? cust.getName() : "";
+		String cutomerName= cust.getName()!=null ? " " + cust.getName() : "";
 		return cutomerName;
 	}
 	

@@ -124,36 +124,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				 </div>
         	</div>
     	</div>
-    		
+                  
        	<div class="row">
        		<div class="form-wrapper">
        		 <form name="emailSelectionWizardForm" action="/emailgaselectionwizard" method="post" class="form-horizontal login-form">
        		 		<input id="uniqueAccountNumber" name="uniqueAccountNumber" type="hidden" value='${uniqueAccountNumber}' />
        		             	  <br>  
        		             	  <br>
-       		             	  
-       		             	   <br>
-       		  <div class="form-group">           	   
-            	 <div class="col-lg-12">
-							<p style="font-style:italic;font-size: 1.875em;"> Please enter your Google Analytics account email</p>    
-				 </div>  
+       		             	  <br>
+       		             	  <br>  
+       		             	  <br>
+       		             	  <br>
+       			  <div class="form-group">           	   
+            		 <div class="col-lg-12">
+						<p style="font-style:italic;font-size: 1.5em;"> Please enter your Google Analytics account email</p>    
+				 	</div>  
 				</div>
-       		 
-       				<div class="form-group">
- 							<label for="empty" class="col-sm-2 control-label"></label>
-							<div class="col-sm-8">
+       		 		<div class="form-group">
+							<label for="mobile" class="col-sm-4 control-label">Email<span class="required">*</span></label>
+							<div class="col-sm-4">
 								<input id="email_address" name="email_address" placeholder="Example: myname@mywebsite.com" class="form-control input-lg" type="text" value="" tabindex=1 />
 								<span id="email_address_error" class="error inline-error" style="display: none;">Please enter a valid email address.</span>
-								<p style="font-style:italic;font-size: 1.825em; display:none"> * Make sure you are using a Google Analytics account</p>
-								
+								<span class="help-block" display:none"> * Make sure you are using a Google Analytics account</span>			
 							</div>
-					</div>	
-       				<div class="form-group">
- 						<label for="empty" class="col-sm-2 control-label"></label>
- 				  		<div class="col-sm-8">
- 				  		<button type="submit" class="btn btn-success btn-lg btn-block" role="button">Next Step</a>
-                  		</div>
-                  	</div>
+					</div>
+					<div class="form-group">
+ 						<label for="empty" class="col-sm-4 control-label"></label>
+ 				  		<div class="col-sm-4">
+ 				  			<button type="submit" class="btn btn-success btn-lg btn-block" role="button">Next Step</a>
+                  		</div>	
+       				</div>
+       				
                   	<div class="form-group">
  						<label for="empty" class="col-sm-2 control-label"></label>
  				  		<div class="col-sm-8">

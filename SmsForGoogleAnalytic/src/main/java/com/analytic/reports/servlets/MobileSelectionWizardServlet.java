@@ -41,7 +41,7 @@ public class MobileSelectionWizardServlet extends HttpServlet
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException 
 	{
-		req.setCharacterEncoding("UTF-8");//Support UTF-8
+		//req.setCharacterEncoding("UTF-8");//Support UTF-8
 		Customer cust = prepareCustomerData(req);	
 		CustomerDAO.insertNewCustomer(cust);
 		req.getSession().setAttribute("userid", cust.getUniqueAccountNumber());

@@ -177,7 +177,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 									<select id="accountDropdown" name="accountDropdown"
 										onchange="displayWebPropertyPerAccount()"
-										class="form-control">
+										class="form-control input-lg">
 
 										<c:set var="count" value="0" scope="page" />
 										<option value='0'>
@@ -197,7 +197,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 								<div class="col-sm-8">
 									<select id="webPropertyDD" name="webPropertyDD"
 										onchange="displayProfilePerAccountAndWebProperty()"
-										class="form-control">
+										class="form-control input-lg">
 										<option value='0'>
 											<c:out value="--- Please Select ---" />
 										</option>
@@ -212,7 +212,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<div class="form-group">
 							<label class="control-label col-sm-4">View<span class="required">*</span></label>
 							<div class="col-sm-8">
-								<select id="profileDD" name="profileDD" class="form-control"
+								<select id="profileDD" name="profileDD" class="form-control input-lg"
 									onchange="profileWasChosen()">
 									<option value='0'><c:out value="--- Please Select ---" /></option>
 
@@ -226,7 +226,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<div class="form-group">
 							<label class="control-label col-sm-4">Goal Name</label>
 							<div class="col-sm-8">
-								<select id="goalNameDD" name="goalNameDD" class="form-control"
+								<select id="goalNameDD" name="goalNameDD" class="form-control input-lg"
 									onchange="goalWasChosen()">
 									<option value='0'><c:out value="--- Please Select ---" /></option>
 								</select>
@@ -239,7 +239,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 								<label class="control-label col-sm-4">Time to Recieve SMS</label>
 								<div class="col-sm-8">
 									<div id="timepickerDIV">
-										 <select id="timeZoneDropdown" name="timeZoneDropdown" class="form-control">
+										 <select id="timeZoneDropdown" name="timeZoneDropdown" class="form-control input-lg">
 											<c:forEach var="availableTimeZone"
 												items="${availableTimeZoneIDs}">
 												<option value='${availableTimeZone}'>
@@ -251,7 +251,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 									</br>
 									
 												
-									<input type="time" class="form-control" name="timepicker_customminutes" id="timepicker_customminutes" placeholder="time" value="08:00">
+									<input type="time" class="form-control input-lg" name="timepicker_customminutes" id="timepicker_customminutes" placeholder="time" value="08:00">
 									</br>
 								
  								<!-- 	<input type="text" class="form-control" name="timepicker_customminutes" id="timepicker_customminutes" value="08:00" /> -->
@@ -283,7 +283,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						<div class="form-group">
 							<label class="control-label col-sm-4"></label>
 							<div class="col-sm-8">
-								<input class="btn btn-primary btn-lg btn-block mainbtn"  id="accountSelectionSubmitBtn"
+								<input class="btn btn-success btn-lg btn-block"  id="accountSelectionSubmitBtn"
 									name="accountSelectionSubmitBtn" type="submit" value="Next Step" />
 							</div>
 						</div>

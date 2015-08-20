@@ -97,11 +97,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h1><span class="hero-title">Thats it! You're a click away from fresh Analytics Bytes..</span></h1>  
-                        <p class="lead">Click "Get SMS" to start receiving you analytics SMS..  </p>
-                        <button id="getSmsNow" type="button" class="btn btn-success btn-lg btn-block ">Get SMS</button>
-                        <p>P.S - Please check your email inbox to validate your account</p>
+                    	<br>
+                    	<br>
+                        <h1><span class="hero-title">Perfect! Ready to see your daily Google Analytics performance?</p></span></h1>
                     </div> 
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                    	<br>
+                    	<br>
+               		   <button id="getSmsNow" type="button" class="btn btn-success btn-lg btn-block ">Get Text Messages</button>
+                        <span class="help-block">*If you can't recieve text messages, please contact us at support@analyticsbytes.com and we will assist quickly</span>
+                       </div>
                 </div>
 
                 <div class="row" id="sms-recieved-container" name="sms-recieved-container" style="display: none;">

@@ -82,7 +82,7 @@ public class MetricsValueBeforeSubmittionController extends BaseController
 	private GaData getAllMetricsFromAnalyticsAPI(Analytics analytics, String startDate, String endDate)
 			throws IOException 
 	{
-		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileDT.getProfileId(),metricsDefaultArr,startDate, endDate,null); 
+		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileDT.getProfileId(),metricsDefaultArr,startDate, endDate); 
 		return gaData;
 	}
 	

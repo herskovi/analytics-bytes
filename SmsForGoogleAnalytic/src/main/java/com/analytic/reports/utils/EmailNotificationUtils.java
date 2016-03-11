@@ -233,7 +233,7 @@ public class EmailNotificationUtils
 		buf.append("                  <tr><td style=\"font-size:20px;line-height:20px;height:20px;text-align:left\" height=\"20\" width=\"556\"></td></tr>");
 		buf.append("                  <tr>");
 		buf.append("                    <td style=\"text-align:left\">");
-		buf.append("     				   Hi ");
+		buf.append("     				   Hi");
 		buf.append(customerName + ",<br>");
 		buf.append("      			   <br>");
 		buf.append("     					Thanks for signing up to <span class=\"il\">Analytics Bytes</span>! Before we start, you will need to validate your email address by clicking the link below:");

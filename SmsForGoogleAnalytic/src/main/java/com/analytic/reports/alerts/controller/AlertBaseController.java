@@ -6,6 +6,7 @@ package main.java.com.analytic.reports.alerts.controller;
 import java.io.IOException;
 
 import main.java.com.analytic.reports.enums.AlertMetrics;
+import main.java.com.analytic.reports.enums.AlertPeriod;
 import main.java.com.analytic.reports.interfaces.IAlertsController;
 import main.java.com.analytic.reports.interfaces.IController;
 import main.java.com.analytic.reports.jdo.model.Customer;
@@ -18,6 +19,7 @@ public abstract class AlertBaseController implements IAlertsController
 {
 	Customer cust = null;
 	Enum<AlertMetrics> metrics;
+	Enum<AlertPeriod> period;
 	String condition = "";
 	String value = "";
 	boolean comparision = false;
@@ -41,9 +43,20 @@ public abstract class AlertBaseController implements IAlertsController
 		comparision = isAlertNeedToBeCompareWith();
 		getAlertCompareToValue();
 		didSignificantDivergenceOccurs(metrics, condition,value, comparision,comparisionValue);
-		
-			
 	}
+	
+	/**
+	 * 
+	 */
+	
+	
+	@Override
+	public Enum<AlertMetrics> getMetricsToCheck() 
+	{
+		return AlertMetrics.Sessions;
+	}
+
+
 
 	@Override
 	public boolean didSignificantDivergenceOccurs( Enum<AlertMetrics> metrics,String condition, String value, boolean comparision, String comparisionValue) 

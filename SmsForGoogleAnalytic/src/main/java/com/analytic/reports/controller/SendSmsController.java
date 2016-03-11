@@ -161,7 +161,7 @@ public class SendSmsController extends BaseController
 	public void getAnalyticData(String startDate, String endDate, String profileID, Analytics analytics, String[] metricsArr,GoalDT goalDT) throws IOException 
 	{
 
-		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileID, metricsArr, startDate, endDate, goalDT);
+		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileID, metricsArr, startDate, endDate);
 		if (gaData != null) 
 		{
 			textMessage.append(AnalyticUtils.printGaData(gaData,metricsArr,goalDT) + "\n");

@@ -131,6 +131,10 @@ public class Customer  implements IEntity
 		this.userId = userId;
 		this.countryCode = countryCode;
 		this.telephoneNumber = telephoneNumber;
+		this.creationDate = DateUtils.getCurrentDateObject();
+		telNoForSMS.add(telephoneNumber);
+		this.userSts= "0";
+
 	}
 	
 

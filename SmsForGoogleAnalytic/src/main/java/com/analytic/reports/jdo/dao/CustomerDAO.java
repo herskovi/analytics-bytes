@@ -92,7 +92,7 @@ public class CustomerDAO {
 							+"&&  "
 							+ "userSts <= '" + RegistrationConsts.USER_IS_CANCELED_WITHOUT_EMAIL_CONFIRMATION + "'"
 							+"&&  " 
-							+ "userSts >= '" + RegistrationConsts.USER_ENROLED_AND_COMPETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL + "'");
+							+ "userSts >= '" + RegistrationConsts.USER_ENROLED_AND_COMPLETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL + "'");
 			//query.setFilter("usrSts <=" + RegistrationConsts.USER_IS_CANCELED_WITHOUT_EMAIL_CONFIRMATION );
 			results = (List<Customer>) query.execute();
 			System.out.println(results.size());

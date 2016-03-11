@@ -38,7 +38,7 @@ public class AnalyticUtils
 	 * @return the response from the API.
 	 * @throws IOException tf an API error occured.
 	 */
-	public static GaData executeDataQuery(Analytics analytics, String profileId,String [] metricsArr,String startDate, String endDate, GoalDT goalDT) throws IOException 
+	public static GaData executeDataQuery(Analytics analytics, String profileId,String [] metricsArr,String startDate, String endDate) throws IOException 
 	{
 		StringBuffer metrics = ConvertUtils.convertMetricsFromArrayToString(metricsArr);
 		GaData gaData = getGaDataByMetrics(analytics, profileId, startDate, endDate, metrics.toString());

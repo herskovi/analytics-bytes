@@ -72,7 +72,7 @@ public class AccountSelectionServlet extends HttpServlet
 		metricsList = prepareListOfMetrics(metrics,goalId);
 		cust.setMetrics(metricsList);
 		cust.setTimeZone(timeZoneToSendSMS);
-		cust.setUserSts(RegistrationConsts.USER_ENROLED_AND_COMPETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL);//User approved GA but is not active till user will click on confirmation mail.
+		cust.setUserSts(RegistrationConsts.USER_ENROLED_AND_COMPLETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL);//User approved GA but is not active till user will click on confirmation mail.
 
 		CustomerAnalyticInfo customerAnalyticInfo = populateCustomerAnalyticInformation(accountId, webPropertyId, profileId, profileName,goalId, goalName, timeToSendSMS, accountsObj);
 		
@@ -176,13 +176,13 @@ public class AccountSelectionServlet extends HttpServlet
 	 *@Description: Validate Time Zone is not empty
 	 */
 
-	public void validateTimeZone(String timeZoneToSendSMS) {
+	public void validateTimeZone(String timeZoneToSendSMS) throws ServletException{
 		IValidator timeZoneValidator = new TimeZoneValidator(timeZoneToSendSMS);
 		try {
 			timeZoneValidator.validate();
 		} catch (Exception e) 
 		{
-			new ServletException(e.getMessage());
+			throw new ServletException(e.getMessage());
 			
 		}
 	}

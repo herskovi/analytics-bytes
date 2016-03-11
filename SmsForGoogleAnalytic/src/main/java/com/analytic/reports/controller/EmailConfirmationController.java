@@ -12,6 +12,7 @@ import main.java.com.analytic.reports.jdo.dao.CustomerDAO;
 import main.java.com.analytic.reports.jdo.dao.UserStatusDAO;
 import main.java.com.analytic.reports.jdo.model.Customer;
 import main.java.com.analytic.reports.jdo.model.UserStatus;
+import main.java.com.analytic.reports.utils.consts.RegistrationConsts;
 
 /**
  * @author admin
@@ -42,7 +43,7 @@ public class EmailConfirmationController extends BaseController
 		if (emailConfirmationDT.getUniqueKey() != null && emailConfirmationDT.getUniqueKey().equals(uniqueKeyFromDB))
 		{
 			Customer customer = CustomerDAO.getCustomerInformationByUserID(emailConfirmationDT.getEmail());
-			customer.setUserSts("2"); // User confirmed his mail and verified his mail.
+			customer.setUserSts(RegistrationConsts.USER_ENROLED_AND_COMPLETE_REGISTRATION_AND_CONFIRM_HIS_EMAIL); // User confirmed his mail and verified his mail.
 			CustomerDAO.updateCustomerInDB(customer);
 			
 			((EmailConfirmationResponse)emailConfirmationResponse).setUserActivated(true);

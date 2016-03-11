@@ -145,11 +145,11 @@ public class DailySmsController extends BaseController
 						textMessage.append("On " + dateFormatToDisplay + ", ");
 						boolean dataWasRecievedFromGA = getAnalyticData(startDate, endDate, profileID, analytic, metricsArr,goalDT);
 						
-						IAlertsController iAlertsController = getAlertController(cust);
-						iAlertsController.execute();
-						
-						
-						textMessage.append(custUtils.setClosureIntoMessageText());
+//						IAlertsController iAlertsController = getAlertController(cust);
+//						iAlertsController.execute();
+//						
+//						
+//						textMessage.append(custUtils.setClosureIntoMessageText());
 						//IAlert()
 						
 				
@@ -358,7 +358,7 @@ public class DailySmsController extends BaseController
 	public boolean getAnalyticData(String startDate, String endDate, String profileID, Analytics analytics, String[] metricsArr,GoalDT goalDT) throws IOException 
 	{
 
-		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileID, metricsArr, startDate, endDate,goalDT);
+		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileID, metricsArr, startDate, endDate);
 		if (gaData != null) 
 		{
 			textMessage.append(AnalyticUtils.printGaData(gaData,metricsArr,goalDT) + "\n");

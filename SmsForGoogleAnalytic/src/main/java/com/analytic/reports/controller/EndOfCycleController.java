@@ -188,7 +188,7 @@ public class EndOfCycleController extends BaseController
 	 */
 	private boolean isCustomerActive(String userSts) 
 	{
-		return (RegistrationConsts.USER_IS_ACTIVE.equals(userSts)  ? true : false);
+		return ((RegistrationConsts.USER_ENROLED_AND_COMPLETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL.equals(userSts) || RegistrationConsts.USER_ENROLED_AND_COMPLETE_REGISTRATION_AND_CONFIRM_HIS_EMAIL.equals(userSts)) ? true : false);
 	}
 
 

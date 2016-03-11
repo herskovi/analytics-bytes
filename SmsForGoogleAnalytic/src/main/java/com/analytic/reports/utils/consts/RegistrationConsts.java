@@ -22,8 +22,8 @@ public interface RegistrationConsts extends GeneralConsts
 	public static final String COMMENTS = "comments";
 	public static final String USER_ENROLL_HIS_MOBILE_NUMBER_AND_DID_NOT_COMPLETE_REGISTRATION = "0";
 	public static final String USER_ENROLL_HIS_MOBILE_NUMBER_AND_HIS_EMAIL_ADRESS = "1";
-	public static final String USER_ENROLED_AND_COMPETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL = "2";
-	public static final String USER_IS_ACTIVE = "3";
+	public static final String USER_ENROLED_AND_COMPLETE_REGISTRATION_DID_NOT_CONFIRM_EMAIL = "2";
+	public static final String USER_ENROLED_AND_COMPLETE_REGISTRATION_AND_CONFIRM_HIS_EMAIL = "3";
 	public static final String USER_IS_CANCELED_WITHOUT_EMAIL_CONFIRMATION = "4";
 	public static final String USER_IS_CANCELED = "5";
 	public static final String DEFAULT_TIME_ZONE = "America/New_York";

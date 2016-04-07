@@ -289,6 +289,22 @@ public class AnalyticUtils
 		
 	}
 	
+	/**
+	 * Returns the top 25 organic search keywords and traffic source by visits. The Core Reporting API
+	 * is used to retrieve this data.
+	 *
+	 * @param analytics the analytics service object used to access the API.
+	 * @param profileId the profile ID from which to retrieve data.
+	 * @return the response from the API.
+	 * @throws IOException tf an API error occured.
+	 */
+	public static GaData getCustomReports(Analytics analytics, String profileId,String [] metricsArr,String startDate, String endDate) throws IOException 
+	{
+		StringBuffer metrics = ConvertUtils.convertMetricsFromArrayToString(metricsArr);
+		GaData gaData = getGaDataByMetrics(analytics, profileId, startDate, endDate, metrics.toString());
+		return gaData;
+	}
+	
 	
 	
 	

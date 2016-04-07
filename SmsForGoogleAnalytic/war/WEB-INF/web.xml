@@ -293,13 +293,29 @@
 	
 	
 	<servlet>
-		<servlet-name>MobileSelectionWizard</servlet-name>
-		<jsp-file>/analyticsbytes/wizard/mobileSelectionWizard.jsp</jsp-file>
+		<servlet-name>productRecommendation</servlet-name>
+		<jsp-file>/analyticsbytes/wizard/productRecommendationWizard.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>productRecommendation</servlet-name>
+		<url-pattern>/productrecommendation</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>ProductRecommendationServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.ProductRecommendationServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>MobileSelectionWizard</servlet-name>
-		<url-pattern>/mobileselectionwizard</url-pattern>
+		<servlet-name>ProductRecommendationServlet</servlet-name>
+		<url-pattern>/productrecommendationemailselectionwizard</url-pattern>
 	</servlet-mapping>	
+	
+	
+	
+	
+	
 	
 	<servlet>
 		<servlet-name>MobileSelectionWizardServlet</servlet-name>
@@ -307,7 +323,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MobileSelectionWizardServlet</servlet-name>
-		<url-pattern>/mobilewizard</url-pattern>
+		<url-pattern>/mobileselectionwizard</url-pattern>
 	</servlet-mapping>	
 	<servlet>
 		<servlet-name>EmailGASelectionWizardServlet</servlet-name>
@@ -328,7 +344,7 @@
 		<jsp-file>/registerToSMSGA.jsp</jsp-file>
 	</servlet>
 -->
-<!-- 
+
 	<servlet>
 		<servlet-name>register</servlet-name>
 		<jsp-file>/analyticsbytes/registerToAnalyticsBytes.jsp</jsp-file>
@@ -338,7 +354,7 @@
 		<servlet-name>register</servlet-name>
 		<url-pattern>/register/*</url-pattern>
 	</servlet-mapping>
- -->	
+<!-- 	
 	<servlet>
 		<servlet-name>register</servlet-name>
 		<jsp-file>/analyticsbytes/registrationWizard.jsp</jsp-file>
@@ -348,6 +364,9 @@
 		<servlet-name>register</servlet-name>
 		<url-pattern>/register/*</url-pattern>
 	</servlet-mapping>
+ -->	
+	
+	
 	
  	
 	<servlet>

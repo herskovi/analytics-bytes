@@ -191,7 +191,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        		<div class="form-group">
  				<label for="empty" class="col-sm-4 control-label"></label>
  				  <div class="col-md-4">
- 				  	<a href="/mobileselectionwizard" class="btn btn-success btn-lg btn-block" role="button">Start Now</a>
+ 				  	<a href="/smsforgoogleanalyticloginservlet" class="btn btn-success btn-lg btn-block" role="button">Start Now</a>
                   </div>
               </div>
         </div>

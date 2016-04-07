@@ -21,6 +21,36 @@ public class ProfileDT implements Serializable
 	private String timeZone=null;
 
 
+	
+
+	
+
+	/**
+	 * @param accountId
+	 * @param webPropertyId
+	 */
+	
+	public ProfileDT(String accountId, String webPropertyId) 
+	{
+		this.accountId = accountId;
+		this.webPropertyId = webPropertyId;
+	}
+	
+
+	/**
+	 * @param accountId
+	 * @param webPropertyId
+	 * @param profileId
+	 */
+	
+	public ProfileDT(String accountId, String webPropertyId, String profileId) 
+	{
+		this.accountId = accountId;
+		this.webPropertyId = webPropertyId;
+		this.profileId = profileId;
+	}
+	
+	
 	/**
 	 * @param accountId
 	 * @param webPropertyId
@@ -34,11 +64,6 @@ public class ProfileDT implements Serializable
 		this.profileName= profileName;
 	}
 	
-	public ProfileDT(String accountId, String webPropertyId) 
-	{
-		this.accountId = accountId;
-		this.webPropertyId = webPropertyId;
-	}
 	
 	/**
 	 * @param accountId

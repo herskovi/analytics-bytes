@@ -56,11 +56,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				</ul>
 
 				<div class="nav navbar-nav navbar-right navbarsignin">
-					<a href="/login" type="button" class="btn">Log in</a> <a
-						href="/register" type="button" class="btn btn-default topbtn">Test
-						it now, It's Free</a>
-
-
+					<a href="/login" type="button" class="btn">Log in</a> 
+					<a href="/register" type="button" class="btn btn-default topbtn">Test it now, It's Free</a>
+					<a href="/productrecommendation" type="button" class="btn btn-default topbtn">Product Recommendation</a>
 				</div>
 
 

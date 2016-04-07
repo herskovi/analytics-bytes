@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import main.java.com.analytic.reports.datatypes.TokenParamsDT;
 
 import org.apache.http.NameValuePair;
@@ -46,4 +48,21 @@ public class HttpClientUtils
 		}
 		return response;
 	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Aug 30, 2014
+	 *@Description: Populate Support Data Type From Http Request
+	 */
+
+	public static String getUserIdFromHttpRequest(HttpServletRequest req) 
+	{
+		String userId = req.getParameter("email_address");
+		return userId;
+	}
+
+
+	
+	
 }

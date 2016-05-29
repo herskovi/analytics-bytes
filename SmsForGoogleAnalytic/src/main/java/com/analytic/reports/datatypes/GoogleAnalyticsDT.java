@@ -4,6 +4,8 @@
 package main.java.com.analytic.reports.datatypes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.api.services.analytics.model.Profiles;
 
@@ -22,6 +24,8 @@ public class GoogleAnalyticsDT implements Serializable
 	private String goalValue=null;
 	private String users="";
 	private String sessions="";
+	private String metrics="";
+	private List<RawDataDT> rawDataList= new ArrayList<RawDataDT>();
 
 
 	/**
@@ -155,6 +159,29 @@ public class GoogleAnalyticsDT implements Serializable
 	public void setSessions(String sessions) {
 		this.sessions = sessions;
 	}
+
+	public String getMetrics() {
+		return metrics;
+	}
+
+	public void setMetrics(String metrics) {
+		this.metrics = metrics;
+	}
+
+	/**
+	 * @return the rawDataList
+	 */
+	public List<RawDataDT> getRawDataList() {
+		return rawDataList;
+	}
+
+	/**
+	 * @param rawDataList the rawDataList to set
+	 */
+	public void setRawDataList(List<RawDataDT> rawDataList) {
+		this.rawDataList = rawDataList;
+	}
+	
 	
 	
 	

@@ -312,6 +312,14 @@
 		<url-pattern>/productrecommendationemailselectionwizard</url-pattern>
 	</servlet-mapping>	
 	
+	<servlet>
+		<servlet-name>TelegramRegisterDeviceServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.TelegramRegisterDeviceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TelegramRegisterDeviceServlet</servlet-name>
+		<url-pattern>/telegramregisterdevice</url-pattern>
+	</servlet-mapping>	
 	
 	
 	

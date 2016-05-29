@@ -6,6 +6,9 @@ package main.java.com.analytic.reports.controller;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +17,7 @@ import main.java.com.analytic.reports.controller.response.DailySmsResponse;
 import main.java.com.analytic.reports.controller.response.ProductRecommendationAnalyticsAPIResponse;
 import main.java.com.analytic.reports.datatypes.GoogleAnalyticsDT;
 import main.java.com.analytic.reports.datatypes.ProfileDT;
+import main.java.com.analytic.reports.datatypes.RawDataDT;
 import main.java.com.analytic.reports.interfaces.IResponse;
 import main.java.com.analytic.reports.jdo.dao.CustomerDAO;
 import main.java.com.analytic.reports.jdo.model.Customer;
@@ -28,6 +32,7 @@ import main.java.com.analytic.reports.utils.consts.AnalyticConsts;
 import com.google.api.client.util.ArrayMap;
 import com.google.api.services.analytics.Analytics;
 import com.google.api.services.analytics.model.GaData;
+import com.google.api.services.analytics.model.GaData.DataTable;
 
 /**
  * @author admin
@@ -37,13 +42,18 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 {
 	private String userId ="";
 	private String profileId ="";
-	private String startDate = "yesterday";
+	//private String startDate = "yesterday";
+	private String startDate = "2015-01-01";
 	String endDate = "today";
-	String[] metricsArr = {"ga:dimension1","ga:sessions","ga:users"};
+	String[] metricsArr = {"ga:metric1","ga:sessions","ga:users","ga:goal1Completions","ga:goal2Completions","ga:goal3Completions","ga:goal4Completions","ga:goal5Completions"};
+	String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:sourceMedium,ga:campaign,ga:country,ga:pagePath"};
+	Map<String, RawDataDT> rawDataDtMap = new HashMap<String, RawDataDT>();
+
+	//String[] metricsArr = {"ga:metric1","ga:sessions"};
 	HttpServletRequest productRecommendationAnalyticsAPIRequest = null;
 	ProductRecommendationAnalyticsAPIResponse productRecommendationAnalyticsAPIResponse= null;
 	private static final Logger log = Logger.getLogger(DailySmsServlet.class.getName());
-	
+
 
 	/**
 	 * @param startDate
@@ -59,7 +69,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		this.endDate = endDate;
 		this.metricsArr = metricsArr;
 	}
-	
+
 	/**
 	 * @param startDate
 	 * @param profileId
@@ -73,7 +83,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-	
+
 	/**
 	 * @param startDate
 	 * @param profileId
@@ -85,7 +95,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		this.startDate = startDate;
 		this.endDate = DateUtils.getCurrentDateTime();
 	}
-	
+
 	/**
 	 * @param startDate
 	 * @param profileId
@@ -97,10 +107,10 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		this.startDate = startDate;
 		this.endDate = DateUtils.getCurrentDateTime();	}
 
-	
+
 	public ProductRecommendationAnalyticsAPIController()
 	{
-		
+
 	}
 
 
@@ -146,21 +156,19 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 	private void extractGAData(boolean isLocalMode) throws IOException, Exception 
 	{
-			try
-			{
-				Customer cust = CustomerDAO.getCustomerInformationByUserID(userId);
-				ProfileDT profileDT = getUserAnalyticsProfile(cust);
-				setGAAccountInfo(cust);
-				//userId = cust.getUniqueAccountNumber();
-				//userId = changeUserIdInCaseCredentialDoesNotExistWithUAN(userId, cust);
-				extractGoogleAnalyticsData(isLocalMode, userId,	profileDT.getProfileId(), startDate, endDate);
-			
-			}catch(Exception ex)
-			{
-				log.severe(" userId   " + userId + " profileId " + profileId + "FAILED***!!!! "+ ex.getMessage());
-			}
+		try
+		{
+			Customer cust = CustomerDAO.getCustomerInformationByUserID(userId);
+			ProfileDT profileDT = getUserAnalyticsProfile(cust);
+			setGAAccountInfo(cust);
+			extractGoogleAnalyticsData(isLocalMode, userId,	profileDT.getProfileId(), startDate, endDate);
 
-		
+		}catch(Exception ex)
+		{
+			log.severe(" userId   " + userId + " profileId " + profileId + "FAILED***!!!! "+ ex.getMessage());
+		}
+
+
 
 	}
 	/**
@@ -188,7 +196,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 	public void extractGoogleAnalyticsData(boolean isLocalMode, String userId, String profileID,String startDate, String endDate)  throws IOException, Exception
 	{
-		
+
 		Analytics analytics = getAnalyticsCredential(userId, profileID);
 		try 
 		{
@@ -198,9 +206,9 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			log.severe(" cust.getCustomerAnalyticList().get(0) was not defined for this user   " + userId);
 			throw ex;
 		}
-		
+
 	}
-	
+
 	/**
 	 * 
 	 *@Author:      Moshe Herskovits
@@ -216,16 +224,13 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			analytics = CredentialUtils.loadAnalytics(userId);
 		} catch (Exception ex) 
 		{
-			// Token was not refreshed properly, call one more time for
-			// refresh token
 			analytics = CredentialUtils.loadAnalytics(userId);
-	
 			log.severe("profileID EXCEPTION CredentialUtils.loadAnalytics(userId); - Exception!!!  " + profileID);
 		}
 		return analytics;
 	}
 
-	
+
 
 	/**
 	 * 
@@ -237,19 +242,19 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	private GoogleAnalyticsDT setGoogleAnalyticsData(String users,String sessions) 
 	{
 		GoogleAnalyticsDT googleAnalyticsDT = new GoogleAnalyticsDT();
-		
-//		String accountId = custUtils.getAccountId(subscriberIndex,smsIndex);
-//		String webPropertId = custUtils.getWebPropertyId(subscriberIndex,smsIndex);
-//		String profileID = custUtils.getProfileId(subscriberIndex,smsIndex);
-//		String goalId = custUtils.getGoalId(subscriberIndex,smsIndex);
-//		String goalName = custUtils.getGoalName(subscriberIndex,smsIndex);			
-//		GoalDT goalDT = new GoalDT(accountId,webPropertId,profileID, goalId,  goalName);
+
+		//		String accountId = custUtils.getAccountId(subscriberIndex,smsIndex);
+		//		String webPropertId = custUtils.getWebPropertyId(subscriberIndex,smsIndex);
+		//		String profileID = custUtils.getProfileId(subscriberIndex,smsIndex);
+		//		String goalId = custUtils.getGoalId(subscriberIndex,smsIndex);
+		//		String goalName = custUtils.getGoalName(subscriberIndex,smsIndex);			
+		//		GoalDT goalDT = new GoalDT(accountId,webPropertId,profileID, goalId,  goalName);
 		return googleAnalyticsDT;
 	}
-	
-	
 
-	
+
+
+
 	/**
 	 * 
 	 * @param analytics 
@@ -260,34 +265,80 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 	public GoogleAnalyticsDT getAnalyticData(Analytics analytics) throws IOException 
 	{
-		String key = "";
-		String value = "";
-		GaData gaData = AnalyticUtils.executeDataQuery(analytics, profileId, metricsArr, startDate, endDate);
+
 		GoogleAnalyticsDT googleAnalyticsDT = new GoogleAnalyticsDT();
+		GaData gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
 		if (gaData != null) 
 		{
 			ArrayMap<String,String> map = (ArrayMap)gaData.getTotalsForAllResults();
 			for (int i = 0; i < metricsArr.length; i++) 
 			{
-				key = metricsArr[i];  //i.e. ga:sessions, ga:users,etc..
-				value = map.get(key);			
-				if (AnalyticConsts.GA_USERS_HEADER.equals(key))
-				{
-					googleAnalyticsDT.setUsers(value);
-				}else if(AnalyticConsts.GA_SESSION_HEADER.equals(key))
-				{
-					googleAnalyticsDT.setSessions(value);
-				}else if(key.startsWith("ga:goal"))
-				{
-					googleAnalyticsDT.setGoalValue(value);
-				}
+				setAnalyticsGaData(googleAnalyticsDT, map, i);
+			}
+			//RawDataDT rawDataDT = new RawDataDT(googleAnalyticsDT..get, value, value);
+			List<RawDataDT> rawDataList = googleAnalyticsDT.getRawDataList(); 
+			List<List<String>> gaDataRows= gaData.getRows();
+			for (List<String> itemList : gaDataRows) 
+			{
+				//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, //[3]- ga:sourceMedium,[4] - ga:campaign, [5] - ga:country, [6] - ga:pagePath
+				String clientId = itemList.get(0);
+				RawDataDT rawDataDT = getRawDataDT(clientId , itemList);
 				
+				rawDataDT.setHour(itemList.get(1));	
+				rawDataDT.setMinute(itemList.get(2));				
+				rawDataDT.setSourceMedium(itemList.get(3));
+				rawDataDT.setCampaign(itemList.get(4));
+				rawDataDT.setCountry(itemList.get(5));
+				rawDataDT.setPagePath(itemList.get(6));
+				//rawDataDT.setMobileDeviceInfo(itemList.get(6));
+				rawDataList.add(rawDataDT);
+				rawDataDtMap.put(clientId, rawDataDT);
 			}
 		}
 		return googleAnalyticsDT;
 
 	}
 	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 28, 2016
+	 *@Description: Return RawDataDT from Map or create new object.
+	 */
+
+	private RawDataDT getRawDataDT(String clientId, List<String> itemList) 
+	{	
+		return (rawDataDtMap.get(clientId) == null ? new RawDataDT(clientId) : rawDataDtMap.get(clientId));
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 25, 2016
+	 *@Description: Set Analytics GA Data
+	 */
+
+	private void setAnalyticsGaData(GoogleAnalyticsDT googleAnalyticsDT, ArrayMap<String, String> map, int i) 
+	{
+		String key;
+		String value;
+		key = metricsArr[i];  //i.e. ga:sessions, ga:users,etc..
+		value = map.get(key);			
+		if (AnalyticConsts.GA_USERS_HEADER.equals(key))
+		{
+			googleAnalyticsDT.setUsers(value);
+		}else if(AnalyticConsts.GA_SESSION_HEADER.equals(key))
+		{
+			googleAnalyticsDT.setSessions(value);
+		}else if(key.startsWith("ga:goal"))
+		{
+			googleAnalyticsDT.setGoalValue(value);
+		}else if(key.startsWith(AnalyticConsts.GA_METRIC_HEADER))
+		{
+			googleAnalyticsDT.setMetrics(value);
+		}
+	}
+
 	/**
 	 * @Author: Moshe Herskovits
 	 * @Date: Jun 1, 2014
@@ -298,19 +349,19 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	{
 
 		ProfileDT  profileDT = null;
-			if (cust != null)
-			{
-				userId = cust.getUniqueAccountNumber(); 
-				CustomerHelper custUtils = new CustomerHelper(cust,userId);
-				String accountId = custUtils.getAccountId();
-				String webPropertyId = custUtils.getWebPropertyId();
-				profileId = custUtils.getProfileId();
-				profileDT = new ProfileDT(accountId, webPropertyId,profileId);
-				
-			}
+		if (cust != null)
+		{
+			userId = cust.getUniqueAccountNumber(); 
+			CustomerHelper custUtils = new CustomerHelper(cust,userId);
+			String accountId = custUtils.getAccountId();
+			String webPropertyId = custUtils.getWebPropertyId();
+			profileId = custUtils.getProfileId();
+			profileDT = new ProfileDT(accountId, webPropertyId,profileId);
+
+		}
 		return profileDT;
 	}
-	
+
 	/**
 	 * @Author: Moshe Herskovits
 	 * @Date: Jun 1, 2014
@@ -351,7 +402,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 */
 	@Override
 	public void setResponse(String message) {
-		
+
 	}
 
 

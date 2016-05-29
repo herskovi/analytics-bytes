@@ -5,6 +5,7 @@ package main.java.com.analytic.reports.utils;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.logging.Logger;
 
 import main.java.com.analytic.reports.datatypes.GoalDT;
@@ -15,6 +16,7 @@ import com.google.api.services.analytics.Analytics;
 import com.google.api.services.analytics.Analytics.Data;
 import com.google.api.services.analytics.Analytics.Data.Ga;
 import com.google.api.services.analytics.Analytics.Data.Ga.Get;
+import com.google.api.services.analytics.Analytics.Data.Mcf;
 import com.google.api.services.analytics.model.Accounts;
 import com.google.api.services.analytics.model.GaData;
 import com.google.api.services.analytics.model.Profiles;
@@ -45,6 +47,23 @@ public class AnalyticUtils
 		return gaData;
 	}
 	
+	/**
+	 * Returns the  Custom Reports values from GA. The Core Reporting API
+	 * is used to retrieve this data.
+	 *
+	 * @param analytics the analytics service object used to access the API.
+	 * @param profileId the profile ID from which to retrieve data.
+	 * @return the response from the API.
+	 * @throws IOException tf an API error occured.
+	 */
+	public static GaData extractCustomReportsFromGA(Analytics analytics, String profileId,String [] metricsArr,String [] dimensionArr, String startDate, String endDate) throws IOException 
+	{
+		StringBuffer metrics = ConvertUtils.convertMetricsFromArrayToString(metricsArr);
+		StringBuffer dimension = ConvertUtils.convertMetricsFromArrayToString(dimensionArr);
+		GaData gaData = extractCustomReportsFromGA(analytics, profileId, startDate, endDate, metrics.toString(), dimension.toString());
+		return gaData;
+	}
+	
 	
 
 	/**
@@ -61,14 +80,14 @@ public class AnalyticUtils
 		try 
 		{
 			//Sleep for 1 seconds before each call to GA.
-			
 			Data data = analytics.data();
 			Ga ga = data.ga();
 			Get get = ga.get("ga:" + profileId, startDate, endDate, metrics);
-			//Thread.sleep(1000);
+			Thread.sleep(1000);
 			get.setMaxResults(25);
 			get.setQuotaUser("XX"+profileId);
 			gaData = get.execute();
+			
 			
 //			gaData =  analytics.data().ga().get("ga:" + profileId, // Table Id. ga: + profile id.
 //					startDate, // Start date.
@@ -86,6 +105,37 @@ public class AnalyticUtils
 		}
 		return gaData;
 	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 10, 2014
+	 *@Description: Call to External Google Analytic API 
+	 *				in order to get GaData by specific metrics 
+	 */
+
+	public static GaData extractCustomReportsFromGA(Analytics analytics,
+			String profileId, String startDate, String endDate, String metrics, String dimensions) 
+	{
+		GaData gaData =null;
+		try 
+		{
+			System.out.println();
+			Data data = analytics.data();
+			Ga ga = data.ga();
+			Get get = ga.get("ga:" + profileId, startDate, endDate, metrics).setDimensions(dimensions);
+			//get.setMaxResults(5000);
+			get.setQuotaUser("XX"+profileId);
+			gaData = get.execute();
+
+		}catch(Exception ex)
+		{
+			log.severe("Could not execute ga().get for profile" + profileId + " and for metrics " + metrics );
+			log.severe(ex.getMessage());
+		}
+		return gaData;
+	}
+
 
 	/**
 	 * 
@@ -111,11 +161,7 @@ public class AnalyticUtils
 		String goalName = goalDT.getGoalName();
 		String goalValue = "0.0";
 		
-//		if(goalName != null )
-//		{
-//			goalValue = String.valueOf(Math.round(goal.getValue()));
-//		}
-//		
+	
 		for (int i = 0; i < metricsArr.length; i++) 
 		{
 			key = metricsArr[i];  //i.e. ga:sessions, ga:users,etc..
@@ -298,7 +344,7 @@ public class AnalyticUtils
 	 * @return the response from the API.
 	 * @throws IOException tf an API error occured.
 	 */
-	public static GaData getCustomReports(Analytics analytics, String profileId,String [] metricsArr,String startDate, String endDate) throws IOException 
+	public static GaData g(Analytics analytics, String profileId,String [] metricsArr,String startDate, String endDate) throws IOException 
 	{
 		StringBuffer metrics = ConvertUtils.convertMetricsFromArrayToString(metricsArr);
 		GaData gaData = getGaDataByMetrics(analytics, profileId, startDate, endDate, metrics.toString());

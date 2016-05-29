@@ -99,7 +99,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   
        	<div class="row">
        		<div class="form-wrapper">
-       		 <form name="productRecommendationEmailSelectionWizardForm" action="/producteecommendationemailselectionwizard" method="post" class="form-horizontal login-form">
+       		 <form name="productRecommendationEmailSelectionWizardForm" action="productrecommendationemailselectionwizard" method="post" class="form-horizontal login-form">
        		 		<input id="uniqueAccountNumber" name="uniqueAccountNumber" type="hidden" value='${uniqueAccountNumber}' />
        		             	  <br>  
        		             	  <br>

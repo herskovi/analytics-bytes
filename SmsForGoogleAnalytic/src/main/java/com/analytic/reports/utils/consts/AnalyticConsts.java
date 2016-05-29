@@ -15,6 +15,8 @@ public interface AnalyticConsts extends GeneralConsts
 	public static  final String GA_USERS = " Users Visited your website in ";
 	public static  final String GA_SESSION_HEADER  = "ga:sessions"; 
 	public static  final String GA_SESSION  = " sessions ";
+	public static  final String GA_METRIC_HEADER  = "ga:sessions"; 
+	public static  final String GA_METRIC  = " sessions ";
 	public static  final String GA_GOAL_COMPLETION_ALL_HEADER = "ga:goalCompletionsAll";
 	public static  final String GA_GOAL_COMPLETION_ALL = " Out of which Goals were completed succesfully ";
 	public static  final String GA_GOAL_VALUE_ALL_HEADER = "ga:goalValueAll";

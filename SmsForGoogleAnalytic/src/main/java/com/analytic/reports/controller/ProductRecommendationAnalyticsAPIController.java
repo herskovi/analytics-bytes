@@ -4,6 +4,7 @@
 package main.java.com.analytic.reports.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -275,30 +276,110 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			{
 				setAnalyticsGaData(googleAnalyticsDT, map, i);
 			}
-			//RawDataDT rawDataDT = new RawDataDT(googleAnalyticsDT..get, value, value);
-			List<RawDataDT> rawDataList = googleAnalyticsDT.getRawDataList(); 
-			List<List<String>> gaDataRows= gaData.getRows();
-			for (List<String> itemList : gaDataRows) 
-			{
-				//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, //[3]- ga:sourceMedium,[4] - ga:campaign, [5] - ga:country, [6] - ga:pagePath
-				String clientId = itemList.get(0);
-				RawDataDT rawDataDT = getRawDataDT(clientId , itemList);
-				
-				rawDataDT.setHour(itemList.get(1));	
-				rawDataDT.setMinute(itemList.get(2));				
-				rawDataDT.setSourceMedium(itemList.get(3));
-				rawDataDT.setCampaign(itemList.get(4));
-				rawDataDT.setCountry(itemList.get(5));
-				rawDataDT.setPagePath(itemList.get(6));
-				//rawDataDT.setMobileDeviceInfo(itemList.get(6));
-				rawDataList.add(rawDataDT);
-				rawDataDtMap.put(clientId, rawDataDT);
-			}
 		}
+		//RawDataDT rawDataDT = new RawDataDT(googleAnalyticsDT..get, value, value);
+		List<RawDataDT> rawDataList = googleAnalyticsDT.getRawDataList(); 
+		List<List<String>> gaDataRows= gaData.getRows();
+		setValuesFirststCall(rawDataList, gaDataRows);
+		
+		String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:browser,ga:deviceCategory,ga:landingPagePath,ga:exitPagePath"};
+		gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
+		gaDataRows= gaData.getRows();
+		setValuesSecondCall(rawDataList, gaDataRows);
+		//Convert to List
+		List<RawDataDT> valuesToMatch=new ArrayList<RawDataDT>();
+		for(RawDataDT rd : rawDataDtMap.values()){
+		  valuesToMatch.add(rd);
+		}
+		googleAnalyticsDT.setRawDataList(valuesToMatch);
 		return googleAnalyticsDT;
-
 	}
+
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 29, 2016
+	 *@Description: Insert into Hashmap
+	 */
+
+	private void setValuesFirststCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) 
+	{
+		for (List<String> itemList : gaDataRows) 
+		{
+			//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, //[3]- ga:sourceMedium,[4] - ga:campaign, [5] - ga:country, [6] - ga:pagePath
+			//[7] - ga:metric1", [8] - "ga:sessions", [9] - "ga:users",[10] - "ga:goal1Completions", [11] - "ga:goal2Completions",
+			//[12] - "ga:goal3Completions",[13] - "ga:goal4Completions", [14] - "ga:goal5Completions"
+			String clientId = itemList.get(0);
+			String hour = itemList.get(1);
+			String minute = itemList.get(2);
+			String key  = clientId+"@" + hour + "@" + minute;
+			RawDataDT rawDataDT = getRawDataDT(key, clientId , hour, minute,itemList);
+
+			setDimensionsValuesFirstCall(itemList, rawDataDT);
+			setMetricsValues(itemList, rawDataDT);
+
+			//rawDataList.add(rawDataDT); FIXME Check if it needs to be comment or not
+			rawDataDtMap.put(key , rawDataDT);
+		}
+	}
+
 	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 30, 2016
+	 *@Description: Set Metrics Values from list 7 to  
+	 */
+	
+	private void setMetricsValues(List<String> itemList, RawDataDT rawDataDT) 
+	{
+		rawDataDT.setMetric1(itemList.get(7));
+		rawDataDT.setSessions(itemList.get(8));
+		rawDataDT.setUsers(itemList.get(9));
+		rawDataDT.setGoal1Completions(itemList.get(10));
+		rawDataDT.setGoal2Completions(itemList.get(11));
+		rawDataDT.setGoal3Completions(itemList.get(12));
+		rawDataDT.setGoal4Completions(itemList.get(13));
+		rawDataDT.setGoal5Completions(itemList.get(14));
+	}
+
+	private void setDimensionsValuesFirstCall(List<String> itemList, RawDataDT rawDataDT) {
+		rawDataDT.setHour(itemList.get(1));	
+		rawDataDT.setMinute(itemList.get(2));				
+		rawDataDT.setSourceMedium(itemList.get(3));
+		rawDataDT.setCampaign(itemList.get(4));
+		rawDataDT.setCountry(itemList.get(5));
+		rawDataDT.setPagePath(itemList.get(6));
+	}
+
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        May 29, 2016
+	 *@Description: Insert into Hashmap
+	 */
+
+	private void setValuesSecondCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) {
+		for (List<String> itemList : gaDataRows) 
+		{
+			//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, [3] - ga:browser, [4] - ga:deviceCategory,[5] - ga:landingPagePath, [6] - ga:exitPagePath"
+			String clientId = itemList.get(0);
+			String hour = itemList.get(1);
+			String minute = itemList.get(2);
+			String key  = clientId+"@" + hour + "@" + minute;
+			RawDataDT rawDataDT = getRawDataDT(key, clientId , hour, minute,itemList);
+
+			rawDataDT.setHour(itemList.get(1));	
+			rawDataDT.setMinute(itemList.get(2));				
+			rawDataDT.setBrowser(itemList.get(3));
+			rawDataDT.setDeviceCategory(itemList.get(4));
+			rawDataDT.setLandingPagePath(itemList.get(5));
+			rawDataDT.setExitPagePath(itemList.get(6));
+			setMetricsValues(itemList, rawDataDT);
+			rawDataDtMap.put(key , rawDataDT);
+		}
+	}
+
 	/**
 	 * 
 	 *@Author:      Moshe Herskovits
@@ -306,16 +387,22 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Return RawDataDT from Map or create new object.
 	 */
 
-	private RawDataDT getRawDataDT(String clientId, List<String> itemList) 
+	private RawDataDT getRawDataDT(String key, String clientId, String hour, String minute, List<String> itemList) 
 	{	
-		return (rawDataDtMap.get(clientId) == null ? new RawDataDT(clientId) : rawDataDtMap.get(clientId));
+		RawDataDT rawDataDT = rawDataDtMap.get(key);
+		if (rawDataDT == null)
+		{
+			rawDataDT = new RawDataDT(clientId,hour,minute);
+		}		
+		return rawDataDT;
+		//return (rawDataDtMap.get(key) == null ? new RawDataDT(clientId,hour,minute) : rawDataDtMap.get(key));
 	}
-	
+
 	/**
 	 * 
 	 *@Author:      Moshe Herskovits
 	 *@Date:        May 25, 2016
-	 *@Description: Set Analytics GA Data
+	 *@Description: Set Analytics GA Header Data
 	 */
 
 	private void setAnalyticsGaData(GoogleAnalyticsDT googleAnalyticsDT, ArrayMap<String, String> map, int i) 
@@ -404,6 +491,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	public void setResponse(String message) {
 
 	}
+
 
 
 }

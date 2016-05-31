@@ -33,7 +33,6 @@ public class EmailConfirmationServlet extends HttpServlet
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)	throws IOException, ServletException 
 	{
-
 		EmailConfirmationDT emailConfirmationDT = populateEmailNotificationDataTypeFromHttpRequest(req);
 		IController emailConfirmationController = getController(emailConfirmationDT); 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-<!-- Spring Configuration Start -->
+<!-- Spring Configuration Start 
 	<servlet>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -23,7 +23,9 @@
                    org.springframework.web.context.ContextLoaderListener
                 </listener-class>
 	</listener>
-	<!-- Spring Configuration End -->
+	
+	Spring Configuration End -->
+	
 	<servlet>
 		<servlet-name>DailySmsServlet</servlet-name>
 		<servlet-class>main.java.com.analytic.reports.servlets.DailySmsServlet</servlet-class>
@@ -320,10 +322,6 @@
 		<servlet-name>TelegramRegisterDeviceServlet</servlet-name>
 		<url-pattern>/telegramregisterdevice</url-pattern>
 	</servlet-mapping>	
-	
-	
-	
-	
 	
 	<servlet>
 		<servlet-name>MobileSelectionWizardServlet</servlet-name>

@@ -15,6 +15,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SmsForGoogleAnalyticsLib"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/google-api-services-analytics-v3-rev127-1.21.0.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/javacsv-2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/appengine-gcs-client-0.6.jar"/>
+	<classpathentry kind="lib" path="/Users/admin/git/analytics-bytes/SmsForGoogleAnalytic/war/WEB-INF/lib/guava-19.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

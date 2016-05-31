@@ -26,9 +26,9 @@ import com.google.api.services.analytics.model.Webproperties;
  * @author admin
  * May 15, 2014
  */
-public class AnalyticUtils 
+public class StorageUtils 
 {
-	private static final Logger log = Logger.getLogger(AnalyticUtils.class.getName());
+	private static final Logger log = Logger.getLogger(StorageUtils.class.getName());
 
 
 	/**

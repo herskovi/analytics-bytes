@@ -32,6 +32,10 @@ import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.services.analytics.Analytics;
 import com.google.api.services.analytics.AnalyticsScopes;
+import com.google.api.services.prediction.Prediction;
+import com.google.api.services.prediction.PredictionScopes;
+import com.google.api.services.storage.Storage;
+import com.google.api.services.storage.StorageScopes;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -155,18 +159,75 @@ public class CredentialUtils {
 				new AppEngineCredentialStore()).setAccessType("offline")
 				.build();
 	}
+	
+	public static GoogleAuthorizationCodeFlow newFlowForStorageService() throws IOException {
+		
+		return new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
+				JSON_FACTORY, getClientSecret(),
+				Collections.singleton(StorageScopes.CLOUD_PLATFORM))
+				.setCredentialStore(
 
-	public static Analytics loadAnalytics() throws IOException 
-	{
-		String userId = UserServiceFactory.getUserService().getCurrentUser()
-				.getUserId();
-		return loadAnalytics(userId);
+				new AppEngineCredentialStore()).setAccessType("offline")
+				.build();
 	}
+	
+	public static GoogleAuthorizationCodeFlow newFlowForPredictionService() throws IOException {
+		
+		return new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
+				JSON_FACTORY, getClientSecret(),
+				Collections.singleton(PredictionScopes.PREDICTION))
+				.setCredentialStore(
+				new AppEngineCredentialStore()).setAccessType("offline")
+				.build();
+	}
+
+//	public static Analytics loadAnalytics() throws IOException 
+//	{
+//		String userId = UserServiceFactory.getUserService().getCurrentUser()
+//				.getUserId();
+//		return loadAnalytics(userId);
+//	}
+	
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 1, 2016
+	 *@Description: Load Analytics Service
+	 */
 
 	public static Analytics loadAnalytics(String userId) throws IOException 
 	{
 		Credential credential = newFlow().loadCredential(userId);
 		return new Analytics.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+				.build();
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 2, 2016
+	 *@Description: Load Google Cloud Service Storage
+	 */
+	
+	public static Storage loadStorage(String userId) throws IOException 
+	{
+		Credential credential = newFlowForStorageService().loadCredential(userId);
+		return new Storage.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+				.build();
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 2, 2016
+	 *@Description: Load Google Cloud Service Storage
+	 */
+	
+	public static Prediction loadPrediction(String userId) throws IOException 
+	{
+		Credential credential = newFlowForPredictionService().loadCredential(userId);
+		return new Prediction.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
 				.build();
 	}
 

@@ -78,6 +78,17 @@
 		<servlet-name>SmsForGoogleAnalyticLoginServlet</servlet-name>
 		<url-pattern>/smsforgoogleanalyticloginservlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GoogleCloudStorageServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.GoogleCloudStorageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GoogleCloudStorageServlet</servlet-name>
+		<url-pattern>/gcstorage</url-pattern>
+	</servlet-mapping>
+		
+	
 	<servlet>
 		<servlet-name>SmsForGoogleAnalyticCallbackSample</servlet-name>
 		<servlet-class>main.java.com.analytic.reports.servlets.SmsForGoogleAnalyticCallbackSample</servlet-class>

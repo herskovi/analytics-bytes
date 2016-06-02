@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import main.java.com.analytic.reports.controller.DailySmsController;
 import main.java.com.analytic.reports.controller.GCStorageController;
+import main.java.com.analytic.reports.controller.PredictionController;
 import main.java.com.analytic.reports.controller.ProductRecommendationAnalyticsAPIController;
 import main.java.com.analytic.reports.controller.response.ProductRecommendationAnalyticsAPIResponse;
 import main.java.com.analytic.reports.datatypes.RawDataDT;
@@ -45,10 +46,12 @@ public class ProductRecommendationServlet extends HttpServlet
 		IController productRecommendationAnalyticsAPIController = getController(req,resp); 
 		try 
 		{
+			String userId = HttpClientUtils.getUserIdFromHttpRequest(req);
 			productRecommendationAnalyticsAPIController.execute();
 			writeResponseIntoJson(resp, productRecommendationAnalyticsAPIController);
 			List<RawDataDT> googleAnalyticsList = ((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse()).getGoogleAnalyticsList().get(0).getRawDataList();
-			writeToGoogleCloudStorage(req,googleAnalyticsList);
+			writeToGoogleCloudStorage(req,googleAnalyticsList,userId);
+			trainTheNewModel(req,googleAnalyticsList,userId);
 
 		} catch (Exception e) 
 		{
@@ -58,19 +61,32 @@ public class ProductRecommendationServlet extends HttpServlet
 	}
 
 	/**
+	 *@throws Exception 
+	 * @Author:      Moshe Herskovits
+	 *@Date:        Jun 2, 2016
+	 *@Description:
+	 */
+	private void trainTheNewModel(HttpServletRequest req, List<RawDataDT> rawDataList,String userId) throws Exception 
+	{
+		IController predictionController = new PredictionController(req.getInputStream(),userId, BUCKET_NAME,FILE_NAME,rawDataList);
+		predictionController.execute();
+		
+	}
+
+	/**
 	 *@param req 
 	 * @Author:      Moshe Herskovits
 	 *@Date:        May 30, 2016
 	 *@Description: Write to CSV All RawData
 	 */
-	private void writeToGoogleCloudStorage(HttpServletRequest req, List<RawDataDT> rawDataList) 
+	private void writeToGoogleCloudStorage(HttpServletRequest req, List<RawDataDT> rawDataList,String userId) 
 	{
 		String bucketName = "";
 		String objectName = ""; 
 		 
 		try
 		{
-			IController gcStorageController = new GCStorageController(req.getInputStream(),BUCKET_NAME,FILE_NAME,rawDataList);
+			IController gcStorageController = new GCStorageController(req.getInputStream(),userId, BUCKET_NAME,FILE_NAME,rawDataList);
 			gcStorageController.execute();
 		}
 		

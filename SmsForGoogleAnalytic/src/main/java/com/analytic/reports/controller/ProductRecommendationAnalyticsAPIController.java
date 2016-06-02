@@ -49,11 +49,9 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	String[] metricsArr = {"ga:metric1","ga:sessions","ga:users","ga:goal1Completions","ga:goal2Completions","ga:goal3Completions","ga:goal4Completions","ga:goal5Completions"};
 	String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:sourceMedium,ga:campaign,ga:country,ga:pagePath"};
 	Map<String, RawDataDT> rawDataDtMap = new HashMap<String, RawDataDT>();
-
-	//String[] metricsArr = {"ga:metric1","ga:sessions"};
 	HttpServletRequest productRecommendationAnalyticsAPIRequest = null;
 	ProductRecommendationAnalyticsAPIResponse productRecommendationAnalyticsAPIResponse= null;
-	private static final Logger log = Logger.getLogger(DailySmsServlet.class.getName());
+	private static final Logger log = Logger.getLogger(ProductRecommendationAnalyticsAPIController.class.getName());
 
 
 	/**
@@ -198,7 +196,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	public void extractGoogleAnalyticsData(boolean isLocalMode, String userId, String profileID,String startDate, String endDate)  throws IOException, Exception
 	{
 
-		Analytics analytics = getAnalyticsCredential(userId, profileID);
+		Analytics analytics = getAnalyticsService(userId, profileID);
 		try 
 		{
 			GoogleAnalyticsDT googleAnalyticsDT = getAnalyticData(analytics);
@@ -217,7 +215,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Get Analytics Credential
 	 */
 
-	private Analytics getAnalyticsCredential(String userId, String profileID)
+	private Analytics getAnalyticsService(String userId, String profileID)
 			throws IOException {
 		Analytics analytics = null;
 		try

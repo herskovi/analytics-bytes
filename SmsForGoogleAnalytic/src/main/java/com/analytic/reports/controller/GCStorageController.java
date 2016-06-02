@@ -15,49 +15,29 @@
  */
 package main.java.com.analytic.reports.controller;
 
-import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.services.analytics.Analytics;
-import com.google.api.services.analytics.model.Goals;
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-//[START gcs_imports]
-import com.google.appengine.tools.cloudstorage.GcsFileOptions;
-import com.google.appengine.tools.cloudstorage.GcsFilename;
-import com.google.appengine.tools.cloudstorage.GcsInputChannel;
-import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
+import javax.servlet.ServletInputStream;
+import main.java.com.analytic.reports.controller.response.GCStorageResponse;
+import main.java.com.analytic.reports.datatypes.RawDataDT;
+import main.java.com.analytic.reports.interfaces.IResponse;
+import main.java.com.analytic.reports.utils.CredentialUtils;
+import main.java.com.analytic.reports.utils.StorageUtils;
+import com.google.api.client.http.InputStreamContent;
+import com.google.api.services.storage.Storage;
+import com.google.api.services.storage.model.Bucket;
+import com.google.api.services.storage.model.ObjectAccessControl;
+import com.google.api.services.storage.model.StorageObject;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
-
-
-
-
-
-
-
-
-
-
-//[END gcs_imports]
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.nio.ByteBuffer;
-import java.nio.channels.Channels;
-import java.util.List;
-
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import main.java.com.analytic.reports.controller.response.GCStorageResponse;
-import main.java.com.analytic.reports.controller.response.ProductRecommendationAnalyticsAPIResponse;
-import main.java.com.analytic.reports.datatypes.RawDataDT;
-import main.java.com.analytic.reports.interfaces.IResponse;
+import com.google.gson.Gson;
 
 
 /**
@@ -67,12 +47,15 @@ import main.java.com.analytic.reports.interfaces.IResponse;
 public class GCStorageController extends BaseController {
 
 	public static final boolean SERVE_USING_BLOBSTORE_API = false;
+	private String userId ="";
 	private String bucketName ="";
 	private String fileName ="";
 	GCStorageResponse gcStorageResponse= null;
 	ServletInputStream inputStream = null;
 	List<RawDataDT> rawDataList = null;
-	
+	private static final Logger log = Logger.getLogger(GCStorageController.class.getName());
+
+
 	/**
 	 * This is where backoff parameters are configured. Here it is aggressively retrying with
 	 * backoff, up to 10 times but taking no more that 15 seconds total to do so.
@@ -93,9 +76,10 @@ public class GCStorageController extends BaseController {
 	 * @param objectName
 	 * @throws IOException 
 	 */
-	public GCStorageController(ServletInputStream inputStream, String bucketName, String fileName, List<RawDataDT> rawDataList) throws IOException 
+	public GCStorageController(ServletInputStream inputStream,String userId, String bucketName, String fileName, List<RawDataDT> rawDataList) throws IOException 
 	{
 		super();
+		this.userId = userId;
 		this.bucketName = bucketName;
 		this.fileName = fileName;
 		this.inputStream= inputStream;
@@ -105,94 +89,186 @@ public class GCStorageController extends BaseController {
 	@Override
 	public void execute() throws Exception
 	{	
-//		GcsFileOptions instance = GcsFileOptions.getDefaultInstance();
-//		GcsFilename fileName = getFileName();
-//		GcsOutputChannel outputChannel;
-//		outputChannel = gcsService.createOrReplace(fileName, instance);
-		//copy(inputStream, Channels.newOutputStream(outputChannel));
-		GcsService gcsService = GcsServiceFactory.createGcsService();
-	    GcsFilename filename = new GcsFilename(bucketName, fileName);
-	    GcsFileOptions options = new GcsFileOptions.Builder()
-	        .mimeType("text/html")
-	        .acl("public-read")
-	        .addUserMetadata("myfield1", "my field value")
-	        .build();
 
-	    GcsOutputChannel writeChannel = gcsService.createOrReplace(filename, options);
-	    PrintWriter writer = new PrintWriter(Channels.newWriter(writeChannel, "UTF8"));
-	    writer.println("The woods are lovely dark and deep.");
-	    writer.println("But I have promises to keep.");
-	    writer.flush();
-
-	    writeChannel.waitForOutstandingWrites();
-
-	    writeChannel.write(ByteBuffer.wrap("And miles to go before I sleep.".getBytes("UTF8")));
-
-	    writeChannel.close();
-		
-		
-	}
-
-	
-
-	/**
-	 * Retrieves a file from GCS and returns it in the http response.
-	 * If the request path is /gcs/Foo/Bar this will be interpreted as
-	 * a request to read the GCS file named Bar in the bucket Foo.
-	 */
-	//[START doGet]
-
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		GcsFilename fileName = getFileName();
-		if (SERVE_USING_BLOBSTORE_API) {
-			BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-			BlobKey blobKey = blobstoreService.createGsBlobKey(
-					"/gs/" + fileName.getBucketName() + "/" + fileName.getObjectName());
-			blobstoreService.serve(blobKey, resp);
-		} else {
-			GcsInputChannel readChannel = gcsService.openPrefetchingReadChannel(fileName, 0, BUFFER_SIZE);
-			copy(Channels.newInputStream(readChannel), resp.getOutputStream());
-		}
-	}
-	//[END doGet]
-
-	/**
-	 * Writes the payload of the incoming post as the contents of a file to GCS.
-	 * If the request path is /gcs/Foo/Bar this will be interpreted as
-	 * a request to create a GCS file named Bar in bucket Foo.
-	 */
-	//[START doPost]
-	//  @Override
-	//  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-	//    GcsFileOptions instance = GcsFileOptions.getDefaultInstance();
-	//    GcsFilename fileName = getFileName(req);
-	//    GcsOutputChannel outputChannel;
-	//    outputChannel = gcsService.createOrReplace(fileName, instance);
-	//    copy(req.getInputStream(), Channels.newOutputStream(outputChannel));
-	//  }
-	//[END doPost]
-
-	private GcsFilename getFileName() 
-	{ 
-		return new GcsFilename(bucketName, fileName);
-	}
-
-	/**
-	 * Transfer the data from the inputStream to the outputStream. Then close both streams.
-	 */
-	private void copy(InputStream input, OutputStream output) throws IOException {
 		try {
-			byte[] buffer = new byte[BUFFER_SIZE];
-			int bytesRead = input.read(buffer);
-			while (bytesRead != -1) {
-				output.write(buffer, 0, bytesRead);
-				bytesRead = input.read(buffer);
+
+			Storage storage = getStorageService(userId);
+			Bucket bucket = StorageUtils.getBucket(storage, bucketName);
+			System.out.println(bucket.getId());
+			long byteCount = 0;  // size of input stream
+
+			// Knowing the stream length allows server-side optimization, and client-side progress
+			// reporting with a MediaHttpUploaderProgressListener.
+			// TODO - Adding byteCount 
+			//mediaContent.setLength(byteCount);
+
+			StorageObject objectMetadata = null;
+			boolean useCustomMetadata = true;
+			objectMetadata = new StorageObject()
+			// Set the destination object name
+			.setName("rawData_test2.txt")
+			// Set the access control list to publicly read-only
+			.setAcl(Arrays.asList(
+					new ObjectAccessControl().setEntity("allUsers").setRole("READER")));
+
+			//			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			//			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			//			for (RawDataDT rawData : rawDataList)
+			//			{
+			//				oos.writeObject("Browser " + rawData.getBrowser());
+			//				oos.writeObject("hour " + rawData.getHour());
+			//				oos.writeObject("minute " + rawData.getMinute());
+			//				oos.writeObject("sourceMedium " + rawData.getSourceMedium());
+			//				oos.writeObject("campaign " + rawData.getCampaign());
+			//				oos.writeObject("country " + rawData.getCountry());
+			//				oos.writeObject("pagePath " + rawData.getPagePath());
+			//				oos.writeObject("mobileDeviceInfo " + rawData.getMobileDeviceInfo());				
+			//				oos.writeObject("browser " + rawData.getBrowser());
+			//				oos.writeObject("deviceCategory " + rawData.getDeviceCategory());
+			//				oos.writeObject("landingPagePath " + rawData.getLandingPagePath());
+			//				oos.writeObject("exitPagePath " + rawData.getExitPagePath());
+			//				oos.writeObject("metric1 " + rawData.getMetric1());
+			//				oos.writeObject("sessions " + rawData.getSessions());
+			//				oos.writeObject("users " + rawData.getUsers());
+			//				oos.writeObject("goal1Completions " + rawData.getGoal1Completions());
+			//				oos.writeObject("goal2Completions " + rawData.getGoal2Completions());
+			//				oos.writeObject("goal3Completions " + rawData.getGoal3Completions());
+			//				oos.writeObject("goal4Completions " + rawData.getGoal4Completions());
+			//				oos.writeObject("goal5Completions " + rawData.getGoal5Completions());
+			//				oos.writeObject(" " + "/n");
+			//
+			//			}
+			//
+			//			oos.flush();
+			//			oos.close();
+
+
+			//InputStream is = new ByteArrayInputStream(baos.toByteArray());
+			//InputStreamContent mediaContent = new InputStreamContent("application/octet-stream", is);
+			StringBuffer csv = new StringBuffer();
+			for (RawDataDT rawData : rawDataList)
+			{
+				String label = "FAILURE";
+				if ("1".equals(rawData.getGoal5Completions()) || "1".equals(rawData.getGoal4Completions()) 
+						|| "1".equals(rawData.getGoal3Completions()) || "1".equals(rawData.getGoal2Completions()))
+				{
+					label = "SUCCESS";	
+				}
+			
+					String[] list =  {label,
+							rawData.getBrowser(),rawData.getHour(), rawData.getMinute(),rawData.getSourceMedium(),rawData.getCampaign(),rawData.getCountry(),rawData.getPagePath(),
+							rawData.getMobileDeviceInfo(),rawData.getBrowser(),rawData.getDeviceCategory(),rawData.getLandingPagePath() 
+							//rawData.getExitPagePath(),rawData.getMetric1(),rawData.getSessions(),rawData.getUsers(),
+							//rawData.getGoal1Completions(),rawData.getGoal2Completions(),rawData.getGoal3Completions(),rawData.getGoal4Completions(),rawData.getGoal5Completions()
+							};
+					csv.append(convertToCommaDelimited(list));
+					csv.append("\n");
 			}
-		} finally {
-			input.close();
-			output.close();
+			
+				
+//				oos.writeObject("Browser " + rawData.getBrowser());
+			//				oos.writeObject("hour " + rawData.getHour());
+			//				oos.writeObject("minute " + rawData.getMinute());
+			//				oos.writeObject("sourceMedium " + rawData.getSourceMedium());
+			//				oos.writeObject("campaign " + rawData.getCampaign());
+			//				oos.writeObject("country " + rawData.getCountry());
+			//				oos.writeObject("pagePath " + rawData.getPagePath());
+			//				oos.writeObject("mobileDeviceInfo " + rawData.getMobileDeviceInfo());				
+			//				oos.writeObject("browser " + rawData.getBrowser());
+			//				oos.writeObject("deviceCategory " + rawData.getDeviceCategory());
+			//				oos.writeObject("landingPagePath " + rawData.getLandingPagePath());
+			//				oos.writeObject("exitPagePath " + rawData.getExitPagePath());
+			//				oos.writeObject("metric1 " + rawData.getMetric1());
+			//				oos.writeObject("sessions " + rawData.getSessions());
+			//				oos.writeObject("users " + rawData.getUsers());
+			//				oos.writeObject("goal1Completions " + rawData.getGoal1Completions());
+			//				oos.writeObject("goal2Completions " + rawData.getGoal2Completions());
+			//				oos.writeObject("goal3Completions " + rawData.getGoal3Completions());
+			//				oos.writeObject("goal4Completions " + rawData.getGoal4Completions());
+			//				oos.writeObject("goal5Completions " + rawData.getGoal5Completions());
+			//				oos.writeObject(" " + "/n");
+				
+			
+//			StringBuffer csv = rawDataList.toString().replace("[", "").replace("]", "")
+//		            .replace(", ", ",");
+			
+			
+
+//			String jsonStr = new Gson().toJson(rawDataList);
+//			InputStream is2 = new ByteArrayInputStream(jsonStr.getBytes());
+			InputStream is3 = new ByteArrayInputStream(csv.toString().getBytes());
+			InputStreamContent mediaContent = new InputStreamContent("application/text", is3);
+			mediaContent.getType();
+
+
+			Storage.Objects.Insert insertObject = storage.objects().insert("analyticsbytes", objectMetadata,mediaContent);
+
+			if (!useCustomMetadata) {
+				// If you don't provide metadata, you will have specify the object
+				// name by parameter. You will probably also want to ensure that your
+				// default object ACLs (a bucket property) are set appropriately:
+				// https://developers.google.com/storage/docs/json_api/v1/buckets#defaultObjectAcl
+				insertObject.setName("analyticsbytes_rawdata");
+			}
+
+			// For small files, you may wish to call setDirectUploadEnabled(true), to
+			// reduce the number of HTTP requests made to the server.
+			if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /* 2MB */) {
+				insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
+			}
+
+			insertObject.execute();
+
+			System.out.println("DONE");
+
+
+
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
 		}
 	}
+
+
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Mar 10, 2016
+	 *@Description: Get Analytics Credential
+	 */
+
+	private Storage getStorageService(String userId)
+			throws IOException {
+		Storage storageService = null;
+		try
+		{		
+			storageService = CredentialUtils.loadStorage(userId);
+		} catch (Exception ex) 
+		{
+			log.severe(" EXCEPTION CredentialUtils.loadStorage(userId); - Exception!!!  " + userId);
+		}
+		return storageService;
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 2, 2016
+	 *@Description: convertToCommaDelimited
+	 */
+	
+	public static String convertToCommaDelimited(String[] list) 
+	{
+        StringBuffer ret = new StringBuffer("");
+        for (int i = 0; list != null && i < list.length; i++) {
+            ret.append(list[i]);
+            if (i < list.length - 1) {
+                ret.append(',');
+            }
+        }
+        return ret.toString();
+    }
+
 
 	/* (non-Javadoc)
 	 * @see main.java.com.analytic.reports.interfaces.IController#getResponse()

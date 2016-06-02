@@ -18,7 +18,7 @@ public interface CredentialConsts  extends GeneralConsts
 	public static  String REDIRECT_URI = "http%3A%2F%2Fwww.analyticsbytes.com%2Fsmsforgoogleanalyticcallbacksample";
 	public static  String GOOGLE_OAUTH_URL_IS_AUTH = "https://accounts.google.com/o/oauth2/auth?";
 	public static  String GOOGLE_OAUTH_SCOPE_IS_ANALYTICS_READ_ONLY = "scope=https://www.googleapis.com/auth/analytics.readonly";
-	public static  String GOOGLE_OAUTH_SCOPE_IS_GOOGLE_CLOUD_MANAGER = "scope=https://www.googleapis.com/auth/analytics.readonly";
+	public static  String GOOGLE_OAUTH_SCOPE_IS_GOOGLE_CLOUD_MANAGER = "scope=https://www.googleapis.com/auth/cloud-platform";
 	
 	public static  String GOOGLE_OAUTH_CLIENT_ID = "client_id="+ CLIENT_ID;
 	public static  String GOOGLE_OAUTH_STATE_IS_EMPTY = "state=";

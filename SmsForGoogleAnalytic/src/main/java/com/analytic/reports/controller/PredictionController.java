@@ -101,7 +101,7 @@ public class PredictionController extends BaseController {
 		try {
 
 			
-			Prediction prediction = getPredictionService(userId);
+			Prediction prediction = getPredictionService(userId); 
 		    train(prediction);
 		    predict(prediction,"Android Browser,02,38,google / cpc,AnalyticsBytes Search only,Philippines,/login,null,Android Browser,mobile,/,/login");
 		    predict(prediction,"Chrome,15,54,Facebook / Paid,AnalyticsBytes Starter,Poland,/register,null,Chrome,mobile,/,/whatwedo");

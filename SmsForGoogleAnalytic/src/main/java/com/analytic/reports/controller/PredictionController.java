@@ -76,22 +76,7 @@ public class PredictionController extends BaseController {
 	  private static final String STORAGE_DATA_LOCATION = "analyticsbytes/rawData_test2.txt";
 	  private static final String MODEL_ID = "analyticsbytesprediction";
 	  private static final String PROJECT_ID = "dailyreportbysmsforga";
-
-
-	/**
-	 * This is where backoff parameters are configured. Here it is aggressively retrying with
-	 * backoff, up to 10 times but taking no more that 15 seconds total to do so.
-	 */
-	private final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
-	.initialRetryDelayMillis(10)
-	.retryMaxAttempts(10)
-	.totalRetryPeriodMillis(15000)
-	.build());
-
-	/**Used below to determine the size of chucks to read in. Should be > 1kb and < 10MB */
-	private static final int BUFFER_SIZE = 2 * 1024 * 1024;
 	
-
 
 
 	/**
@@ -115,13 +100,15 @@ public class PredictionController extends BaseController {
 
 		try {
 
-			Storage storage = getStorageService(userId);
+			
 			Prediction prediction = getPredictionService(userId);
 		    train(prediction);
 		    predict(prediction,"Android Browser,02,38,google / cpc,AnalyticsBytes Search only,Philippines,/login,null,Android Browser,mobile,/,/login");
 		    predict(prediction,"Chrome,15,54,Facebook / Paid,AnalyticsBytes Starter,Poland,/register,null,Chrome,mobile,/,/whatwedo");
 		    predict(prediction,"Android Browser,08,31,google / cpc,AnalyticsBytes Search only,India,/terms/,null,Android Browser,mobile,/,/register");
-		  
+		    predict(prediction,"Chrome,17,32,google / organic,(not set),Israel,/whatwedo,null,Chrome,desktop,/,/mobileselectionwizard");
+		    
+
 		    
 
 //			String body = "";

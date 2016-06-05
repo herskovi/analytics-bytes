@@ -23,6 +23,8 @@ import main.java.com.analytic.reports.interfaces.IController;
 import main.java.com.analytic.reports.jdo.model.Customer;
 import main.java.com.analytic.reports.utils.AnalyticUtils;
 import main.java.com.analytic.reports.utils.HttpClientUtils;
+import main.java.com.analytic.reports.utils.consts.GoogleCloudStorageConsts;
+import main.java.com.analytic.reports.utils.consts.RequestDispatcherConsts;
 
 import com.csvreader.CsvWriter;
 import com.google.api.services.analytics.Analytics;
@@ -33,8 +35,7 @@ import com.google.gson.Gson;
 public class ProductRecommendationServlet extends HttpServlet 
 {
 	private static final Logger log = Logger.getLogger(ProductRecommendationServlet.class.getName());
-	private static final String BUCKET_NAME = "analyticsbytes";
-	private static final String FILE_NAME = "raw_data";
+	
 
 
 	/**
@@ -48,10 +49,12 @@ public class ProductRecommendationServlet extends HttpServlet
 		{
 			String userId = HttpClientUtils.getUserIdFromHttpRequest(req);
 			productRecommendationAnalyticsAPIController.execute();
-			writeResponseIntoJson(resp, productRecommendationAnalyticsAPIController);
+			//writeResponseIntoJson(resp, productRecommendationAnalyticsAPIController); TODO - Move it to different servlet.
 			List<RawDataDT> googleAnalyticsList = ((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse()).getGoogleAnalyticsList().get(0).getRawDataList();
-			writeToGoogleCloudStorage(req,googleAnalyticsList,userId);
-			trainTheNewModel(req,googleAnalyticsList,userId);
+			//writeToGoogleCloudStorage(req,googleAnalyticsList,userId); - FIXME - Remove It After debug next jsp. 
+			//trainTheNewModel(req,googleAnalyticsList,userId); TODO - Move it to different sevlet that train model with specific model 
+			getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_WIZARD_PRODCUT_RECOMMENDATION_UPLOAD_TO_WIZARD_PRODCUT_RECOMMENDATION_MODEL_TRAINNING).forward(req, resp);
+
 
 		} catch (Exception e) 
 		{
@@ -68,7 +71,8 @@ public class ProductRecommendationServlet extends HttpServlet
 	 */
 	private void trainTheNewModel(HttpServletRequest req, List<RawDataDT> rawDataList,String userId) throws Exception 
 	{
-		IController predictionController = new PredictionController(req.getInputStream(),userId, BUCKET_NAME,FILE_NAME,rawDataList);
+		String fileName = GoogleCloudStorageConsts.FILE_NAME_PREFIX + userId + GoogleCloudStorageConsts.FILE_NAME_SUFFIX;
+		IController predictionController = new PredictionController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList);
 		predictionController.execute();
 		
 	}
@@ -81,12 +85,11 @@ public class ProductRecommendationServlet extends HttpServlet
 	 */
 	private void writeToGoogleCloudStorage(HttpServletRequest req, List<RawDataDT> rawDataList,String userId) 
 	{
-		String bucketName = "";
-		String objectName = ""; 
+		String fileName = GoogleCloudStorageConsts.FILE_NAME_PREFIX + userId + GoogleCloudStorageConsts.FILE_NAME_SUFFIX;
 		 
 		try
 		{
-			IController gcStorageController = new GCStorageController(req.getInputStream(),userId, BUCKET_NAME,FILE_NAME,rawDataList);
+			IController gcStorageController = new GCStorageController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList);
 			gcStorageController.execute();
 		}
 		
@@ -105,7 +108,7 @@ public class ProductRecommendationServlet extends HttpServlet
 
 	private void writeResponseIntoJson(HttpServletResponse resp, IController productRecommendationAnalyticsAPIController) throws IOException {
 		Gson gson = new Gson();
-		String json = gson.toJson((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse());
+		String json = gson.toJson(((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse()).getGoogleAnalyticsList().get(0).getRawDataList());
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().write(json);

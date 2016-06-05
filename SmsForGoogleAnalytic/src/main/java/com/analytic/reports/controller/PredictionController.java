@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,12 +33,15 @@ import main.java.com.analytic.reports.datatypes.RawDataDT;
 import main.java.com.analytic.reports.interfaces.IResponse;
 import main.java.com.analytic.reports.utils.CredentialUtils;
 import main.java.com.analytic.reports.utils.StorageUtils;
+import main.java.com.analytic.reports.utils.consts.GoogleCloudStorageConsts;
 
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.prediction.Prediction;
+import com.google.api.services.prediction.Prediction.Trainedmodels.Analyze;
 import com.google.api.services.prediction.Prediction.Trainedmodels.Insert;
+import com.google.api.services.prediction.model.Analyze.DataDescription.Features;
 import com.google.api.services.prediction.model.Input;
 import com.google.api.services.prediction.model.Input.InputInput;
 import com.google.api.services.prediction.model.Insert2;
@@ -73,7 +77,7 @@ public class PredictionController extends BaseController {
 	  private static final String APPLICATION_NAME = "SWC-AnalyticsBytes/1.0";
 
 	  /** Specify the Cloud Storage location of the training data. */
-	  private static final String STORAGE_DATA_LOCATION = "analyticsbytes/rawData_test2.txt";
+	  //private static final String STORAGE_DATA_LOCATION = "analyticsbytes/rawData_";
 	  private static final String MODEL_ID = "analyticsbytesprediction";
 	  private static final String PROJECT_ID = "dailyreportbysmsforga";
 	
@@ -107,7 +111,8 @@ public class PredictionController extends BaseController {
 		    predict(prediction,"Chrome,15,54,Facebook / Paid,AnalyticsBytes Starter,Poland,/register,null,Chrome,mobile,/,/whatwedo");
 		    predict(prediction,"Android Browser,08,31,google / cpc,AnalyticsBytes Search only,India,/terms/,null,Android Browser,mobile,/,/register");
 		    predict(prediction,"Chrome,17,32,google / organic,(not set),Israel,/whatwedo,null,Chrome,desktop,/,/mobileselectionwizard");
-		    
+		    predict(prediction,"Firefox,09,37,(direct) / (none),(not set),India,/register,null,Firefox,mobile,/register");
+		    predict(prediction,"Chrome,09,25,google / cpc,AnalyticsBytes Search only,India,/register,null,Chrome,desktop,/");
 
 		    
 
@@ -152,9 +157,9 @@ public class PredictionController extends BaseController {
 
 			com.google.api.services.prediction.model.Insert trainingData = new com.google.api.services.prediction.model.Insert();
 		    trainingData.setId(MODEL_ID);
-		    trainingData.setStorageDataLocation(STORAGE_DATA_LOCATION);
-		    trainingData.setModelType("classification");
-		    prediction.trainedmodels().insert(PROJECT_ID, trainingData).execute();
+		    trainingData.setStorageDataLocation(GoogleCloudStorageConsts.BUCKET_NAME + "/" + GoogleCloudStorageConsts.FILE_NAME_PREFIX + this.userId + GoogleCloudStorageConsts.FILE_NAME_SUFFIX);
+		    trainingData.setModelType(GoogleCloudStorageConsts.MODEL_TYPE);
+		    prediction.trainedmodels().insert(GoogleCloudStorageConsts.PROJECT_ID, trainingData).execute();
 		    System.out.println("Training started.");
 		    System.out.print("Waiting for training to complete");
 		    System.out.flush();
@@ -164,7 +169,7 @@ public class PredictionController extends BaseController {
 		    while (triesCounter < 100) {
 		      // NOTE: if model not found, it will throw an HttpResponseException with a 404 error
 		      try {
-		        HttpResponse response = prediction.trainedmodels().get(PROJECT_ID, MODEL_ID).executeUnparsed();
+		        HttpResponse response = prediction.trainedmodels().get(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID).executeUnparsed();
 		        if (response.getStatusCode() == 200) {
 		          trainingModel = response.parseAs(Insert2.class);
 		          String trainingStatus = trainingModel.getTrainingStatus();
@@ -172,6 +177,25 @@ public class PredictionController extends BaseController {
 		            System.out.println();
 		            System.out.println("Training completed.");
 		            System.out.println(trainingModel.getModelInfo());
+		            String weightedAccuracy = trainingModel.getModelInfo().getClassWeightedAccuracy();
+		            Analyze an = prediction.trainedmodels().analyze(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID);
+		            Collection cl= an.values();
+		            System.out.println(an.execute());
+		            
+		            List<Features> featureList= an.execute().getDataDescription().getFeatures();
+		            for(Features feature : featureList )
+		            {
+		            	System.out.println(feature.getText());
+		            	System.out.println(feature.getCategorical());
+		            	System.out.println(feature.getIndex());
+		            	System.out.println("Preety" + feature.toPrettyString());
+		            }
+		            System.out.println(an.execute().getDataDescription().getFeatures());
+		            System.out.println(an.execute().getModelDescription());
+		            System.out.println(an.execute().getModelDescription().toPrettyString());
+		            System.out.println(an.execute().getModelDescription().getModelinfo().getModelInfo());
+		            //System.out.println(an.execute().getModelDescription().getModelinfo().getModelInfo().getClassInfo().getNames());
+		           		            
 		            return;
 		          }
 		        }
@@ -215,25 +239,7 @@ public class PredictionController extends BaseController {
 		  }
 
 
-	/**
-	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        Mar 10, 2016
-	 *@Description: Get Analytics Credential
-	 */
-
-	private Storage getStorageService(String userId) throws IOException 
-	{
-		Storage storageService = null;
-		try
-		{		
-			storageService = CredentialUtils.loadStorage(userId);
-		} catch (Exception ex) 
-		{
-			log.severe(" EXCEPTION CredentialUtils.loadStorage(userId); - Exception!!!  " + userId);
-		}
-		return storageService;
-	}
+	
 	
 	/**
 	 * 
@@ -250,7 +256,7 @@ public class PredictionController extends BaseController {
 			predictionService = CredentialUtils.loadPrediction(userId);
 		} catch (Exception ex) 
 		{
-			log.severe(" EXCEPTION CredentialUtils.loadStorage(userId); - Exception!!!  " + userId);
+			log.severe(" EXCEPTION CredentialUtils.loadPrediction(userId); - Exception!!!  " + userId);
 		}
 		return predictionService;
 	}

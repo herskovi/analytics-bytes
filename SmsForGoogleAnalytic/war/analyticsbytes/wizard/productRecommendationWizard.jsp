@@ -94,7 +94,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			
 		
 		<div class="container whitediv toppadding">
-		<!--  Adding 1, 2, 3 images -->
 		
                   
        	<div class="row">
@@ -109,7 +108,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        		             	  <br>
        			  <div class="form-group">           	   
             		 <div class="col-lg-12">
-						<p style="font-style:italic;font-size: 1.5em;"> Please enter your Google Analytics account email</p>    
+						<p style="font-style:italic;font-size: 1.5em;"> Please enter your Google Analytics account email which you enrolled with</p>    
 				 	</div>  
 				</div>
        		 		<div class="form-group">
@@ -123,21 +122,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					<div class="form-group">
  						<label for="empty" class="col-sm-4 control-label"></label>
  				  		<div class="col-sm-4">
- 				  			<button type="submit" class="btn btn-success btn-lg btn-block" role="button">Next Step</a></button>
+ 				  			<button type="submit" class="btn btn-success btn-lg btn-block" role="button">Upload Latest data From Analytics Account</a></button>
                   		</div>	
        				</div>
-       				
-                  	<div class="form-group">
- 						<label for="empty" class="col-sm-2 control-label"></label>
- 				  		<div class="col-sm-8">
- 				  			<br>
- 				  			<br>
- 				  			<img src="/analyticsbytes/images/googleAnalyticsPermissionScreen.png" class="img-rounded" alt="">
-                  		</div>
-                  </div>
 			 </form>
 			</div>
-			<!--  Adding one more form for Product Recommendation -->
+			<!--  Adding one more form for Product Recommendation to grant permission for google cloud services
 			<div class="form-wrapper">
        		 <form name="googleCloudStroageWizardForm" action="gcstorage" method="post" class="form-horizontal login-form">
        		 		
@@ -162,6 +152,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        				</div>
 			 </form>
 			</div>
+			-->
         	</div>
 		</div>
 	</div>

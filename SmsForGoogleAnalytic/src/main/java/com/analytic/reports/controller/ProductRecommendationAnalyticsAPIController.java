@@ -231,26 +231,6 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 
 
-	/**
-	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        Apr 22, 2015
-	 *@Description: Prepare Goal Data Type
-	 */
-
-	private GoogleAnalyticsDT setGoogleAnalyticsData(String users,String sessions) 
-	{
-		GoogleAnalyticsDT googleAnalyticsDT = new GoogleAnalyticsDT();
-
-		//		String accountId = custUtils.getAccountId(subscriberIndex,smsIndex);
-		//		String webPropertId = custUtils.getWebPropertyId(subscriberIndex,smsIndex);
-		//		String profileID = custUtils.getProfileId(subscriberIndex,smsIndex);
-		//		String goalId = custUtils.getGoalId(subscriberIndex,smsIndex);
-		//		String goalName = custUtils.getGoalName(subscriberIndex,smsIndex);			
-		//		GoalDT goalDT = new GoalDT(accountId,webPropertId,profileID, goalId,  goalName);
-		return googleAnalyticsDT;
-	}
-
 
 
 
@@ -312,11 +292,8 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			String minute = itemList.get(2);
 			String key  = clientId+"@" + hour + "@" + minute;
 			RawDataDT rawDataDT = getRawDataDT(key, clientId , hour, minute,itemList);
-
 			setDimensionsValuesFirstCall(itemList, rawDataDT);
 			setMetricsValues(itemList, rawDataDT);
-
-			//rawDataList.add(rawDataDT); FIXME Check if it needs to be comment or not
 			rawDataDtMap.put(key , rawDataDT);
 		}
 	}
@@ -340,6 +317,13 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		rawDataDT.setGoal4Completions(itemList.get(13));
 		rawDataDT.setGoal5Completions(itemList.get(14));
 	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 4, 2016
+	 *@Description: Set Dimension 
+	 */
 
 	private void setDimensionsValuesFirstCall(List<String> itemList, RawDataDT rawDataDT) {
 		rawDataDT.setHour(itemList.get(1));	
@@ -393,7 +377,6 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			rawDataDT = new RawDataDT(clientId,hour,minute);
 		}		
 		return rawDataDT;
-		//return (rawDataDtMap.get(key) == null ? new RawDataDT(clientId,hour,minute) : rawDataDtMap.get(key));
 	}
 
 	/**
@@ -447,17 +430,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		return profileDT;
 	}
 
-	/**
-	 * @Author: Moshe Herskovits
-	 * @Date: Jun 1, 2014
-	 * @Description: Get Metrics From User Preferences
-	 */
-
-	private String[] getMetricsFromUserPreferences(SMS sms) 
-	{
-		Object[] objectList = sms.getMetrics().toArray();
-		return Arrays.copyOf(objectList, objectList.length, String[].class);
-	}
+	
 
 
 

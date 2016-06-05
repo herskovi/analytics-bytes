@@ -23,12 +23,16 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletInputStream;
+
 import main.java.com.analytic.reports.controller.response.GCStorageResponse;
 import main.java.com.analytic.reports.datatypes.RawDataDT;
 import main.java.com.analytic.reports.interfaces.IResponse;
 import main.java.com.analytic.reports.utils.CredentialUtils;
 import main.java.com.analytic.reports.utils.StorageUtils;
+import main.java.com.analytic.reports.utils.consts.GoogleCloudStorageConsts;
+
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.storage.Storage;
 import com.google.api.services.storage.model.Bucket;
@@ -93,9 +97,9 @@ public class GCStorageController extends BaseController {
 		try {
 
 			Storage storage = getStorageService(userId);
-			Bucket bucket = StorageUtils.getBucket(storage, bucketName);
-			System.out.println(bucket.getId());
-			long byteCount = 0;  // size of input stream
+//			Bucket bucket = StorageUtils.getBucket(storage, bucketName);
+//			System.out.println(bucket.getId());
+//			long byteCount = 0;  // size of input stream
 
 			// Knowing the stream length allows server-side optimization, and client-side progress
 			// reporting with a MediaHttpUploaderProgressListener.
@@ -106,7 +110,7 @@ public class GCStorageController extends BaseController {
 			boolean useCustomMetadata = true;
 			objectMetadata = new StorageObject()
 			// Set the destination object name
-			.setName("rawData_test2.txt")
+			.setName(this.fileName)
 			// Set the access control list to publicly read-only
 			.setAcl(Arrays.asList(
 					new ObjectAccessControl().setEntity("allUsers").setRole("READER")));
@@ -201,7 +205,7 @@ public class GCStorageController extends BaseController {
 			mediaContent.getType();
 
 
-			Storage.Objects.Insert insertObject = storage.objects().insert("analyticsbytes", objectMetadata,mediaContent);
+			Storage.Objects.Insert insertObject = storage.objects().insert(GoogleCloudStorageConsts.BUCKET_NAME, objectMetadata,mediaContent);
 
 			if (!useCustomMetadata) {
 				// If you don't provide metadata, you will have specify the object

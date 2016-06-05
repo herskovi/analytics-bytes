@@ -27,10 +27,10 @@ import main.java.com.analytic.reports.validator.RegistrationValidator;
 
 
 @SuppressWarnings("serial")
-public class GoogleCloudStorageServlet extends HttpServlet 
+public class GoogleCloudAuthStorageServlet extends HttpServlet 
 {
 	private static final Logger log = Logger
-			.getLogger(GoogleCloudStorageServlet.class.getName());
+			.getLogger(GoogleCloudAuthStorageServlet.class.getName());
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException 
 	{

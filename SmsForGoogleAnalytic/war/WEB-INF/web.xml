@@ -80,11 +80,11 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>GoogleCloudStorageServlet</servlet-name>
-		<servlet-class>main.java.com.analytic.reports.servlets.GoogleCloudStorageServlet</servlet-class>
+		<servlet-name>GoogleCloudAuthStorageServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.GoogleCloudAuthStorageServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>GoogleCloudStorageServlet</servlet-name>
+		<servlet-name>GoogleCloudAuthStorageServlet</servlet-name>
 		<url-pattern>/gcstorage</url-pattern>
 	</servlet-mapping>
 		
@@ -323,6 +323,15 @@
 	<servlet-mapping>
 		<servlet-name>ProductRecommendationServlet</servlet-name>
 		<url-pattern>/productrecommendationemailselectionwizard</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>PredictionServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.PredictionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PredictionServlet</servlet-name>
+		<url-pattern>/predictionselectionwizard</url-pattern>
 	</servlet-mapping>	
 	
 	<servlet>

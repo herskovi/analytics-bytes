@@ -77,7 +77,6 @@ public class Utils
     if (clientSecrets == null) 
     {
       
-      InputStream is = new FileInputStream("/WEB-INF/client_secrets.json");
       clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(resourceContent));
        Preconditions.checkArgument(!clientSecrets.getDetails().getClientId().startsWith("Enter ")
           && !clientSecrets.getDetails().getClientSecret().startsWith("Enter "),

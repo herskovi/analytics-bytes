@@ -14,6 +14,7 @@ import com.google.api.services.analytics.model.Profiles;
 public class RawDataDT implements Serializable 
 {
 	
+	private String label=null;
 	private String clientUniqueId=null;
 	private String hour=null;
 	private String minute=null;
@@ -48,6 +49,15 @@ public class RawDataDT implements Serializable
 		this.minute = minute;	
 	}
 
+	
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 	public String getClientUniqueId() {
 		return clientUniqueId;

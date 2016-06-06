@@ -45,12 +45,12 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	private String profileId ="";
 	//private String startDate = "yesterday";
 	private String startDate = "2015-01-01";
-	String endDate = "today";
-	String[] metricsArr = {"ga:metric1","ga:sessions","ga:users","ga:goal1Completions","ga:goal2Completions","ga:goal3Completions","ga:goal4Completions","ga:goal5Completions"};
-	String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:sourceMedium,ga:campaign,ga:country,ga:pagePath"};
-	Map<String, RawDataDT> rawDataDtMap = new HashMap<String, RawDataDT>();
-	HttpServletRequest productRecommendationAnalyticsAPIRequest = null;
-	ProductRecommendationAnalyticsAPIResponse productRecommendationAnalyticsAPIResponse= null;
+	private String endDate = "today";
+	private String[] metricsArr = {"ga:metric1","ga:sessions","ga:users","ga:goal1Completions","ga:goal2Completions","ga:goal3Completions","ga:goal4Completions","ga:goal5Completions"};
+	private String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:sourceMedium,ga:campaign,ga:country,ga:pagePath"};
+	private Map<String, RawDataDT> rawDataDtMap = new HashMap<String, RawDataDT>();
+	private HttpServletRequest productRecommendationAnalyticsAPIRequest = null;
+	private ProductRecommendationAnalyticsAPIResponse productRecommendationAnalyticsAPIResponse= null;
 	private static final Logger log = Logger.getLogger(ProductRecommendationAnalyticsAPIController.class.getName());
 
 
@@ -99,12 +99,13 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 * @param startDate
 	 * @param profileId
 	 */
-	public ProductRecommendationAnalyticsAPIController(String userId, String profileId) {
+	public ProductRecommendationAnalyticsAPIController(String userId, String profileId) 
+	{
 		super();
 		this.userId = userId;
 		this.profileId = profileId;
-		this.startDate = startDate;
-		this.endDate = DateUtils.getCurrentDateTime();	}
+		this.endDate = DateUtils.getCurrentDateTime();	
+	}
 
 
 	public ProductRecommendationAnalyticsAPIController()

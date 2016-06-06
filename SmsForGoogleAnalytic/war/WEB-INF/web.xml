@@ -87,6 +87,15 @@
 		<servlet-name>GoogleCloudAuthStorageServlet</servlet-name>
 		<url-pattern>/gcstorage</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ReadGoogleCloudStorageServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.ReadGoogleCloudStorageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReadGoogleCloudStorageServlet</servlet-name>
+		<url-pattern>/readgooglecloudstorage</url-pattern>
+	</servlet-mapping>
 		
 	
 	<servlet>

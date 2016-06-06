@@ -23,8 +23,6 @@ import main.java.com.analytic.reports.interfaces.IController;
 import main.java.com.analytic.reports.jdo.model.Customer;
 import main.java.com.analytic.reports.utils.AnalyticUtils;
 import main.java.com.analytic.reports.utils.HttpClientUtils;
-import main.java.com.analytic.reports.utils.consts.GoogleCloudStorageConsts;
-import main.java.com.analytic.reports.utils.consts.RequestDispatcherConsts;
 
 import com.csvreader.CsvWriter;
 import com.google.api.services.analytics.Analytics;
@@ -32,10 +30,11 @@ import com.google.api.services.analytics.model.GaData;
 import com.google.gson.Gson;
 
 @SuppressWarnings({ "serial", "unused" })
-public class ProductRecommendationServlet extends HttpServlet 
+public class PredictionServlet extends HttpServlet 
 {
-	private static final Logger log = Logger.getLogger(ProductRecommendationServlet.class.getName());
-	
+	private static final Logger log = Logger.getLogger(PredictionServlet.class.getName());
+	private static final String BUCKET_NAME = "analyticsbytes";
+	private static final String FILE_NAME = "raw_data";
 
 
 	/**
@@ -49,13 +48,8 @@ public class ProductRecommendationServlet extends HttpServlet
 		{
 			String userId = HttpClientUtils.getUserIdFromHttpRequest(req);
 			productRecommendationAnalyticsAPIController.execute();
-			//writeResponseIntoJson(resp, productRecommendationAnalyticsAPIController); TODO - Move it to different servlet.
 			List<RawDataDT> googleAnalyticsList = ((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse()).getGoogleAnalyticsList().get(0).getRawDataList();
-			writeToGoogleCloudStorage(req,googleAnalyticsList,userId);// - FIXME - Remove It After debug next jsp. 
-			//trainTheNewModel(req,googleAnalyticsList,userId); TODO - Move it to different sevlet that train model with specific model
-			req.getSession().setAttribute("userid", userId);
-			getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_WIZARD_PRODCUT_RECOMMENDATION_UPLOAD_TO_WIZARD_PRODCUT_RECOMMENDATION_MODEL_TRAINNING).forward(req, resp);
-
+			trainTheNewModel(req,googleAnalyticsList,userId);
 
 		} catch (Exception e) 
 		{
@@ -72,48 +66,14 @@ public class ProductRecommendationServlet extends HttpServlet
 	 */
 	private void trainTheNewModel(HttpServletRequest req, List<RawDataDT> rawDataList,String userId) throws Exception 
 	{
-		String fileName = GoogleCloudStorageConsts.FILE_NAME_PREFIX + userId + GoogleCloudStorageConsts.FILE_NAME_SUFFIX;
-		IController predictionController = new PredictionController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList);
+		IController predictionController = new PredictionController(req.getInputStream(),userId, BUCKET_NAME,FILE_NAME,rawDataList);
 		predictionController.execute();
 		
 	}
 
-	/**
-	 *@param req 
-	 * @Author:      Moshe Herskovits
-	 *@Date:        May 30, 2016
-	 *@Description: Write to CSV All RawData
-	 */
-	private void writeToGoogleCloudStorage(HttpServletRequest req, List<RawDataDT> rawDataList,String userId) 
-	{
-		String fileName = GoogleCloudStorageConsts.FILE_NAME_PREFIX + userId + GoogleCloudStorageConsts.FILE_NAME_SUFFIX;
-		 
-		try
-		{
-			IController gcStorageController = new GCStorageController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList);
-			gcStorageController.execute();
-		}
-		
-		catch (Exception e)
-		{
-			log.severe("Raw Data was not uploaded into Google Cloud Storage ");
-		}
-	}
+	
 
-	/**
-	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        Mar 13, 2016
-	 *@Description:
-	 */
-
-	private void writeResponseIntoJson(HttpServletResponse resp, IController productRecommendationAnalyticsAPIController) throws IOException {
-		Gson gson = new Gson();
-		String json = gson.toJson(((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse()).getGoogleAnalyticsList().get(0).getRawDataList());
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().write(json);
-	}
+	
 
 
 

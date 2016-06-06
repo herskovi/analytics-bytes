@@ -3,6 +3,7 @@
  */
 package main.java.com.analytic.reports.jdo.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
 import com.google.appengine.api.datastore.Key;
 
 /**
@@ -19,7 +21,7 @@ import com.google.appengine.api.datastore.Key;
  */
 
 @PersistenceCapable(identityType=IdentityType.APPLICATION, detachable="false")
-public class SMS 
+public class SMS implements Serializable
 {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

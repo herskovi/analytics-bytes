@@ -27,9 +27,11 @@ import java.util.logging.Logger;
 import javax.servlet.ServletInputStream;
 
 import main.java.com.analytic.reports.controller.response.GCStorageResponse;
+import main.java.com.analytic.reports.controller.response.ReadGoogleCloudStorageResponse;
 import main.java.com.analytic.reports.datatypes.RawDataDT;
 import main.java.com.analytic.reports.interfaces.IResponse;
 import main.java.com.analytic.reports.utils.CredentialUtils;
+import main.java.com.analytic.reports.utils.HttpClientUtils;
 import main.java.com.analytic.reports.utils.StorageUtils;
 import main.java.com.analytic.reports.utils.consts.GoogleCloudStorageConsts;
 
@@ -58,6 +60,8 @@ public class GCStorageController extends BaseController {
 	ServletInputStream inputStream = null;
 	List<RawDataDT> rawDataList = null;
 	private static final Logger log = Logger.getLogger(GCStorageController.class.getName());
+	private boolean isUpdateMode = false; 
+
 
 
 	/**
@@ -115,112 +119,61 @@ public class GCStorageController extends BaseController {
 			.setAcl(Arrays.asList(
 					new ObjectAccessControl().setEntity("allUsers").setRole("READER")));
 
-			//			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			//			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			//			for (RawDataDT rawData : rawDataList)
-			//			{
-			//				oos.writeObject("Browser " + rawData.getBrowser());
-			//				oos.writeObject("hour " + rawData.getHour());
-			//				oos.writeObject("minute " + rawData.getMinute());
-			//				oos.writeObject("sourceMedium " + rawData.getSourceMedium());
-			//				oos.writeObject("campaign " + rawData.getCampaign());
-			//				oos.writeObject("country " + rawData.getCountry());
-			//				oos.writeObject("pagePath " + rawData.getPagePath());
-			//				oos.writeObject("mobileDeviceInfo " + rawData.getMobileDeviceInfo());				
-			//				oos.writeObject("browser " + rawData.getBrowser());
-			//				oos.writeObject("deviceCategory " + rawData.getDeviceCategory());
-			//				oos.writeObject("landingPagePath " + rawData.getLandingPagePath());
-			//				oos.writeObject("exitPagePath " + rawData.getExitPagePath());
-			//				oos.writeObject("metric1 " + rawData.getMetric1());
-			//				oos.writeObject("sessions " + rawData.getSessions());
-			//				oos.writeObject("users " + rawData.getUsers());
-			//				oos.writeObject("goal1Completions " + rawData.getGoal1Completions());
-			//				oos.writeObject("goal2Completions " + rawData.getGoal2Completions());
-			//				oos.writeObject("goal3Completions " + rawData.getGoal3Completions());
-			//				oos.writeObject("goal4Completions " + rawData.getGoal4Completions());
-			//				oos.writeObject("goal5Completions " + rawData.getGoal5Completions());
-			//				oos.writeObject(" " + "/n");
-			//
-			//			}
-			//
-			//			oos.flush();
-			//			oos.close();
 
-
-			//InputStream is = new ByteArrayInputStream(baos.toByteArray());
-			//InputStreamContent mediaContent = new InputStreamContent("application/octet-stream", is);
+			
 			StringBuffer csv = new StringBuffer();
 			for (RawDataDT rawData : rawDataList)
 			{
-				String label = "FAILURE";
+				rawData.setLabel("FAILURE");
 				if ("1".equals(rawData.getGoal5Completions()) || "1".equals(rawData.getGoal4Completions()) 
 						|| "1".equals(rawData.getGoal3Completions()) || "1".equals(rawData.getGoal2Completions()))
 				{
-					label = "SUCCESS";	
+					rawData.setLabel("SUCCESS");	
 				}
 			
-					String[] list =  {label,
-							rawData.getBrowser(),rawData.getHour(), rawData.getMinute(),rawData.getSourceMedium(),rawData.getCampaign(),rawData.getCountry(),rawData.getPagePath(),
-							rawData.getMobileDeviceInfo(),rawData.getBrowser(),rawData.getDeviceCategory(),rawData.getLandingPagePath() 
-							//rawData.getExitPagePath(),rawData.getMetric1(),rawData.getSessions(),rawData.getUsers(),
-							//rawData.getGoal1Completions(),rawData.getGoal2Completions(),rawData.getGoal3Completions(),rawData.getGoal4Completions(),rawData.getGoal5Completions()
-							};
+					String[] list = convertRawDataToString(rawData);
 					csv.append(convertToCommaDelimited(list));
 					csv.append("\n");
 			}
 			
-				
-//				oos.writeObject("Browser " + rawData.getBrowser());
-			//				oos.writeObject("hour " + rawData.getHour());
-			//				oos.writeObject("minute " + rawData.getMinute());
-			//				oos.writeObject("sourceMedium " + rawData.getSourceMedium());
-			//				oos.writeObject("campaign " + rawData.getCampaign());
-			//				oos.writeObject("country " + rawData.getCountry());
-			//				oos.writeObject("pagePath " + rawData.getPagePath());
-			//				oos.writeObject("mobileDeviceInfo " + rawData.getMobileDeviceInfo());				
-			//				oos.writeObject("browser " + rawData.getBrowser());
-			//				oos.writeObject("deviceCategory " + rawData.getDeviceCategory());
-			//				oos.writeObject("landingPagePath " + rawData.getLandingPagePath());
-			//				oos.writeObject("exitPagePath " + rawData.getExitPagePath());
-			//				oos.writeObject("metric1 " + rawData.getMetric1());
-			//				oos.writeObject("sessions " + rawData.getSessions());
-			//				oos.writeObject("users " + rawData.getUsers());
-			//				oos.writeObject("goal1Completions " + rawData.getGoal1Completions());
-			//				oos.writeObject("goal2Completions " + rawData.getGoal2Completions());
-			//				oos.writeObject("goal3Completions " + rawData.getGoal3Completions());
-			//				oos.writeObject("goal4Completions " + rawData.getGoal4Completions());
-			//				oos.writeObject("goal5Completions " + rawData.getGoal5Completions());
-			//				oos.writeObject(" " + "/n");
-				
-			
-//			StringBuffer csv = rawDataList.toString().replace("[", "").replace("]", "")
-//		            .replace(", ", ",");
-			
-			
+					
 
 //			String jsonStr = new Gson().toJson(rawDataList);
 //			InputStream is2 = new ByteArrayInputStream(jsonStr.getBytes());
+		
+
+			if(isUpdateMode)
+			{
+				//objectMetadata.setContentDisposition(csv.toString());
+				List<RawDataDT> existingRawDataDT = readExistingObjectFromGoogleCloudStorage();
+				
+				 convertRawDataArrayListToStringBuffer(existingRawDataDT);
+			}
+			
 			InputStream is3 = new ByteArrayInputStream(csv.toString().getBytes());
 			InputStreamContent mediaContent = new InputStreamContent("application/text", is3);
 			mediaContent.getType();
-
-
-			Storage.Objects.Insert insertObject = storage.objects().insert(GoogleCloudStorageConsts.BUCKET_NAME, objectMetadata,mediaContent);
-
-			if (!useCustomMetadata) {
-				// If you don't provide metadata, you will have specify the object
-				// name by parameter. You will probably also want to ensure that your
-				// default object ACLs (a bucket property) are set appropriately:
-				// https://developers.google.com/storage/docs/json_api/v1/buckets#defaultObjectAcl
-				insertObject.setName("analyticsbytes_rawdata");
-			}
-
-			// For small files, you may wish to call setDirectUploadEnabled(true), to
-			// reduce the number of HTTP requests made to the server.
-			if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /* 2MB */) {
-				insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
-			}
-
+			
+			System.out.println();
+			Storage.Objects.Insert insertObject = null;
+				objectMetadata.setContentEncoding("UTF-8");
+				Storage.Objects.Update updateObject = storage.objects().update(GoogleCloudStorageConsts.BUCKET_NAME, fileName,objectMetadata);
+				updateObject.execute();
+			
+//			if (!useCustomMetadata) {
+//				// If you don't provide metadata, you will have specify the object
+//				// name by parameter. You will probably also want to ensure that your
+//				// default object ACLs (a bucket property) are set appropriately:
+//				// https://developers.google.com/storage/docs/json_api/v1/buckets#defaultObjectAcl
+//				insertObject.setName("analyticsbytes_rawdata");
+//			}
+//
+//			// For small files, you may wish to call setDirectUploadEnabled(true), to
+//			// reduce the number of HTTP requests made to the server.
+//			if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /* 2MB */) {
+//				insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
+//			}
+			insertObject = storage.objects().insert(GoogleCloudStorageConsts.BUCKET_NAME, objectMetadata,mediaContent);
 			insertObject.execute();
 
 			System.out.println("DONE");
@@ -231,6 +184,43 @@ public class GCStorageController extends BaseController {
 		{
 			ex.printStackTrace();
 		}
+	}
+	
+	/**
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 6, 2016
+	 *@Description: Convert ArrayList to CSV File
+	 */
+	private void convertRawDataArrayListToStringBuffer(List<RawDataDT> existingRawDataDT) 
+	{
+		
+		
+	}
+
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 6, 2016
+	 *@Description: Read Existing Object From Google Cloud Storage
+	 */
+
+	private List<RawDataDT> readExistingObjectFromGoogleCloudStorage() throws IOException, Exception 
+	{
+		ReadGoogleCloudStorageController readGoogleCloudStorageController = new ReadGoogleCloudStorageController(userId,fileName);
+		readGoogleCloudStorageController.execute();
+		readGoogleCloudStorageController.getResponse();
+		List<RawDataDT> existingRawDataDT =  ((ReadGoogleCloudStorageResponse)readGoogleCloudStorageController.getResponse()).getRawDataList();
+		return existingRawDataDT;
+	}
+
+	private String[] convertRawDataToString(RawDataDT rawData) {
+		String[] list =  {rawData.getLabel(),
+				rawData.getBrowser(),rawData.getHour(), rawData.getMinute(),rawData.getSourceMedium(),rawData.getCampaign(),rawData.getCountry(),rawData.getPagePath(),
+				rawData.getMobileDeviceInfo(),rawData.getBrowser(),rawData.getDeviceCategory(),rawData.getLandingPagePath() 
+				//rawData.getExitPagePath(),rawData.getMetric1(),rawData.getSessions(),rawData.getUsers(),
+				//rawData.getGoal1Completions(),rawData.getGoal2Completions(),rawData.getGoal3Completions(),rawData.getGoal4Completions(),rawData.getGoal5Completions()
+				};
+		return list;
 	}
 
 

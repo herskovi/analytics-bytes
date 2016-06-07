@@ -61,19 +61,6 @@ public class GCStorageController extends BaseController {
 	List<RawDataDT> rawDataList = null;
 	private static final Logger log = Logger.getLogger(GCStorageController.class.getName());
 	private boolean isUpdateMode = false; 
-
-
-
-	/**
-	 * This is where backoff parameters are configured. Here it is aggressively retrying with
-	 * backoff, up to 10 times but taking no more that 15 seconds total to do so.
-	 */
-	private final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
-	.initialRetryDelayMillis(10)
-	.retryMaxAttempts(10)
-	.totalRetryPeriodMillis(15000)
-	.build());
-
 	/**Used below to determine the size of chucks to read in. Should be > 1kb and < 10MB */
 	private static final int BUFFER_SIZE = 2 * 1024 * 1024;
 
@@ -84,7 +71,7 @@ public class GCStorageController extends BaseController {
 	 * @param objectName
 	 * @throws IOException 
 	 */
-	public GCStorageController(ServletInputStream inputStream,String userId, String bucketName, String fileName, List<RawDataDT> rawDataList) throws IOException 
+	public GCStorageController(ServletInputStream inputStream,String userId, String bucketName, String fileName, List<RawDataDT> rawDataList, boolean isUpdateMode) throws IOException 
 	{
 		super();
 		this.userId = userId;
@@ -92,11 +79,13 @@ public class GCStorageController extends BaseController {
 		this.fileName = fileName;
 		this.inputStream= inputStream;
 		this.rawDataList = rawDataList;
+		this.isUpdateMode = isUpdateMode;
 	}
 
 	@Override
 	public void execute() throws Exception
 	{	
+		Storage.Objects.Insert insertObject = null;
 
 		try {
 
@@ -122,19 +111,7 @@ public class GCStorageController extends BaseController {
 
 			
 			StringBuffer csv = new StringBuffer();
-			for (RawDataDT rawData : rawDataList)
-			{
-				rawData.setLabel("FAILURE");
-				if ("1".equals(rawData.getGoal5Completions()) || "1".equals(rawData.getGoal4Completions()) 
-						|| "1".equals(rawData.getGoal3Completions()) || "1".equals(rawData.getGoal2Completions()))
-				{
-					rawData.setLabel("SUCCESS");	
-				}
-			
-					String[] list = convertRawDataToString(rawData);
-					csv.append(convertToCommaDelimited(list));
-					csv.append("\n");
-			}
+			preapreNewDataToCSVFormat(csv);
 			
 					
 
@@ -145,20 +122,16 @@ public class GCStorageController extends BaseController {
 			if(isUpdateMode)
 			{
 				//objectMetadata.setContentDisposition(csv.toString());
-				List<RawDataDT> existingRawDataDT = readExistingObjectFromGoogleCloudStorage();
-				
-				 convertRawDataArrayListToStringBuffer(existingRawDataDT);
+				List<RawDataDT> existingRawDataDT = readExistingObjectFromGoogleCloudStorage();	
+				 convertRawDataArrayListToStringBuffer(existingRawDataDT, csv);
 			}
 			
 			InputStream is3 = new ByteArrayInputStream(csv.toString().getBytes());
 			InputStreamContent mediaContent = new InputStreamContent("application/text", is3);
 			mediaContent.getType();
 			
-			System.out.println();
-			Storage.Objects.Insert insertObject = null;
-				objectMetadata.setContentEncoding("UTF-8");
-				Storage.Objects.Update updateObject = storage.objects().update(GoogleCloudStorageConsts.BUCKET_NAME, fileName,objectMetadata);
-				updateObject.execute();
+			
+				
 			
 //			if (!useCustomMetadata) {
 //				// If you don't provide metadata, you will have specify the object
@@ -173,6 +146,7 @@ public class GCStorageController extends BaseController {
 //			if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /* 2MB */) {
 //				insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
 //			}
+			
 			insertObject = storage.objects().insert(GoogleCloudStorageConsts.BUCKET_NAME, objectMetadata,mediaContent);
 			insertObject.execute();
 
@@ -182,19 +156,46 @@ public class GCStorageController extends BaseController {
 
 		}catch(Exception ex)
 		{
-			ex.printStackTrace();
+			log.severe("GCStorageController failed to write into Storage");		
+		}
+	}
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 7, 2016
+	 *@Description: Prepare new Data to CSV file
+	 */
+
+	private void preapreNewDataToCSVFormat(StringBuffer csv) {
+		for (RawDataDT rawData : rawDataList)
+		{
+			rawData.setLabel("FAILURE");
+			if ("1".equals(rawData.getGoal5Completions()) || "1".equals(rawData.getGoal4Completions()) 
+					|| "1".equals(rawData.getGoal3Completions()) || "1".equals(rawData.getGoal2Completions()))
+			{
+				rawData.setLabel("SUCCESS");	
+			}
+		
+				String[] list = convertRawDataToString(rawData);
+				csv.append(convertToCommaDelimited(list));
+				csv.append("\n");
 		}
 	}
 	
 	/**
-	 *@Author:      Moshe Herskovits
+	 *@param csv 
+	 * @Author:      Moshe Herskovits
 	 *@Date:        Jun 6, 2016
 	 *@Description: Convert ArrayList to CSV File
 	 */
-	private void convertRawDataArrayListToStringBuffer(List<RawDataDT> existingRawDataDT) 
+	private void convertRawDataArrayListToStringBuffer(List<RawDataDT> existingRawDataList, StringBuffer csv) 
 	{
-		
-		
+		for (RawDataDT newRawData : existingRawDataList)
+		{
+			String[] list = convertRawDataToString(newRawData);
+			csv.append(convertToCommaDelimited(list));
+			csv.append("\n");
+		}
 	}
 
 	/**

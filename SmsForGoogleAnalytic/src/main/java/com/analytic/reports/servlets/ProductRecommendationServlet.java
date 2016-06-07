@@ -47,10 +47,10 @@ public class ProductRecommendationServlet extends HttpServlet
 		IController productRecommendationAnalyticsAPIController = getController(req,resp); 
 		try 
 		{
-			String userId = HttpClientUtils.getUserIdFromHttpRequest(req);
 			productRecommendationAnalyticsAPIController.execute();
 			//writeResponseIntoJson(resp, productRecommendationAnalyticsAPIController); TODO - Move it to different servlet.
 			List<RawDataDT> googleAnalyticsList = ((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse()).getGoogleAnalyticsList().get(0).getRawDataList();
+			String userId = HttpClientUtils.getUserIdFromHttpRequest(req);
 			writeToGoogleCloudStorage(req,googleAnalyticsList,userId);// - FIXME - Remove It After debug next jsp. 
 			//trainTheNewModel(req,googleAnalyticsList,userId); TODO - Move it to different sevlet that train model with specific model
 			req.getSession().setAttribute("userid", userId);
@@ -90,7 +90,7 @@ public class ProductRecommendationServlet extends HttpServlet
 		 
 		try
 		{
-			IController gcStorageController = new GCStorageController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList);
+			IController gcStorageController = new GCStorageController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList,false);
 			gcStorageController.execute();
 		}
 		

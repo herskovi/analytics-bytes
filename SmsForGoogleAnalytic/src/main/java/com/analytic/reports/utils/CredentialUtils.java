@@ -155,8 +155,7 @@ public class CredentialUtils {
 				JSON_FACTORY, getClientSecret(),
 				Collections.singleton(AnalyticsScopes.ANALYTICS_READONLY))
 				.setCredentialStore(
-
-				new AppEngineCredentialStore()).setAccessType("offline")
+					new AppEngineCredentialStore()).setAccessType("offline")
 				.build();
 	}
 	

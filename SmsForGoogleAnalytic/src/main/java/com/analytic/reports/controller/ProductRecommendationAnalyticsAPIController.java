@@ -43,8 +43,9 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 {
 	private String userId ="";
 	private String profileId ="";
+	private String emailAddress ="";
 	//private String startDate = "yesterday";
-	private String startDate = "2015-01-01";
+	private String startDate = "2016-06-01";
 	private String endDate = "today";
 	private String[] metricsArr = {"ga:metric1","ga:sessions","ga:users","ga:goal1Completions","ga:goal2Completions","ga:goal3Completions","ga:goal4Completions","ga:goal5Completions"};
 	private String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:sourceMedium,ga:campaign,ga:country,ga:pagePath"};
@@ -54,80 +55,17 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	private static final Logger log = Logger.getLogger(ProductRecommendationAnalyticsAPIController.class.getName());
 
 
-	/**
-	 * @param startDate
-	 * @param profileId
-	 * @param endDate
-	 * @param metricsArr
-	 */
-	public ProductRecommendationAnalyticsAPIController(String userId, String profileId , String startDate,  String endDate, String[] metricsArr) {
-		super();
-		this.userId = userId;
-		this.profileId = profileId;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.metricsArr = metricsArr;
-	}
+	
+
+	
 
 	/**
-	 * @param startDate
-	 * @param profileId
-	 * @param endDate
+	 * @param userId
 	 */
-	public ProductRecommendationAnalyticsAPIController(String userId, String profileId, String startDate, String endDate) 
+	public ProductRecommendationAnalyticsAPIController(String emailAddress) 
 	{
-		super();
-		this.userId = userId;
-		this.profileId = profileId;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-
-	/**
-	 * @param startDate
-	 * @param profileId
-	 */
-	public ProductRecommendationAnalyticsAPIController(String userId, String profileId, String startDate) {
-		super();
-		this.userId = userId;
-		this.profileId = profileId;
-		this.startDate = startDate;
-		this.endDate = DateUtils.getCurrentDateTime();
-	}
-
-	/**
-	 * @param startDate
-	 * @param profileId
-	 */
-	public ProductRecommendationAnalyticsAPIController(String userId, String profileId) 
-	{
-		super();
-		this.userId = userId;
-		this.profileId = profileId;
-		this.endDate = DateUtils.getCurrentDateTime();	
-	}
-
-
-	public ProductRecommendationAnalyticsAPIController()
-	{
-
-	}
-
-
-	/**
-	 * @param req
-	 */
-	public ProductRecommendationAnalyticsAPIController(HttpServletRequest req) 
-	{
-		this.productRecommendationAnalyticsAPIRequest = req;
-	}
-
-	/**
-	 * @param userId2
-	 */
-	public ProductRecommendationAnalyticsAPIController(String userId) 
-	{
-		this.userId = userId;
+		log.info("ProductRecommendationAnalyticsAPIController Constructor userId " + userId );
+		this.emailAddress = emailAddress;
 	}
 
 	@Override
@@ -158,14 +96,14 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	{
 		try
 		{
-			Customer cust = CustomerDAO.getCustomerInformationByUserID(userId);
+			Customer cust = CustomerDAO.getCustomerInformationByUserID(emailAddress);
 			ProfileDT profileDT = getUserAnalyticsProfile(cust);
 			setGAAccountInfo(cust);
-			extractGoogleAnalyticsData(isLocalMode, userId,	profileDT.getProfileId(), startDate, endDate);
+			extractGoogleAnalyticsData(isLocalMode, emailAddress,	profileDT.getProfileId(), startDate, endDate);
 
 		}catch(Exception ex)
 		{
-			log.severe(" userId   " + userId + " profileId " + profileId + "FAILED***!!!! "+ ex.getMessage());
+			log.severe(" userId   " + userId + " profileId " + profileId + "FAILED***!!!! "+ ex.getStackTrace().toString());
 		}
 
 
@@ -181,9 +119,12 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	private void setGAAccountInfo(Customer cust) 
 	{
 		productRecommendationAnalyticsAPIResponse = new ProductRecommendationAnalyticsAPIResponse();
-		productRecommendationAnalyticsAPIResponse.setAccountId(cust.getCustomerAnalyticList().get(0).getAccountId());
-		productRecommendationAnalyticsAPIResponse.setWebProperyId(cust.getCustomerAnalyticList().get(0).getWebPropertyId());
-		productRecommendationAnalyticsAPIResponse.setProfileId(cust.getCustomerAnalyticList().get(0).getProfileId());
+		if (cust != null)
+		{
+			productRecommendationAnalyticsAPIResponse.setAccountId(cust.getCustomerAnalyticList().get(0).getAccountId());
+			productRecommendationAnalyticsAPIResponse.setWebProperyId(cust.getCustomerAnalyticList().get(0).getWebPropertyId());
+			productRecommendationAnalyticsAPIResponse.setProfileId(cust.getCustomerAnalyticList().get(0).getProfileId());
+		}
 	}
 
 
@@ -216,8 +157,9 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Get Analytics Credential
 	 */
 
-	private Analytics getAnalyticsService(String userId, String profileID)
-			throws IOException {
+	private Analytics getAnalyticsService(String userId, String profileID) throws IOException 
+	{
+		log.info("getAnalyticsService Start userId " + userId + "profileId" + profileID);
 		Analytics analytics = null;
 		try
 		{		
@@ -227,6 +169,8 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			analytics = CredentialUtils.loadAnalytics(userId);
 			log.severe("profileID EXCEPTION CredentialUtils.loadAnalytics(userId); - Exception!!!  " + profileID);
 		}
+		log.info("getAnalyticsService End userId " + userId + "profileId" + profileID);
+
 		return analytics;
 	}
 

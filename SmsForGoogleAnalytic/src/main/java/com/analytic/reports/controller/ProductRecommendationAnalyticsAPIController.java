@@ -103,7 +103,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 		}catch(Exception ex)
 		{
-			log.severe(" userId   " + userId + " profileId " + profileId + "FAILED***!!!! "+ ex.getStackTrace().toString());
+			log.severe(" userId   " + userId + " profileId " + profileId + " FAILED***!!!! "+ ex.getStackTrace().toString());
 		}
 
 
@@ -169,7 +169,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			analytics = CredentialUtils.loadAnalytics(userId);
 			log.severe("profileID EXCEPTION CredentialUtils.loadAnalytics(userId); - Exception!!!  " + profileID);
 		}
-		log.info("getAnalyticsService End userId " + userId + "profileId" + profileID);
+		log.info("getAnalyticsService End userId " + userId + " profileId " + profileID);
 
 		return analytics;
 	}
@@ -192,30 +192,49 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 		GoogleAnalyticsDT googleAnalyticsDT = new GoogleAnalyticsDT();
 		GaData gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
+		
+		fillRawDataListwithGoogleAnalyticsResults(analytics, googleAnalyticsDT,
+				gaData);
+		return googleAnalyticsDT;
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 7, 2016
+	 *@Description: Fill Raw Data List with google Analytics Results
+	 */
+
+	private void fillRawDataListwithGoogleAnalyticsResults(Analytics analytics, GoogleAnalyticsDT googleAnalyticsDT, GaData gaData) throws IOException 
+	{
+		
+		log.info("fillRawDataListwithGoogleAnalyticsResults Start userId " + userId + "gaData" + gaData);
 		if (gaData != null) 
 		{
+			
 			ArrayMap<String,String> map = (ArrayMap)gaData.getTotalsForAllResults();
-			for (int i = 0; i < metricsArr.length; i++) 
-			{
-				setAnalyticsGaData(googleAnalyticsDT, map, i);
-			}
-		}
-		//RawDataDT rawDataDT = new RawDataDT(googleAnalyticsDT..get, value, value);
-		List<RawDataDT> rawDataList = googleAnalyticsDT.getRawDataList(); 
-		List<List<String>> gaDataRows= gaData.getRows();
-		setValuesFirststCall(rawDataList, gaDataRows);
+				for (int i = 0; i < metricsArr.length; i++) 
+				{
+					setAnalyticsGaData(googleAnalyticsDT, map, i);
+				}
 		
-		String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:browser,ga:deviceCategory,ga:landingPagePath,ga:exitPagePath"};
-		gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
-		gaDataRows= gaData.getRows();
-		setValuesSecondCall(rawDataList, gaDataRows);
-		//Convert to List
-		List<RawDataDT> valuesToMatch=new ArrayList<RawDataDT>();
-		for(RawDataDT rd : rawDataDtMap.values()){
-		  valuesToMatch.add(rd);
+				
+			List<RawDataDT> rawDataList = googleAnalyticsDT.getRawDataList();
+			List<List<String>> gaDataRows= gaData.getRows();
+			
+			setValuesFirststCall(rawDataList, gaDataRows);
+			
+			String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:browser,ga:deviceCategory,ga:landingPagePath,ga:exitPagePath"};
+			gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
+			gaDataRows= gaData.getRows();
+			setValuesSecondCall(rawDataList, gaDataRows);
+			//Convert to List
+			List<RawDataDT> valuesToMatch=new ArrayList<RawDataDT>();
+			for(RawDataDT rd : rawDataDtMap.values()){
+			  valuesToMatch.add(rd);
+			}
+			googleAnalyticsDT.setRawDataList(valuesToMatch);
 		}
-		googleAnalyticsDT.setRawDataList(valuesToMatch);
-		return googleAnalyticsDT;
 	}
 
 	/**
@@ -286,7 +305,8 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Insert into Hashmap
 	 */
 
-	private void setValuesSecondCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) {
+	private void setValuesSecondCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) 
+	{
 		for (List<String> itemList : gaDataRows) 
 		{
 			//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, [3] - ga:browser, [4] - ga:deviceCategory,[5] - ga:landingPagePath, [6] - ga:exitPagePath"

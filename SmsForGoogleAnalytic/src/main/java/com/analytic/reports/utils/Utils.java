@@ -152,13 +152,5 @@ public class Utils
   private Utils() {
   }
 
-/**
- * @param resourceContent
- */
-public Utils(InputStream resourceContent) 
-{
-	this.resourceContent = resourceContent;
-}
-  
-  
+
 }

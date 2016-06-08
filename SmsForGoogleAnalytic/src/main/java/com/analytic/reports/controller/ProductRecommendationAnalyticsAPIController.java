@@ -41,6 +41,7 @@ import com.google.api.services.analytics.model.GaData.DataTable;
  */
 public class ProductRecommendationAnalyticsAPIController extends BaseController
 {
+	private boolean isLocalMode  = false;
 	private String userId ="";
 	private String profileId ="";
 	private String emailAddress ="";
@@ -54,18 +55,16 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	private ProductRecommendationAnalyticsAPIResponse productRecommendationAnalyticsAPIResponse= null;
 	private static final Logger log = Logger.getLogger(ProductRecommendationAnalyticsAPIController.class.getName());
 
-
-	
-
 	
 
 	/**
 	 * @param userId
 	 */
-	public ProductRecommendationAnalyticsAPIController(String emailAddress) 
+	public ProductRecommendationAnalyticsAPIController(String emailAddress, boolean localMode) 
 	{
 		log.info("ProductRecommendationAnalyticsAPIController Constructor userId " + userId );
 		this.emailAddress = emailAddress;
+		this.isLocalMode =localMode;
 	}
 
 	@Override
@@ -74,7 +73,6 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		log.info("Start - Execute at ProductRecommendationAnalyticsAPIController " );
 		try
 		{
-			boolean isLocalMode = true;//URLUtils.isServerRunningInLocalMode(req.getRequestURL().toString());
 			extractGAData(isLocalMode);
 		}catch (Exception ex) 
 		{
@@ -103,7 +101,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 		}catch(Exception ex)
 		{
-			log.severe(" userId   " + userId + " profileId " + profileId + " FAILED***!!!! "+ ex.getStackTrace().toString());
+			log.severe(" userId   " + userId + " profileId " + profileId + " FAILED***!!!! "+ ex.getMessage());
 		}
 
 
@@ -132,7 +130,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 * 
 	 *@Author:      Moshe Herskovits
 	 *@Date:        May 3, 2015
-	 *@Description: It is time to send SMS for Subscriber
+	 *@Description: Extract Google Analytics Data
 	 */
 
 	public void extractGoogleAnalyticsData(boolean isLocalMode, String userId, String profileID,String startDate, String endDate)  throws IOException, Exception
@@ -144,7 +142,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			GoogleAnalyticsDT googleAnalyticsDT = getAnalyticData(analytics);
 			this.productRecommendationAnalyticsAPIResponse.getGoogleAnalyticsList().add(googleAnalyticsDT);
 		} catch (Exception ex) {
-			log.severe(" cust.getCustomerAnalyticList().get(0) was not defined for this user   " + userId);
+			log.severe(" extractGoogleAnalyticsData was not defined for this user   " + userId);
 			throw ex;
 		}
 
@@ -159,7 +157,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 	private Analytics getAnalyticsService(String userId, String profileID) throws IOException 
 	{
-		log.info("getAnalyticsService Start userId " + userId + "profileId" + profileID);
+		log.info("getAnalyticsService Start userId " + userId + " profileId " + profileID);
 		Analytics analytics = null;
 		try
 		{		
@@ -189,13 +187,81 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 	public GoogleAnalyticsDT getAnalyticData(Analytics analytics) throws IOException 
 	{
-
 		GoogleAnalyticsDT googleAnalyticsDT = new GoogleAnalyticsDT();
-		GaData gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
-		
-		fillRawDataListwithGoogleAnalyticsResults(analytics, googleAnalyticsDT,
-				gaData);
+		List<RawDataDT> rawDataList = firstCallToGoogleAnalytics(analytics,	googleAnalyticsDT);
+		List<RawDataDT> valuesToMatch = secondCallToGoogleAnalytics(analytics, rawDataList);
+		aggregateAllResults(googleAnalyticsDT, valuesToMatch);
 		return googleAnalyticsDT;
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 8, 2016
+	 *@Description: Aggregate all results into One Platform
+	 */
+
+	private void aggregateAllResults(GoogleAnalyticsDT googleAnalyticsDT, List<RawDataDT> valuesToMatch) 
+	{
+		for(RawDataDT rd : rawDataDtMap.values())
+		{
+		  valuesToMatch.add(rd);
+		}
+		googleAnalyticsDT.setRawDataList(valuesToMatch);
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 8, 2016
+	 *@Description: First Call to Google Analytics
+	 */
+
+	private List<RawDataDT> firstCallToGoogleAnalytics(Analytics analytics, GoogleAnalyticsDT googleAnalyticsDT) throws IOException 
+	{
+		log.info("First Call Start ");
+		log.info("First Call startDate " + startDate);
+		log.info("First Call endDate " + endDate);
+		List<RawDataDT> rawDataList = null;
+		GaData gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
+		if (gaData != null) 
+		{		
+			ArrayMap<String,String> map = (ArrayMap)gaData.getTotalsForAllResults();
+			for (int i = 0; i < metricsArr.length; i++) 
+			{
+				setAnalyticsGaData(googleAnalyticsDT, map, i);
+			}	
+			rawDataList = googleAnalyticsDT.getRawDataList();
+			setValuesAfterFirstCall(gaData);
+		}
+		log.info("First Call End ");
+		return rawDataList;
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 8, 2016
+	 *@Description: Set Values After First Call
+	 */
+
+	private void setValuesAfterFirstCall(GaData gaData) 
+	{
+		List<List<String>> gaDataRows= gaData.getRows();
+		for (List<String> itemList : gaDataRows) 
+		{
+			//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, //[3]- ga:sourceMedium,[4] - ga:campaign, [5] - ga:country, [6] - ga:pagePath
+			//[7] - ga:metric1", [8] - "ga:sessions", [9] - "ga:users",[10] - "ga:goal1Completions", [11] - "ga:goal2Completions",
+			//[12] - "ga:goal3Completions",[13] - "ga:goal4Completions", [14] - "ga:goal5Completions"
+			String clientId = itemList.get(0);
+			String hour = itemList.get(1);
+			String minute = itemList.get(2);
+			String key  = clientId+"@" + hour + "@" + minute;
+			RawDataDT rawDataDT = getRawDataDT(key, clientId , hour, minute,itemList);
+			setDimensionsValuesFirstCall(itemList, rawDataDT);
+			setMetricsValues(itemList, rawDataDT);
+			rawDataDtMap.put(key , rawDataDT);
+		}
 	}
 	
 	/**
@@ -205,36 +271,49 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Fill Raw Data List with google Analytics Results
 	 */
 
-	private void fillRawDataListwithGoogleAnalyticsResults(Analytics analytics, GoogleAnalyticsDT googleAnalyticsDT, GaData gaData) throws IOException 
+	private void fillRawDataListWithGoogleAnalyticsResults(Analytics analytics, GoogleAnalyticsDT googleAnalyticsDT, GaData gaData) throws IOException 
 	{
 		
-		log.info("fillRawDataListwithGoogleAnalyticsResults Start userId " + userId + "gaData" + gaData);
-		if (gaData != null) 
-		{
-			
-			ArrayMap<String,String> map = (ArrayMap)gaData.getTotalsForAllResults();
-				for (int i = 0; i < metricsArr.length; i++) 
-				{
-					setAnalyticsGaData(googleAnalyticsDT, map, i);
-				}
+	}
+
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 8, 2016
+	 *@Description: Second Call for Google Analytics
+	 */
+	
+	private List<RawDataDT> secondCallToGoogleAnalytics(Analytics analytics, List<RawDataDT> rawDataList) throws IOException 
+	{
+		log.info("Second Call Start ");
+		log.info("Second Call startDate " + startDate);
+		log.info("Second Call endDate " + endDate);
+		GaData gaData;
+		List<List<String>> gaDataRows;
+		String[] dimensionArr = setNewDimensionForSecondCall();
+		log.info("Second Call profileId " + profileId);
+		log.info("Second Call metricsArr " + metricsArr);
+		log.info("Second Call dimensionArr " + dimensionArr);
+
+		gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
 		
-				
-			List<RawDataDT> rawDataList = googleAnalyticsDT.getRawDataList();
-			List<List<String>> gaDataRows= gaData.getRows();
-			
-			setValuesFirststCall(rawDataList, gaDataRows);
-			
-			String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:browser,ga:deviceCategory,ga:landingPagePath,ga:exitPagePath"};
-			gaData = AnalyticUtils.extractCustomReportsFromGA(analytics, profileId, metricsArr,dimensionArr, startDate, endDate);
-			gaDataRows= gaData.getRows();
-			setValuesSecondCall(rawDataList, gaDataRows);
-			//Convert to List
-			List<RawDataDT> valuesToMatch=new ArrayList<RawDataDT>();
-			for(RawDataDT rd : rawDataDtMap.values()){
-			  valuesToMatch.add(rd);
-			}
-			googleAnalyticsDT.setRawDataList(valuesToMatch);
-		}
+		gaDataRows= gaData.getRows();
+		setValuesAfterSecondCall(rawDataList, gaDataRows);
+		//Convert to List
+		List<RawDataDT> valuesToMatch=new ArrayList<RawDataDT>();
+		return valuesToMatch;
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 7, 2016
+	 *@Description: Set New Dimension For Second Call
+	 */
+
+	private String[] setNewDimensionForSecondCall() {
+		String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:browser,ga:deviceCategory,ga:landingPagePath,ga:exitPagePath"};
+		return dimensionArr;
 	}
 
 	/**
@@ -244,7 +323,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Insert into Hashmap
 	 */
 
-	private void setValuesFirststCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) 
+	private void setValuesAfterFirststCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) 
 	{
 		for (List<String> itemList : gaDataRows) 
 		{
@@ -305,7 +384,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Insert into Hashmap
 	 */
 
-	private void setValuesSecondCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) 
+	private void setValuesAfterSecondCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) 
 	{
 		for (List<String> itemList : gaDataRows) 
 		{

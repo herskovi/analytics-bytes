@@ -15,6 +15,7 @@ public interface GoogleCloudStorageConsts extends GeneralConsts
 	  public static final String MODEL_ID = "analyticsbytesprediction";
 	  public static final String PROJECT_ID = "dailyreportbysmsforga";
 	  public static final String MODEL_TYPE = "classification";
+	  public static final String DEFAULT_USER_STORAGE = "herskovi77@gmail.com";
 
 
 }

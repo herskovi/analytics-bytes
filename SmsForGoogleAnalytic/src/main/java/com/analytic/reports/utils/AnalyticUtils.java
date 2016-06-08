@@ -117,6 +117,13 @@ public class AnalyticUtils
 	public static GaData extractCustomReportsFromGA(Analytics analytics,
 			String profileId, String startDate, String endDate, String metrics, String dimensions) 
 	{
+		log.info("AnalyticUtils extractCustomReportsFromGA Start");
+		log.info("AnalyticUtils startDate " +startDate );
+		log.info("AnalyticUtils endDate " +startDate );
+		log.info("AnalyticUtils metrics " +metrics );
+		log.info("AnalyticUtils dimensions " +dimensions );
+		log.info("AnalyticUtils analytics url" +analytics.getRootUrl() );
+
 		GaData gaData =null;
 		try 
 		{
@@ -124,13 +131,14 @@ public class AnalyticUtils
 			Data data = analytics.data();
 			Ga ga = data.ga();
 			Get get = ga.get("ga:" + profileId, startDate, endDate, metrics).setDimensions(dimensions);
-			//get.setMaxResults(5000);
+			Thread.sleep(1000);
+			get.setMaxResults(5000);
 			get.setQuotaUser("XX"+profileId);
 			gaData = get.execute();
 
 		}catch(Exception ex)
 		{
-			log.severe("Could not execute ga().get for profile" + profileId + " and for metrics " + metrics );
+			log.severe("AnalyticUtils.extractCustomReportsFromGA Could not execute ga().get for profile" + profileId + " and for metrics " + metrics  + " for dimension " + dimensions);
 			log.severe(ex.getMessage());
 		}
 		return gaData;

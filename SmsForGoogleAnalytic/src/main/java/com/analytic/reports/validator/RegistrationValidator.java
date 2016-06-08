@@ -38,7 +38,7 @@ public class RegistrationValidator extends BaseValidator implements IValidator
 	{
 		validateMobileNumberIsNotEmpty(cust.getTelephoneNumber());
 		validatePassword(cust.getPassword());
-		validateMobileNumberIsNotAlreadyExists(cust.getTelephoneNumber(),cust.getEmailAddress());
+		//validateMobileNumberIsNotAlreadyExists(cust.getTelephoneNumber(),cust.getEmailAddress()); - FIXME - Remove this comment later on.
 
 	}
 

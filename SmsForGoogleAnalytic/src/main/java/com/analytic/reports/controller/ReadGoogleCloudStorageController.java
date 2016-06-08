@@ -62,8 +62,6 @@ public class ReadGoogleCloudStorageController extends BaseController {
 	private IResponse readGoogleCloudStorageResponse= newResponse();
 	private static final Logger log = Logger.getLogger(ReadGoogleCloudStorageController.class.getName());
 
-
-
 	/**Used below to determine the size of chucks to read in. Should be > 1kb and < 10MB */
 	private static final int BUFFER_SIZE = 2 * 1024 * 1024;
 
@@ -106,9 +104,9 @@ public class ReadGoogleCloudStorageController extends BaseController {
 
 	         ((ReadGoogleCloudStorageResponse) readGoogleCloudStorageResponse).setRawDataList(rawDataList);
 	        } catch (IOException e) {
-	         e.printStackTrace();
+	        	log.severe("ReadGoogleCloudStorageController execute failed while reading from Storage" +e.getMessage());
 	        }
-			System.out.println("DONE11");
+	        log.info("ReadGoogleCloudStorageController completed " );
 
 
 
@@ -182,8 +180,8 @@ public class ReadGoogleCloudStorageController extends BaseController {
 	 * @see main.java.com.analytic.reports.interfaces.IController#setResponse(java.lang.String)
 	 */
 	@Override
-	public void setResponse(String message) {
-		// TODO Auto-generated method stub
+	public void setResponse(String message) 
+	{
 
 	}
 

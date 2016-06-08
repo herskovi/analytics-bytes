@@ -89,7 +89,8 @@ public class GCStorageController extends BaseController {
 
 		try {
 
-			Storage storage = getStorageService(userId);
+			Storage storage = getStorageService(GoogleCloudStorageConsts.DEFAULT_USER_STORAGE);
+			log.info("storage.getBaseUrl() " + storage.getBaseUrl() ); 
 //			Bucket bucket = StorageUtils.getBucket(storage, bucketName);
 //			System.out.println(bucket.getId());
 //			long byteCount = 0;  // size of input stream
@@ -108,12 +109,13 @@ public class GCStorageController extends BaseController {
 			.setAcl(Arrays.asList(
 					new ObjectAccessControl().setEntity("allUsers").setRole("READER")));
 
+			log.info("objectMetadata "); 
 
 			
 			StringBuffer csv = new StringBuffer();
 			preapreNewDataToCSVFormat(csv);
 			
-					
+			log.info("preapreNewDataToCSVFormat Finished");		
 
 //			String jsonStr = new Gson().toJson(rawDataList);
 //			InputStream is2 = new ByteArrayInputStream(jsonStr.getBytes());
@@ -122,8 +124,10 @@ public class GCStorageController extends BaseController {
 			if(isUpdateMode)
 			{
 				//objectMetadata.setContentDisposition(csv.toString());
-				List<RawDataDT> existingRawDataDT = readExistingObjectFromGoogleCloudStorage();	
+				List<RawDataDT> existingRawDataDT = readExistingObjectFromGoogleCloudStorage();
+				log.info("convertRawDataArrayListToStringBuffer Start");
 				 convertRawDataArrayListToStringBuffer(existingRawDataDT, csv);
+				 log.info("convertRawDataArrayListToStringBuffer Finished");
 			}
 			
 			InputStream is3 = new ByteArrayInputStream(csv.toString().getBytes());
@@ -146,11 +150,14 @@ public class GCStorageController extends BaseController {
 //			if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /* 2MB */) {
 //				insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
 //			}
-			
+			log.info("insertObject Start");
 			insertObject = storage.objects().insert(GoogleCloudStorageConsts.BUCKET_NAME, objectMetadata,mediaContent);
-			insertObject.execute();
+			log.info("insertObject End");
+			log.info("insertObject.execute Start");
 
-			System.out.println("DONE");
+			insertObject.execute();
+			log.info("insertObject.execute End");
+			log.info("GCStorageController is done to write into Storage");		
 
 
 

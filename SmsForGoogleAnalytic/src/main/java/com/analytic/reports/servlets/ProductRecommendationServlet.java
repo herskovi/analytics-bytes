@@ -23,6 +23,7 @@ import main.java.com.analytic.reports.interfaces.IController;
 import main.java.com.analytic.reports.jdo.model.Customer;
 import main.java.com.analytic.reports.utils.AnalyticUtils;
 import main.java.com.analytic.reports.utils.HttpClientUtils;
+import main.java.com.analytic.reports.utils.URLUtils;
 import main.java.com.analytic.reports.utils.consts.GoogleCloudStorageConsts;
 import main.java.com.analytic.reports.utils.consts.RequestDispatcherConsts;
 
@@ -125,7 +126,7 @@ public class ProductRecommendationServlet extends HttpServlet
 	private IController getController(HttpServletRequest req, HttpServletResponse resp) 
 	{
 		String userId = HttpClientUtils.getUserIdFromHttpRequest(req);		
-		return new ProductRecommendationAnalyticsAPIController(userId);
+		return new ProductRecommendationAnalyticsAPIController(userId,URLUtils.isServerRunningInLocalMode(req.getRequestURL().toString()));
 	}
 
 	/**

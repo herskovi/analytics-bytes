@@ -7,6 +7,8 @@ $(document).ready(function(){
 	        $(this).attr('src', $(this).attr('src').replace('.svg', '.png'));
 	    });
 	}
+	
+
 //	$(".nav_link a").pageslide({
 //		direction: "left"
 //	}); 

@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletInputStream;
 
-import main.java.com.analytic.reports.controller.response.GCStorageResponse;
+import main.java.com.analytic.reports.controller.response.GoogleCloudStorageResponse;
 import main.java.com.analytic.reports.controller.response.ReadGoogleCloudStorageResponse;
 import main.java.com.analytic.reports.datatypes.RawDataDT;
 import main.java.com.analytic.reports.interfaces.IResponse;
@@ -50,16 +50,16 @@ import com.google.gson.Gson;
  * A simple servlet that proxies reads and writes to its Google Cloud Storage bucket.
  */
 @SuppressWarnings("serial")
-public class GCStorageController extends BaseController {
+public class GoogleCloudStorageController extends BaseController {
 
 	public static final boolean SERVE_USING_BLOBSTORE_API = false;
 	private String userId ="";
 	private String bucketName ="";
 	private String fileName ="";
-	GCStorageResponse gcStorageResponse= null;
+	GoogleCloudStorageResponse gcStorageResponse= null;
 	ServletInputStream inputStream = null;
 	List<RawDataDT> rawDataList = null;
-	private static final Logger log = Logger.getLogger(GCStorageController.class.getName());
+	private static final Logger log = Logger.getLogger(GoogleCloudStorageController.class.getName());
 	private boolean isUpdateMode = false; 
 	/**Used below to determine the size of chucks to read in. Should be > 1kb and < 10MB */
 	private static final int BUFFER_SIZE = 2 * 1024 * 1024;
@@ -71,7 +71,7 @@ public class GCStorageController extends BaseController {
 	 * @param objectName
 	 * @throws IOException 
 	 */
-	public GCStorageController(ServletInputStream inputStream,String userId, String bucketName, String fileName, List<RawDataDT> rawDataList, boolean isUpdateMode) throws IOException 
+	public GoogleCloudStorageController(ServletInputStream inputStream,String userId, String bucketName, String fileName, List<RawDataDT> rawDataList, boolean isUpdateMode) throws IOException 
 	{
 		super();
 		this.userId = userId;
@@ -150,20 +150,19 @@ public class GCStorageController extends BaseController {
 //			if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /* 2MB */) {
 //				insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
 //			}
-			log.info("insertObject Start");
+			
 			insertObject = storage.objects().insert(GoogleCloudStorageConsts.BUCKET_NAME, objectMetadata,mediaContent);
-			log.info("insertObject End");
-			log.info("insertObject.execute Start");
+			
 
 			insertObject.execute();
-			log.info("insertObject.execute End");
+			
 			log.info("GCStorageController is done to write into Storage");		
 
 
 
 		}catch(Exception ex)
 		{
-			log.severe("GCStorageController failed to write into Storage");		
+			log.severe("GCStorageController failed to write into Storage" + ex.getMessage());		
 		}
 	}
 	/**
@@ -173,7 +172,21 @@ public class GCStorageController extends BaseController {
 	 *@Description: Prepare new Data to CSV file
 	 */
 
-	private void preapreNewDataToCSVFormat(StringBuffer csv) {
+	private void preapreNewDataToCSVFormat(StringBuffer csv) 
+	{
+		//setHeadersForCSV(csv);
+		setContentForCSV(csv);
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 10, 2016
+	 *@Description:
+	 */
+
+	private void setContentForCSV(StringBuffer csv) 
+	{
 		for (RawDataDT rawData : rawDataList)
 		{
 			rawData.setLabel("FAILURE");
@@ -183,10 +196,18 @@ public class GCStorageController extends BaseController {
 				rawData.setLabel("SUCCESS");	
 			}
 		
-				String[] list = convertRawDataToString(rawData);
-				csv.append(convertToCommaDelimited(list));
-				csv.append("\n");
+			String[] list = StorageUtils.convertRawDataToString(rawData); //TODO - Support remove attributes 
+			//removeAttributes();
+			
+			csv.append(StorageUtils.convertToCommaDelimited(list));
+			csv.append("\n");
 		}
+	}
+
+	private void setHeadersForCSV(StringBuffer csv) 
+	{
+		csv.append(StorageUtils.convertToCommaDelimited(GoogleCloudStorageConsts.headers_v1));
+		csv.append("\n");
 	}
 	
 	/**
@@ -199,8 +220,8 @@ public class GCStorageController extends BaseController {
 	{
 		for (RawDataDT newRawData : existingRawDataList)
 		{
-			String[] list = convertRawDataToString(newRawData);
-			csv.append(convertToCommaDelimited(list));
+			String[] list = StorageUtils.convertRawDataToString(newRawData);
+			csv.append(StorageUtils.convertToCommaDelimited(list));
 			csv.append("\n");
 		}
 	}
@@ -220,16 +241,7 @@ public class GCStorageController extends BaseController {
 		List<RawDataDT> existingRawDataDT =  ((ReadGoogleCloudStorageResponse)readGoogleCloudStorageController.getResponse()).getRawDataList();
 		return existingRawDataDT;
 	}
-
-	private String[] convertRawDataToString(RawDataDT rawData) {
-		String[] list =  {rawData.getLabel(),
-				rawData.getBrowser(),rawData.getHour(), rawData.getMinute(),rawData.getSourceMedium(),rawData.getCampaign(),rawData.getCountry(),rawData.getPagePath(),
-				rawData.getMobileDeviceInfo(),rawData.getBrowser(),rawData.getDeviceCategory(),rawData.getLandingPagePath() 
-				//rawData.getExitPagePath(),rawData.getMetric1(),rawData.getSessions(),rawData.getUsers(),
-				//rawData.getGoal1Completions(),rawData.getGoal2Completions(),rawData.getGoal3Completions(),rawData.getGoal4Completions(),rawData.getGoal5Completions()
-				};
-		return list;
-	}
+	
 
 
 	/**
@@ -252,32 +264,14 @@ public class GCStorageController extends BaseController {
 		return storageService;
 	}
 	
-	/**
-	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        Jun 2, 2016
-	 *@Description: convertToCommaDelimited
-	 */
 	
-	public static String convertToCommaDelimited(String[] list) 
-	{
-        StringBuffer ret = new StringBuffer("");
-        for (int i = 0; list != null && i < list.length; i++) {
-            ret.append(list[i]);
-            if (i < list.length - 1) {
-                ret.append(',');
-            }
-        }
-        return ret.toString();
-    }
-
 
 	/* (non-Javadoc)
 	 * @see main.java.com.analytic.reports.interfaces.IController#getResponse()
 	 */
 	@Override
-	public IResponse getResponse() {
-		// TODO Auto-generated method stub
+	public IResponse getResponse() 
+	{
 		return null;
 	}
 
@@ -285,8 +279,8 @@ public class GCStorageController extends BaseController {
 	 * @see main.java.com.analytic.reports.interfaces.IController#setResponse(java.lang.String)
 	 */
 	@Override
-	public void setResponse(String message) {
-		// TODO Auto-generated method stub
+	public void setResponse(String message) 
+	{
 
 	}
 
@@ -294,8 +288,8 @@ public class GCStorageController extends BaseController {
 	 * @see main.java.com.analytic.reports.interfaces.IController#newResponse()
 	 */
 	@Override
-	public IResponse newResponse() {
-		// TODO Auto-generated method stub
+	public IResponse newResponse() 
+	{
 		return null;
 	}
 }

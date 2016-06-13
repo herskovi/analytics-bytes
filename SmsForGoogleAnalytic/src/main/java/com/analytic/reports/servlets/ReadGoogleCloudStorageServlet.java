@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import main.java.com.analytic.reports.controller.DailySmsController;
-import main.java.com.analytic.reports.controller.GCStorageController;
+import main.java.com.analytic.reports.controller.GoogleCloudStorageController;
 import main.java.com.analytic.reports.controller.PredictionController;
 import main.java.com.analytic.reports.controller.ProductRecommendationAnalyticsAPIController;
 import main.java.com.analytic.reports.controller.ReadGoogleCloudStorageController;
@@ -34,59 +34,56 @@ import com.google.api.services.analytics.model.GaData;
 import com.google.gson.Gson;
 
 @SuppressWarnings({ "serial", "unused" })
-public class ReadGoogleCloudStorageServlet extends HttpServlet 
-{
-	private static final Logger log = Logger.getLogger(ReadGoogleCloudStorageServlet.class.getName());
-	
-
+public class ReadGoogleCloudStorageServlet extends HttpServlet {
+	private static final Logger log = Logger
+			.getLogger(ReadGoogleCloudStorageServlet.class.getName());
 
 	/**
 	 * 
 	 */
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException 
-	{
-		IController readGoogleCloudStorageController = getController(req,resp); 
-		try 
-		{
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		IController readGoogleCloudStorageController = getController(req, resp);
+		try {
 			readGoogleCloudStorageController.execute();
-			writeResponseIntoJson(resp, readGoogleCloudStorageController); 
+			writeResponseIntoJson(resp, readGoogleCloudStorageController);
 
-
-		} catch (Exception e) 
-		{
-			log.severe("ReadGoogleCloudStorageServlet failed " +  e.getMessage());
+		} catch (Exception e) {
+			log.severe("ReadGoogleCloudStorageServlet failed " + e.getMessage());
 		}
 
 	}
-	
+
 	/**
 	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        June 6, 2016
-	 *@Description: 
+	 * @Author: Moshe Herskovits
+	 * @Date: June 6, 2016
+	 * @Description:
 	 */
 
-	private void writeResponseIntoJson(HttpServletResponse resp, IController readGoogleCloudStorageController) throws IOException {
+	private void writeResponseIntoJson(HttpServletResponse resp,
+			IController readGoogleCloudStorageController) throws IOException {
 		Gson gson = new Gson();
-		String json = gson.toJson(((ReadGoogleCloudStorageResponse)readGoogleCloudStorageController.getResponse()).getRawDataList());
+		String json = gson
+				.toJson(((ReadGoogleCloudStorageResponse) readGoogleCloudStorageController
+						.getResponse()).getRawDataList());
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().write(json);
 	}
 
-
 	/**
-	 *@throws IOException 
-	 * @Author:      Moshe Herskovits
-	 *@Date:        Mar 13, 2016
-	 *@Description: get Daily SMS Controller
+	 * @throws IOException
+	 * @Author: Moshe Herskovits
+	 * @Date: Mar 13, 2016
+	 * @Description: Read Google C loudStorageController
 	 */
 	private IController getController(HttpServletRequest req, HttpServletResponse resp) throws IOException 
 	{
-		String userId = HttpClientUtils.getUserIdFromHttpRequest(req);	
-		String fileName = GoogleCloudStorageConsts.FILE_NAME_PREFIX + userId + GoogleCloudStorageConsts.FILE_NAME_SUFFIX;
-		return new ReadGoogleCloudStorageController(userId,fileName);
+		String emailAddress = HttpClientUtils.getUserIdFromHttpRequest(req);
+		String fileName = GoogleCloudStorageConsts.FILE_NAME_PREFIX + emailAddress + GoogleCloudStorageConsts.FILE_NAME_SUFFIX;
+		return new ReadGoogleCloudStorageController(emailAddress, fileName);
 	}
 
 	/**
@@ -95,10 +92,9 @@ public class ReadGoogleCloudStorageServlet extends HttpServlet
 	 * @Description: call doGet
 	 */
 
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException
-	{
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 		doGet(req, resp);
 	}
-
 
 }

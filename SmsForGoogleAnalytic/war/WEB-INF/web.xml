@@ -324,6 +324,16 @@
 		<url-pattern>/productrecommendation</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>ModelTrainningHome</servlet-name>
+		<jsp-file>/analyticsbytes/modelTrainningHomePage.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ModelTrainningHome</servlet-name>
+		<url-pattern>/modeltrainninghome</url-pattern>
+	</servlet-mapping>
+	
 	
 	<servlet>
 		<servlet-name>ProductRecommendationServlet</servlet-name>
@@ -335,12 +345,12 @@
 	</servlet-mapping>	
 	
 	<servlet>
-		<servlet-name>PredictionServlet</servlet-name>
-		<servlet-class>main.java.com.analytic.reports.servlets.PredictionServlet</servlet-class>
+		<servlet-name>TrainModelServlet</servlet-name>
+		<servlet-class>main.java.com.analytic.reports.servlets.TrainModelServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>PredictionServlet</servlet-name>
-		<url-pattern>/predictionselectionwizard</url-pattern>
+		<servlet-name>TrainModelServlet</servlet-name>
+		<url-pattern>/trainthemodel</url-pattern>
 	</servlet-mapping>	
 	
 	<servlet>

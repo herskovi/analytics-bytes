@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletInputStream;
 
-import main.java.com.analytic.reports.controller.response.GCStorageResponse;
+import main.java.com.analytic.reports.controller.response.GoogleCloudStorageResponse;
 import main.java.com.analytic.reports.controller.response.ReadGoogleCloudStorageResponse;
 import main.java.com.analytic.reports.datatypes.RawDataDT;
 import main.java.com.analytic.reports.interfaces.IResponse;
@@ -86,7 +86,7 @@ public class ReadGoogleCloudStorageController extends BaseController {
 
 		try {
 
-			Storage storage = getStorageService(userId);
+			Storage storage = getStorageService(GoogleCloudStorageConsts.DEFAULT_USER_STORAGE);
 			Storage.Objects.Get getObject = storage.objects().get(GoogleCloudStorageConsts.BUCKET_NAME, fileName);
 	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	        getObject.getMediaHttpDownloader().setDirectDownloadEnabled(!IS_APP_ENGINE);
@@ -98,10 +98,10 @@ public class ReadGoogleCloudStorageController extends BaseController {
 	        try {
 	         while ((line = bufferedReader.readLine()) != null) {
 
-	          RawDataDT rawDataDT =  convertToRawData(line);
+	          RawDataDT rawDataDT =  StorageUtils.convertToRawData(line);
 	          rawDataList.add(rawDataDT);
 	         }
-
+	         removeHeaders(rawDataList);
 	         ((ReadGoogleCloudStorageResponse) readGoogleCloudStorageResponse).setRawDataList(rawDataList);
 	        } catch (IOException e) {
 	        	log.severe("ReadGoogleCloudStorageController execute failed while reading from Storage" +e.getMessage());
@@ -119,27 +119,15 @@ public class ReadGoogleCloudStorageController extends BaseController {
 
 	/**
 	 *@Author:      Moshe Herskovits
-	 *@Date:        Jun 6, 2016
-	 *@Description: convert To RawData From google Cloud Storage
+	 *@Date:        Jun 9, 2016
+	 *@Description:
 	 */
-	private RawDataDT convertToRawData(String line) 
+	private void removeHeaders(List<RawDataDT> rawDataList) 
 	{
-		String[] parts = line.split(",");
-		RawDataDT rawData = new RawDataDT(UUID.randomUUID().toString()); //FIXME - Generate Client ID
-		rawData.setLabel(parts[0]);
-		rawData.setBrowser(parts[1]);
-		rawData.setHour(parts[2]);
-		rawData.setMinute(parts[3]);
-		rawData.setSourceMedium(parts[4]);
-		rawData.setCampaign(parts[5]);
-		rawData.setCountry(parts[6]);
-		rawData.setPagePath(parts[7]);
-		rawData.setMobileDeviceInfo(parts[8]);
-		rawData.setBrowser(parts[9]);
-		rawData.setDeviceCategory(parts[10]);
-		rawData.setLandingPagePath(parts[11]);
-		return rawData;
+		rawDataList.remove(0);
 	}
+
+	
 		
 
 		

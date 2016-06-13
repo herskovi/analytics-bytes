@@ -13,7 +13,7 @@ import main.java.com.analytic.reports.datatypes.GoogleAnalyticsDT;
  * @author admin
  * Jul 23, 2014
  */
-public class GCStorageResponse extends BaseResponse 
+public class GoogleCloudStorageResponse extends BaseResponse 
 {
 
 	private String accountId="";

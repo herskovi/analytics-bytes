@@ -117,34 +117,44 @@
 				</div>
 			</nav>
 		</header>
-
+		
 		<div class="rapper graydiv toppadding">
 			<!-- added by oran -main gray div -->
 			<div class="container">
+
+
+
 				<div class="container whitediv toppadding">
 
-					<div class="rapper graydiv toppadding">
-						<!-- added by oran -main gray div -->
 
-						<div class="dashboard-header clearfix">
-							<h1 class="title">Raw Data</h1>
-							<div id="dashboardGrid"></div>
-						</div>
-
-						<div class="row">
-							<div class="form-wrapper">
-								<form name="trainTheModel" action="trainthemodel" method="post"
-									class="form-horizontal login-form">
-									<input id="email_address" name="email_address"
-										type="hidden" value='${email_address}' /> 
-										<br> <br><br><br><br><br>
-									<div class="form-group">
+					<div class="row">
+						<div class="form-wrapper">
+							<form name="trainthemodelForm" class="form-horizontal login-form">
+								<input id="uniqueAccountNumber" name="uniqueAccountNumber" type="hidden" value='${uniqueAccountNumber}' /> 
+								<br> <br> <br> <br> <br> <br>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<p style="font-style: italic; font-size: 1.5em;">Please
+											enter your Google Analytics account email which you enrolled
+											with</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="mobile" class="col-sm-4 control-label">Email<span class="required">*</span></label>
+									<div class="col-sm-4">
+										<input id="email_address" name="email_address"
+											placeholder="Example: myname@mywebsite.com"
+											class="form-control input-lg" type="text" value="" tabindex=1 />
+										
+									</div>
+								</div>
+								
+								<div class="form-group">
 										<label for="mobile" class="col-sm-4 control-label">Model
 											Type<span class="required">*</span>
 										</label>
 										<div class="col-sm-4">
-											<label for="sel1">Trainning Model</label> 
-											<select	class="form-control" id="modelType">
+											<select	class="form-control" id="modelType" name="modelType">
 												<option>Google</option>
 												<option>Logistic Regression</option>
 												<option>Amazon ML</option>
@@ -153,26 +163,32 @@
 										</div>
 									</div>
 
-									<div class="form-group">
-										<label for="empty" class="col-sm-4 control-label"></label>
-										<div class="col-sm-4">
-											<button type="submit"
-												class="btn btn-success btn-lg btn-block" role="button">
-												Train The Model</button>
-										</div>
+									
+								<div class="form-group">
+									<label for="empty" class="col-sm-4 control-label"></label>
+									<div class="col-sm-4">
+										<button type="submit" id="trainmodelSubmitButton" class="btn btn-success btn-lg btn-block" role="button">
+											Train The Model</button>
 									</div>
-								</form>
-							</div>
-
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<p style="font-style: italic; font-size: 3.5em;">Confusion Matrix</p>
+									</div>
+									<div class="col-sm-4">
+										<div id = "confusionMatrix" style ="background-color:#eee;">  </div>
+									</div>
+									
+								</div>
+							</form>
 						</div>
+					
 					</div>
 				</div>
 			</div>
-
-
-
 		</div>
-
+		
+		
 		<div class="whitediv navbar">
 			<!-- added by oran - footer div -->
 			<hr>
@@ -215,8 +231,7 @@
 	<script type="text/javascript" src="/js/smsga/jquery.metadata.js?v=184"></script>
 	<script type="text/javascript" src="/js/smsga/menu.js?v=184"></script>
 	<script type="text/javascript" src="/js/smsga/script.js?v=184"></script>
-	<script type="text/javascript"
-		src="/analyticsbytes/js/productrecommendationemailselectionwizard.js"></script>
+	<script type="text/javascript" src="/analyticsbytes/js/trainmodel.js"></script>  
 
 	<script type="text/javascript">
 		var userName = "${username}"

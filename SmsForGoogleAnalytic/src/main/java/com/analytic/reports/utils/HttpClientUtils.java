@@ -61,6 +61,33 @@ public class HttpClientUtils
 		String userId = req.getParameter("email_address");
 		return userId;
 	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Aug 30, 2014
+	 *@Description: Populate Support Data Type From Http Request
+	 */
+
+	public static String getStartDateForGoogleAnalyticsFromHttpRequest(HttpServletRequest req) 
+	{
+		String startDateForGoogleAnalytics = req.getParameter("startDateForGoogleAnalytics");
+		return startDateForGoogleAnalytics;
+	}
+	
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Aug 30, 2014
+	 *@Description: Populate Support Data Type From Http Request
+	 */
+
+	public static String getModelTypewFromHttpRequest(HttpServletRequest req) 
+	{
+		String userId = req.getParameter("modelType");
+		return userId;
+	}
+
 
 
 	

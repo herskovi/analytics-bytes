@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import main.java.com.analytic.reports.controller.DailySmsController;
-import main.java.com.analytic.reports.controller.GCStorageController;
+import main.java.com.analytic.reports.controller.GoogleCloudStorageController;
 import main.java.com.analytic.reports.controller.PredictionController;
 import main.java.com.analytic.reports.controller.ProductRecommendationAnalyticsAPIController;
 import main.java.com.analytic.reports.controller.response.ProductRecommendationAnalyticsAPIResponse;
@@ -51,10 +51,10 @@ public class ProductRecommendationServlet extends HttpServlet
 			productRecommendationAnalyticsAPIController.execute();
 			//writeResponseIntoJson(resp, productRecommendationAnalyticsAPIController); TODO - Move it to different servlet.
 			List<RawDataDT> googleAnalyticsList = ((ProductRecommendationAnalyticsAPIResponse)productRecommendationAnalyticsAPIController.getResponse()).getGoogleAnalyticsList().get(0).getRawDataList();
-			String userId = HttpClientUtils.getUserIdFromHttpRequest(req);
-			writeToGoogleCloudStorage(req,googleAnalyticsList,userId);// - FIXME - Remove It After debug next jsp. 
+			String emailAddress = HttpClientUtils.getUserIdFromHttpRequest(req);
+			writeToGoogleCloudStorage(req,googleAnalyticsList,emailAddress);// - FIXME - Remove It After debug next jsp. 
 			//trainTheNewModel(req,googleAnalyticsList,userId); TODO - Move it to different sevlet that train model with specific model
-			req.getSession().setAttribute("userid", userId);
+			req.getSession().setAttribute("userid", emailAddress);
 			getServletContext().getRequestDispatcher(RequestDispatcherConsts.FROM_WIZARD_PRODCUT_RECOMMENDATION_UPLOAD_TO_WIZARD_PRODCUT_RECOMMENDATION_MODEL_TRAINNING).forward(req, resp);
 
 
@@ -91,7 +91,7 @@ public class ProductRecommendationServlet extends HttpServlet
 		 
 		try
 		{
-			IController gcStorageController = new GCStorageController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList,false);
+			IController gcStorageController = new GoogleCloudStorageController(req.getInputStream(),userId, GoogleCloudStorageConsts.BUCKET_NAME,fileName,rawDataList,isFileNameExistsingoogleCloudStorage());
 			gcStorageController.execute();
 		}
 		
@@ -99,6 +99,18 @@ public class ProductRecommendationServlet extends HttpServlet
 		{
 			log.severe("Raw Data was not uploaded into Google Cloud Storage ");
 		}
+	}
+
+	/**
+	 * 
+	 *@Author:      Moshe Herskovits
+	 *@Date:        Jun 9, 2016
+	 *@Description:
+	 */
+	
+	private boolean isFileNameExistsingoogleCloudStorage() 
+	{
+		return false;
 	}
 
 	/**
@@ -125,8 +137,9 @@ public class ProductRecommendationServlet extends HttpServlet
 	 */
 	private IController getController(HttpServletRequest req, HttpServletResponse resp) 
 	{
-		String userId = HttpClientUtils.getUserIdFromHttpRequest(req);		
-		return new ProductRecommendationAnalyticsAPIController(userId,URLUtils.isServerRunningInLocalMode(req.getRequestURL().toString()));
+		String emailAddress = HttpClientUtils.getUserIdFromHttpRequest(req);
+		String startDate =  HttpClientUtils.getStartDateForGoogleAnalyticsFromHttpRequest(req);
+		return new ProductRecommendationAnalyticsAPIController(emailAddress,startDate,URLUtils.isServerRunningInLocalMode(req.getRequestURL().toString()));
 	}
 
 	/**

@@ -58,7 +58,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<div class="nav navbar-nav navbar-right navbarsignin">
 					<a href="/login" type="button" class="btn">Log in</a> 
 					<a href="/register" type="button" class="btn btn-default topbtn">Test it now, It's Free</a>
-					<a href="/productrecommendation" type="button" class="btn btn-default topbtn">Product Recommendation</a>
+					<a href="/productrecommendation" type="button" class="btn btn-default topbtn">Upload Data</a>
+					<a href="/modeltrainninghome" type="button" class="btn btn-default topbtn">Train The Model</a>
+					<a href="/productrecommendation" type="button" class="btn btn-default topbtn">Predict Simulator</a>
 				</div>
 
 

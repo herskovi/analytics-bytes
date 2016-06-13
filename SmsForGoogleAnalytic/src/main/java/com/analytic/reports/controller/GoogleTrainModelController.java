@@ -15,12 +15,7 @@
  */
 package main.java.com.analytic.reports.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -29,38 +24,29 @@ import java.util.logging.Logger;
 import javax.servlet.ServletInputStream;
 
 import main.java.com.analytic.reports.controller.response.GoogleCloudStorageResponse;
+import main.java.com.analytic.reports.controller.response.GoogleTrainModelResponse;
 import main.java.com.analytic.reports.datatypes.RawDataDT;
+import main.java.com.analytic.reports.interfaces.IModelTrainning;
 import main.java.com.analytic.reports.interfaces.IResponse;
 import main.java.com.analytic.reports.utils.CredentialUtils;
-import main.java.com.analytic.reports.utils.StorageUtils;
 import main.java.com.analytic.reports.utils.consts.GoogleCloudStorageConsts;
 
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
-import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.prediction.Prediction;
 import com.google.api.services.prediction.Prediction.Trainedmodels.Analyze;
-import com.google.api.services.prediction.Prediction.Trainedmodels.Insert;
 import com.google.api.services.prediction.model.Analyze.DataDescription.Features;
 import com.google.api.services.prediction.model.Input;
 import com.google.api.services.prediction.model.Input.InputInput;
 import com.google.api.services.prediction.model.Insert2;
 import com.google.api.services.prediction.model.Output;
-import com.google.api.services.storage.Storage;
-import com.google.api.services.storage.model.Bucket;
-import com.google.api.services.storage.model.ObjectAccessControl;
-import com.google.api.services.storage.model.StorageObject;
-import com.google.appengine.tools.cloudstorage.GcsService;
-import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.appengine.tools.cloudstorage.RetryParams;
-import com.google.gson.Gson;
 
 
 /**
  * A simple servlet that proxies reads and writes to its Google Cloud Storage bucket.
  */
 @SuppressWarnings("serial")
-public class PredictionController extends BaseController {
+public class GoogleTrainModelController extends BaseController implements IModelTrainning {
 
 	public static final boolean SERVE_USING_BLOBSTORE_API = false;
 	private String userId ="";
@@ -69,7 +55,7 @@ public class PredictionController extends BaseController {
 	GoogleCloudStorageResponse gcStorageResponse= null;
 	ServletInputStream inputStream = null;
 	List<RawDataDT> rawDataList = null;
-	private static final Logger log = Logger.getLogger(PredictionController.class.getName());
+	private static final Logger log = Logger.getLogger(GoogleTrainModelController.class.getName());
 	 /**
 	   * Be sure to specify the name of your application. If the application name is {@code null} or
 	   * blank, the application will log a warning. Suggested format is "MyCompany-ProductName/1.0".
@@ -78,8 +64,8 @@ public class PredictionController extends BaseController {
 
 	  /** Specify the Cloud Storage location of the training data. */
 	  //private static final String STORAGE_DATA_LOCATION = "analyticsbytes/rawData_";
-	  private static final String MODEL_ID = "analyticsbytesprediction";
-	  private static final String PROJECT_ID = "dailyreportbysmsforga";
+	
+	  private static GoogleTrainModelResponse googleTrainModelResponse= new GoogleTrainModelResponse();
 	
 
 
@@ -88,7 +74,7 @@ public class PredictionController extends BaseController {
 	 * @param objectName
 	 * @throws IOException 
 	 */
-	public PredictionController(ServletInputStream inputStream,String userId, String bucketName, String fileName, List<RawDataDT> rawDataList) throws IOException 
+	public GoogleTrainModelController(ServletInputStream inputStream,String userId, String bucketName, String fileName, List<RawDataDT> rawDataList) throws IOException 
 	{
 		super();
 		this.userId = userId;
@@ -107,29 +93,6 @@ public class PredictionController extends BaseController {
 			
 			Prediction prediction = getPredictionService(userId); 
 		    train(prediction);
-		    predict(prediction,"Android Browser,02,38,google / cpc,AnalyticsBytes Search only,Philippines,/login,null,Android Browser,mobile,/,/login");
-		    predict(prediction,"Chrome,15,54,Facebook / Paid,AnalyticsBytes Starter,Poland,/register,null,Chrome,mobile,/,/whatwedo");
-		    predict(prediction,"Android Browser,08,31,google / cpc,AnalyticsBytes Search only,India,/terms/,null,Android Browser,mobile,/,/register");
-		    predict(prediction,"Chrome,17,32,google / organic,(not set),Israel,/whatwedo,null,Chrome,desktop,/,/mobileselectionwizard");
-		    predict(prediction,"Firefox,09,37,(direct) / (none),(not set),India,/register,null,Firefox,mobile,/register");
-		    predict(prediction,"Chrome,09,25,google / cpc,AnalyticsBytes Search only,India,/register,null,Chrome,desktop,/");
-
-		    
-
-//			String body = "";
-//			Insert insert = null;
-//			insert.setFields(body);
-//			
-			//prediction.trainedmodels().insert("dailyreportbysmsforga", Insert.);
-
-//			
-//			train a new classification model
-//api.trainedmodels().insert(project=project_id, body={
-//    'id': analyticsbytesprediction,
-//    'storageDataLocation': 'machine-learning-dataset/dataset.csv',
-//    'modelType': 'CLASSIFICATION'
-//}).execute()
-
 			System.out.println("DONE");
 
 
@@ -153,54 +116,78 @@ public class PredictionController extends BaseController {
 				
 		//com.google.api.services.prediction.model.Insert trainingData = null;
 		try{
-		 
+			com.google.api.services.prediction.Prediction.Trainedmodels.List strList = prediction.trainedmodels().list(GoogleCloudStorageConsts.PROJECT_ID);
+			com.google.api.services.prediction.Prediction.Trainedmodels.Analyze an3 = prediction.trainedmodels().analyze(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID + "_" + this.userId);
+			try
+			{
+				an3.execute();
+			}catch(Exception ex)
+			{
+				log.severe("an3.execute(); failed");
+			}
+			log.info("Delete started ");
 
+			
+			prediction.trainedmodels().delete(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID + "_" + this.userId).execute();
+			log.info("Delete was completed ");
+			com.google.api.services.prediction.Prediction.Trainedmodels.List strList2 = prediction.trainedmodels().list(GoogleCloudStorageConsts.PROJECT_ID);
+			
 			com.google.api.services.prediction.model.Insert trainingData = new com.google.api.services.prediction.model.Insert();
-		    trainingData.setId(MODEL_ID);
+		    trainingData.setId(GoogleCloudStorageConsts.MODEL_ID + "_" + this.userId);
 		    trainingData.setStorageDataLocation(GoogleCloudStorageConsts.BUCKET_NAME + "/" + GoogleCloudStorageConsts.FILE_NAME_PREFIX + this.userId + GoogleCloudStorageConsts.FILE_NAME_SUFFIX);
 		    trainingData.setModelType(GoogleCloudStorageConsts.MODEL_TYPE);
 		    prediction.trainedmodels().insert(GoogleCloudStorageConsts.PROJECT_ID, trainingData).execute();
-		    System.out.println("Training started.");
-		    System.out.print("Waiting for training to complete");
-		    System.out.flush();
+		    prediction.trainedmodels().list(GoogleCloudStorageConsts.PROJECT_ID);
+		    log.info("Training started.");
+		    log.info("Waiting for training to complete");
 
 		    int triesCounter = 0;
 		    Insert2 trainingModel;
 		    while (triesCounter < 100) {
 		      // NOTE: if model not found, it will throw an HttpResponseException with a 404 error
 		      try {
-		        HttpResponse response = prediction.trainedmodels().get(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID).executeUnparsed();
+		        HttpResponse response = prediction.trainedmodels().get(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID+ "_" + this.userId).executeUnparsed();
 		        if (response.getStatusCode() == 200) {
 		          trainingModel = response.parseAs(Insert2.class);
 		          String trainingStatus = trainingModel.getTrainingStatus();
 		          if (trainingStatus.equals("DONE")) {
-		            System.out.println();
-		            System.out.println("Training completed.");
+		           log.info("Training completed.");
+		            Collection<Object> values2  = trainingModel.values();
 		            System.out.println(trainingModel.getModelInfo());
 		            String weightedAccuracy = trainingModel.getModelInfo().getClassWeightedAccuracy();
-		            Analyze an = prediction.trainedmodels().analyze(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID);
-		            Collection cl= an.values();
-		            System.out.println(an.execute());
+		            log.info("weightedAccuracy "  + weightedAccuracy);
+
+		            googleTrainModelResponse.setWeightedAccuracy(weightedAccuracy);
+		            Analyze an = prediction.trainedmodels().analyze(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID+ "_" + this.userId);
+		            
 		            
 		            List<Features> featureList= an.execute().getDataDescription().getFeatures();
-		            for(Features feature : featureList )
-		            {
-		            	System.out.println(feature.getText());
-		            	System.out.println(feature.getCategorical());
-		            	System.out.println(feature.getIndex());
-		            	System.out.println("Preety" + feature.toPrettyString());
-		            }
-		            System.out.println(an.execute().getDataDescription().getFeatures());
+		            googleTrainModelResponse.setFeatureList(featureList);
+		            googleTrainModelResponse.setModelDescription(an.execute().getModelDescription().toPrettyString());
+		            googleTrainModelResponse.setDataDescription(an.execute().getDataDescription().get("outputFeature").toString());
+
 		            System.out.println(an.execute().getModelDescription());
+		            log.info(" an.execute().getModelDescription())" + an.execute().getModelDescription());
 		            System.out.println(an.execute().getModelDescription().toPrettyString());
-		            System.out.println(an.execute().getModelDescription().getModelinfo().getModelInfo());
+		            log.info(" an.execute().getModelDescription().toPrettyString()); " +an.execute().getModelDescription().toPrettyString());
+		            System.out.println(an.execute().getModelDescription().getModelinfo());
+		            log.info("an.execute().getDataDescription().toPrettyString())" + an.execute().getDataDescription().toPrettyString());
+		            System.out.println(an.execute().getDataDescription().toPrettyString());
+		            log.info("an.execute().getDataDescription().toPrettyString())" + an.execute().getDataDescription().toPrettyString());
+		            System.out.println(an.execute().getDataDescription().get("outputFeature"));
+		            log.info("outputFeatures " + an.execute().getDataDescription().get("outputFeature"));
+		            System.out.println(an.execute().getId());
+		            log.info("an.execute().getId()); "  +an.execute().getId());
 		            //System.out.println(an.execute().getModelDescription().getModelinfo().getModelInfo().getClassInfo().getNames());
-		           		            
+
+		            
 		            return;
 		          }
 		        }
 		        response.ignore();
-		      } catch (HttpResponseException e) {
+		      } catch (HttpResponseException e) 
+		      {
+		    	  log.severe(" HttpResponseException " + e.getMessage());
 		      }
 
 		      try {
@@ -216,7 +203,7 @@ public class PredictionController extends BaseController {
 		    log.severe("ERROR: training not completed.");
 		}catch (Exception e) 
 		{
-			e.printStackTrace();
+		    log.severe("ERROR: Exception " + e.getMessage());
 		}
 		
 	}
@@ -233,7 +220,7 @@ public class PredictionController extends BaseController {
 		    InputInput inputInput = new InputInput();
 		    inputInput.setCsvInstance(Collections.<Object>singletonList(text));
 		    input.setInput(inputInput);
-		    Output output = prediction.trainedmodels().predict(PROJECT_ID, MODEL_ID, input).execute();
+		    Output output = prediction.trainedmodels().predict(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID, input).execute();
 		    System.out.println("Text: " + text);
 		    System.out.println("Predicted language: " + output.getOutputLabel());
 		  }
@@ -269,7 +256,7 @@ public class PredictionController extends BaseController {
 	@Override
 	public IResponse getResponse() {
 		// TODO Auto-generated method stub
-		return null;
+		return googleTrainModelResponse;
 	}
 
 	/* (non-Javadoc)
@@ -287,6 +274,6 @@ public class PredictionController extends BaseController {
 	@Override
 	public IResponse newResponse() {
 		// TODO Auto-generated method stub
-		return null;
+		return new GoogleTrainModelResponse();
 	}
 }

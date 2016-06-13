@@ -88,16 +88,6 @@ public class AnalyticUtils
 			get.setQuotaUser("XX"+profileId);
 			gaData = get.execute();
 			
-			
-//			gaData =  analytics.data().ga().get("ga:" + profileId, // Table Id. ga: + profile id.
-//					startDate, // Start date.
-//					endDate, // End date.
-//					metrics) // Metrics.
-//					// .setDimensions("ga:source,ga:keyword")
-//					//.setSort("-ga:visits,ga:source")
-//					//.setFilters("ga:medium==organic")
-//					.setMaxResults(25)
-//					.execute();
 		}catch(Exception ex)
 		{
 			log.severe("Could not execute ga().get for profile" + profileId + " and for metrics " + metrics );
@@ -117,17 +107,11 @@ public class AnalyticUtils
 	public static GaData extractCustomReportsFromGA(Analytics analytics,
 			String profileId, String startDate, String endDate, String metrics, String dimensions) 
 	{
-		log.info("AnalyticUtils extractCustomReportsFromGA Start");
-		log.info("AnalyticUtils startDate " +startDate );
-		log.info("AnalyticUtils endDate " +startDate );
-		log.info("AnalyticUtils metrics " +metrics );
-		log.info("AnalyticUtils dimensions " +dimensions );
-		log.info("AnalyticUtils analytics url" +analytics.getRootUrl() );
+
 
 		GaData gaData =null;
 		try 
 		{
-			System.out.println();
 			Data data = analytics.data();
 			Ga ga = data.ga();
 			Get get = ga.get("ga:" + profileId, startDate, endDate, metrics).setDimensions(dimensions);

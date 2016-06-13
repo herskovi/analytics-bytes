@@ -46,9 +46,9 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	private String profileId ="";
 	private String emailAddress ="";
 	//private String startDate = "yesterday";
-	private String startDate = "2016-06-01";
+	private String startDate = "2015-06-01";
 	private String endDate = "today";
-	private String[] metricsArr = {"ga:metric1","ga:sessions","ga:users","ga:goal1Completions","ga:goal2Completions","ga:goal3Completions","ga:goal4Completions","ga:goal5Completions"};
+	private String[] metricsArr = {"ga:sessions","ga:users","ga:goal1Completions","ga:goal2Completions","ga:goal3Completions","ga:goal4Completions","ga:goal5Completions"};
 	private String[] dimensionArr = {"ga:dimension1,ga:hour,ga:minute,ga:sourceMedium,ga:campaign,ga:country,ga:pagePath"};
 	private Map<String, RawDataDT> rawDataDtMap = new HashMap<String, RawDataDT>();
 	private HttpServletRequest productRecommendationAnalyticsAPIRequest = null;
@@ -60,10 +60,11 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	/**
 	 * @param userId
 	 */
-	public ProductRecommendationAnalyticsAPIController(String emailAddress, boolean localMode) 
+	public ProductRecommendationAnalyticsAPIController(String emailAddress, String startDate, boolean localMode) 
 	{
 		log.info("ProductRecommendationAnalyticsAPIController Constructor userId " + userId );
 		this.emailAddress = emailAddress;
+		this.startDate = startDate;
 		this.isLocalMode =localMode;
 	}
 
@@ -97,7 +98,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			Customer cust = CustomerDAO.getCustomerInformationByUserID(emailAddress);
 			ProfileDT profileDT = getUserAnalyticsProfile(cust);
 			setGAAccountInfo(cust);
-			extractGoogleAnalyticsData(isLocalMode, emailAddress,	profileDT.getProfileId(), startDate, endDate);
+			extractGoogleAnalyticsData(isLocalMode, profileDT.getProfileId(), startDate, endDate);
 
 		}catch(Exception ex)
 		{
@@ -133,7 +134,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	 *@Description: Extract Google Analytics Data
 	 */
 
-	public void extractGoogleAnalyticsData(boolean isLocalMode, String userId, String profileID,String startDate, String endDate)  throws IOException, Exception
+	public void extractGoogleAnalyticsData(boolean isLocalMode, String profileID,String startDate, String endDate)  throws IOException, Exception
 	{
 
 		Analytics analytics = getAnalyticsService(userId, profileID);
@@ -142,7 +143,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			GoogleAnalyticsDT googleAnalyticsDT = getAnalyticData(analytics);
 			this.productRecommendationAnalyticsAPIResponse.getGoogleAnalyticsList().add(googleAnalyticsDT);
 		} catch (Exception ex) {
-			log.severe(" extractGoogleAnalyticsData was not defined for this user   " + userId);
+			log.severe(" extractGoogleAnalyticsData was not defined for this user   " + emailAddress);
 			throw ex;
 		}
 
@@ -247,12 +248,13 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 
 	private void setValuesAfterFirstCall(GaData gaData) 
 	{
+		log.info("Start setValuesAfterFirstCall " );
 		List<List<String>> gaDataRows= gaData.getRows();
 		for (List<String> itemList : gaDataRows) 
 		{
 			//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, //[3]- ga:sourceMedium,[4] - ga:campaign, [5] - ga:country, [6] - ga:pagePath
-			//[7] - ga:metric1", [8] - "ga:sessions", [9] - "ga:users",[10] - "ga:goal1Completions", [11] - "ga:goal2Completions",
-			//[12] - "ga:goal3Completions",[13] - "ga:goal4Completions", [14] - "ga:goal5Completions"
+			// [7] - "ga:sessions", [8] - "ga:users",[9] - "ga:goal1Completions", [10] - "ga:goal2Completions",
+			//[11] - "ga:goal3Completions",[12] - "ga:goal4Completions", [13] - "ga:goal5Completions"
 			String clientId = itemList.get(0);
 			String hour = itemList.get(1);
 			String minute = itemList.get(2);
@@ -261,6 +263,7 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 			setDimensionsValuesFirstCall(itemList, rawDataDT);
 			setMetricsValues(itemList, rawDataDT);
 			rawDataDtMap.put(key , rawDataDT);
+			
 		}
 	}
 	
@@ -316,30 +319,6 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 		return dimensionArr;
 	}
 
-	/**
-	 * 
-	 *@Author:      Moshe Herskovits
-	 *@Date:        May 29, 2016
-	 *@Description: Insert into Hashmap
-	 */
-
-	private void setValuesAfterFirststCall(List<RawDataDT> rawDataList, List<List<String>> gaDataRows) 
-	{
-		for (List<String> itemList : gaDataRows) 
-		{
-			//[0] - ga:dimension1, [1]- ga:hour, [2] - ga:minute, //[3]- ga:sourceMedium,[4] - ga:campaign, [5] - ga:country, [6] - ga:pagePath
-			//[7] - ga:metric1", [8] - "ga:sessions", [9] - "ga:users",[10] - "ga:goal1Completions", [11] - "ga:goal2Completions",
-			//[12] - "ga:goal3Completions",[13] - "ga:goal4Completions", [14] - "ga:goal5Completions"
-			String clientId = itemList.get(0);
-			String hour = itemList.get(1);
-			String minute = itemList.get(2);
-			String key  = clientId+"@" + hour + "@" + minute;
-			RawDataDT rawDataDT = getRawDataDT(key, clientId , hour, minute,itemList);
-			setDimensionsValuesFirstCall(itemList, rawDataDT);
-			setMetricsValues(itemList, rawDataDT);
-			rawDataDtMap.put(key , rawDataDT);
-		}
-	}
 
 	
 	/**
@@ -351,14 +330,14 @@ public class ProductRecommendationAnalyticsAPIController extends BaseController
 	
 	private void setMetricsValues(List<String> itemList, RawDataDT rawDataDT) 
 	{
-		rawDataDT.setMetric1(itemList.get(7));
-		rawDataDT.setSessions(itemList.get(8));
-		rawDataDT.setUsers(itemList.get(9));
-		rawDataDT.setGoal1Completions(itemList.get(10));
-		rawDataDT.setGoal2Completions(itemList.get(11));
-		rawDataDT.setGoal3Completions(itemList.get(12));
-		rawDataDT.setGoal4Completions(itemList.get(13));
-		rawDataDT.setGoal5Completions(itemList.get(14));
+
+		rawDataDT.setSessions(itemList.get(7));
+		rawDataDT.setUsers(itemList.get(8));
+		rawDataDT.setGoal1Completions(itemList.get(9));
+		rawDataDT.setGoal2Completions(itemList.get(10));
+		rawDataDT.setGoal3Completions(itemList.get(11));
+		rawDataDT.setGoal4Completions(itemList.get(12));
+		rawDataDT.setGoal5Completions(itemList.get(13));
 	}
 	
 	/**

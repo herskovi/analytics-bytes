@@ -175,72 +175,59 @@
 									<div class="col-lg-12">
 										<p style="font-style: italic; font-size: 3.5em;">Confusion Matrix</p>
 									</div>
-							
-									
 									<div class="col-lg-12">
 										<div id = "confusionMatrix" style ="background-color:#eee;">
 										<p>The entries in the confusion matrix have the following meaning in the context of our study:</p>
 												<ul>
-													<li><i>a</i> is the number of <b>correct</b> predictions that an instance is <b>FAILURE</b>,</li>
-													<li><i>b</i> is the number of <b>incorrect</b> predictions that an instance is <b>SUCCESS</b>,</li>
-													<li><i>c</i> is the number of <b>incorrect</b> of predictions that an instance <b>FAILURE</b>, and</li>
-													<li><i>d</i> is the number of <b>correct</b> predictions that an instance is <b>SUCCESS</b>.</li>
+													<li><i>a</i> is the number of <b>correct</b> predictions that an instance is <b>negative</b>,</li>
+													<li><i>b</i> is the number of <b>incorrect</b> predictions that an instance is <b>positive</b>,</li>
+													<li><i>c</i> is the number of <b>incorrect</b> of predictions that an instance <b>negative</b>, and</li>
+													<li><i>d</i> is the number of <b>correct</b> predictions that an instance is <b>positive</b>.</li>
 												</ul>
-												<div id="numberOfInstances" class="col-lg-12">
-													Number Of Instances: 
-														<p id="numberOfInstancesValue" style="text-align: center; font-size: 48px;"><br />0000</p>
-													
-												</div>
-												
-													<table id="confusionMatrixTable">
+													<table>
 														<tr>
 															<td colspan="2" rowspan="2"></td>
 															<td colspan="2">Predicted</td>			
 														</tr>
 														<tr>
-															<td>FAILURE</td>
-															<td>SUCCESS</td>
+															<td>Negative</td>
+															<td>Positive</td>
 														</tr>
 														<tr>
 															<td rowspan="2">Actual</td>
-															<td>FAILURE</td>
-															<td id="failureVsFailure">a</td>
-															<td id="failureVsSuccess"><b>b</b></td>
+															<td>Negative</td>
+															<td><b>a</b></td>
+															<td><b>b</b></td>
 														</tr>
 														<tr>
-															<td>SUCCESS</td>
-															<td id="successVsFailure"><b>c</b></td>
-															<td id="successVsSuccess"><b>d</b></td>
+															<td>Positive</td>
+															<td><b>c</b></td>
+															<td><b>d</b></td>
 														</tr>
 													</table>
 													<p>Several standard terms have been defined for the 2 class matrix:</p>
 													<ul>
-														<li>The <i>accuracy</i> (<i>AC</i>) is the proportion of the total number of predictions that were correct. It is determined using the equation: (A+D)/(A+B+C+D)</li>
+														<li>The <i>accuracy</i> (<i>AC</i>) is the proportion of the total number of predictions that were correct. It is determined using the equation:</li>
 													</ul>
-													<p id="accuracyRate" style="text-align: center;"><br />(A+D)/(A+B+C+D)</p>
+													<p style="text-align: center;"><img src="cm1.gif" alt="cm1" /><br /> [1]</p>
 													<ul>
-														<li>The <i>recall</i> or <i>true SUCCESS rat</i>e (<i>TP</i>) is the proportion of SUCCESS cases that were correctly identified, as calculated using the equation: (D)/(C+D)</li>
+														<li>The <i>recall</i> or <i>true positive rat</i>e (<i>TP</i>) is the proportion of positive cases that were correctly identified, as calculated using the equation:</li>
 													</ul>
-														<p id="trueSuccessRate" style="text-align: center;"><br />(D)/(C+D)</p>
+													<p style="text-align: center;"><img src="cm2.gif" alt="cm2" /><br /> [2]</p>
 													<ul>
-														<li>The <i>false SUCCESS rate</i> (<i>FP</i>) is the proportion of FAILURES cases that were incorrectly classified as positive, as calculated usingthe equation: (B/A+B)</li>
+														<li>The <i>false positive rate</i> (<i>FP</i>) is the proportion of negatives cases that were incorrectly classified as positive, as calculated usingthe equation:</li>
 													</ul>
-														<p id="falseSuccessRate" style="text-align: center;"><br />(B/A+B)</p>
+													<p style="text-align: center;"><img src="cm3.gif" alt="cm3" /><br /> [3]</p>
 													<ul>
-														<li>The <i>true FAILURE rate</i> (<i>TF</i>) is defined as the proportion of negatives cases that were classified correctly, as calculated using the equation: (A/A+B)</li>
+														<li>The <i>true negative rate</i> (<i>TN</i>) is defined as the proportion of negatives cases that were classified correctly, as calculated using the equation:</li>
 													</ul>
-														<p id="trueFailureRate" style="text-align: center;"><br />A/A+B</p>
+													<p style="text-align: center;"><img src="cm4.gif" alt="cm4" /><br /> [4]</p>
 													<ul>
-														<li>The<i> false FAILURE rate</i> (<i>FN</i>) is the proportion of positives cases that were incorrectly classified as negative, as calculated using the equation: (C/C+D)</li>
-													</ul>
-													<p id="falseFailureRate" style="text-align: center;"><br />(C/C+D)</p>  
+														<li>The<i> false negative rate</i> (<i>FN</i>) is the proportion of positives cases that were incorrectly classified as negative, as calculated using the equation:</li>
+													</ul>  
 										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<div id="inProgress" class="col-lg-12" style="display: none;">
-										<img src="/images-new/smsga/spinner-icon.gif" alt="Wait"/>
-									</div>
+									
 								</div>
 							</form>
 						</div>

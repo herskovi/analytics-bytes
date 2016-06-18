@@ -18,6 +18,8 @@ import main.java.com.analytic.reports.datatypes.GoogleAnalyticsDT;
 public class GoogleTrainModelResponse extends BaseResponse 
 {
 	private String numberOfInstances="";
+	private String numberOfFailures="";
+	private String numberOfSuccess="";
 	private String trainingStatus="";
 	private String modelDescription="";
 	private String dataDescription="";
@@ -31,6 +33,19 @@ public class GoogleTrainModelResponse extends BaseResponse
 	}
 	public void setNumberOfInstances(String numberOfInstances) {
 		this.numberOfInstances = numberOfInstances;
+	}
+	
+	public String getNumberOfFailures() {
+		return numberOfFailures;
+	}
+	public void setNumberOfFailures(String numberOfFailures) {
+		this.numberOfFailures = numberOfFailures;
+	}
+	public String getNumberOfSuccess() {
+		return numberOfSuccess;
+	}
+	public void setNumberOfSuccess(String numberOfSuccess) {
+		this.numberOfSuccess = numberOfSuccess;
 	}
 	public String getTrainingStatus() {
 		return trainingStatus;

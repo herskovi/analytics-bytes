@@ -123,13 +123,18 @@ public class GoogleTrainModelController extends BaseController implements IModel
 				an3.execute();
 			}catch(Exception ex)
 			{
-				log.severe("an3.execute(); failed");
+				log.severe("an3.execute(); failed " + ex.getMessage());
 			}
 			log.info("Delete started ");
 
+			try
+			{
+				prediction.trainedmodels().delete(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID + "_" + this.userId).execute();
+			}catch(Exception ex)
+			{
+				log.info("Delete was completed " + ex.getMessage());	
+			}
 			
-			prediction.trainedmodels().delete(GoogleCloudStorageConsts.PROJECT_ID, GoogleCloudStorageConsts.MODEL_ID + "_" + this.userId).execute();
-			log.info("Delete was completed ");
 			com.google.api.services.prediction.Prediction.Trainedmodels.List strList2 = prediction.trainedmodels().list(GoogleCloudStorageConsts.PROJECT_ID);
 			
 			com.google.api.services.prediction.model.Insert trainingData = new com.google.api.services.prediction.model.Insert();
@@ -154,7 +159,7 @@ public class GoogleTrainModelController extends BaseController implements IModel
 		           log.info("Training completed.");
 		            Collection<Object> values2  = trainingModel.values();
 		            System.out.println(trainingModel.getModelInfo());
-		            String weightedAccuracy = trainingModel.getModelInfo().getClassWeightedAccuracy();
+		            String weightedAccuracy = trainingModel.getModelInfo().getClassificationAccuracy();
 		            log.info("weightedAccuracy "  + weightedAccuracy);
 
 		            googleTrainModelResponse.setWeightedAccuracy(weightedAccuracy);
@@ -162,23 +167,22 @@ public class GoogleTrainModelController extends BaseController implements IModel
 		            
 		            
 		            List<Features> featureList= an.execute().getDataDescription().getFeatures();
+		            an.execute().getModelDescription().getConfusionMatrixRowTotals();
+		            String numberOfInstances = "" ;
 		            googleTrainModelResponse.setFeatureList(featureList);
 		            googleTrainModelResponse.setModelDescription(an.execute().getModelDescription().toPrettyString());
 		            googleTrainModelResponse.setDataDescription(an.execute().getDataDescription().get("outputFeature").toString());
+		            googleTrainModelResponse.setNumberOfInstances(String.valueOf(trainingModel.getModelInfo().getNumberInstances()));
+		            
+		            
 
-		            System.out.println(an.execute().getModelDescription());
 		            log.info(" an.execute().getModelDescription())" + an.execute().getModelDescription());
-		            System.out.println(an.execute().getModelDescription().toPrettyString());
 		            log.info(" an.execute().getModelDescription().toPrettyString()); " +an.execute().getModelDescription().toPrettyString());
-		            System.out.println(an.execute().getModelDescription().getModelinfo());
 		            log.info("an.execute().getDataDescription().toPrettyString())" + an.execute().getDataDescription().toPrettyString());
-		            System.out.println(an.execute().getDataDescription().toPrettyString());
 		            log.info("an.execute().getDataDescription().toPrettyString())" + an.execute().getDataDescription().toPrettyString());
-		            System.out.println(an.execute().getDataDescription().get("outputFeature"));
 		            log.info("outputFeatures " + an.execute().getDataDescription().get("outputFeature"));
-		            System.out.println(an.execute().getId());
 		            log.info("an.execute().getId()); "  +an.execute().getId());
-		            //System.out.println(an.execute().getModelDescription().getModelinfo().getModelInfo().getClassInfo().getNames());
+
 
 		            
 		            return;
@@ -203,7 +207,7 @@ public class GoogleTrainModelController extends BaseController implements IModel
 		    log.severe("ERROR: training not completed.");
 		}catch (Exception e) 
 		{
-		    log.severe("ERROR: Exception " + e.getMessage());
+		    log.severe("ERROR: Exception1 " + e.getMessage());
 		}
 		
 	}
@@ -237,10 +241,11 @@ public class GoogleTrainModelController extends BaseController implements IModel
 
 	private Prediction getPredictionService(String userId) throws IOException 
 	{
+		log.info("  getPredictionService(userId); - Start!!!  " + userId);
 		Prediction predictionService = null;
 		try
 		{		
-			predictionService = CredentialUtils.loadPrediction(userId);
+			predictionService = CredentialUtils.loadPrediction(GoogleCloudStorageConsts.DEFAULT_USER_STORAGE);
 		} catch (Exception ex) 
 		{
 			log.severe(" EXCEPTION CredentialUtils.loadPrediction(userId); - Exception!!!  " + userId);
